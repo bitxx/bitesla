@@ -1,0 +1,5 @@
+.idea
+service/api-gateway/api-gateway
+service/service-user/user-srv
+service/service-exchange/exchange-srv
+local.md

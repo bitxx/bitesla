@@ -1,0 +1,169 @@
+syntax = "proto3";
+
+package bitesla.srv.trader;
+
+service Exchange {
+    rpc LimitBuy (ReqCurrency) returns (Order) {
+    }
+    rpc LimitSell (ReqCurrency) returns (Order) {
+    }
+    rpc MarketBuy (ReqCurrency) returns (Order) {
+    }
+    rpc MarketSell (ReqCurrency) returns (Order) {
+    }
+    rpc CancelOrder (ReqCurrency) returns (Boolean) {
+    }
+    rpc GetOneOrder (ReqCurrency) returns (Order) {
+    }
+    rpc GetUnfinishOrders (ReqCurrency) returns (Orders) {
+    }
+    rpc GetOrderHistorys (ReqCurrency) returns (Orders) {
+    }
+    rpc GetTicker (ReqCurrency) returns (Ticker) {
+    }
+    rpc GetDepth (ReqCurrency) returns (Depth) {
+    }
+    rpc GetKlineRecords (ReqCurrency) returns (Klines) {
+    }
+    rpc GetTrades (ReqCurrency) returns (Trades) {
+    }
+    rpc GetAccount (ReqCurrency) returns (Accounts) {
+    }
+    rpc GetExchangeName (ReqCurrency) returns (Str) {
+    }
+}
+
+message ReqCurrency {
+    double double = 1;
+    string price = 2;
+    string orderId = 3;
+    int32 currentPage = 4;
+    int32 pageSize = 5;
+    int32 size = 6;
+    int32 period = 7;
+    int32 since = 8;
+    string exName = 9; //交易所名称
+    string apiKey = 10; //key
+    string apiSecret = 11; //secret
+    string currencyPair = 12; //两种货币格式：HT_USDT
+    string amount = 13; //代币数量
+    int32 accountType = 14; //账户类型
+    int32 orderType = 15; // 订单类型
+
+}
+
+message Boolean {
+    bool isBool = 1;
+}
+
+message Str {
+    string str = 1;
+}
+
+message Trade {
+    int64 tid = 1;
+    TradeSide type = 2;
+    double amount = 3;
+    double price = 4;
+    int64 date = 5;
+    string currencyPair = 6;
+}
+message Trades {
+    repeated Trade trades = 1;
+}
+
+message Kline {
+    string currencyPair = 1;
+    int64 timestamp = 2;
+    double open = 3;
+    double close = 4;
+    double high = 5;
+    double low = 6;
+    double vol = 7;
+}
+
+// 每个属性都会附带有额外方法，因此分开描述
+message Klines {
+    repeated Kline klines = 1;
+}
+
+message DepthRecords {
+    repeated DepthRecord list = 1;
+}
+
+message Accounts {
+    repeated Account accounts = 1;
+}
+
+
+message DepthRecord {
+    double price = 1;
+    double amount = 2;
+}
+
+message Depth {
+    string contractType = 1;
+    string currencyPair = 2;
+    string uTime = 3;
+    DepthRecords AskList = 4;
+    DepthRecords BidList = 5;
+}
+
+message Ticker {
+    string contractType = 1;
+    string pair = 2;
+    double last = 3;
+    double buy = 4;
+    double sell = 5;
+    double high = 6;
+    double low = 7;
+    double vol = 8;
+    uint64 date = 9;
+}
+
+message Account {
+    string exchange = 1;
+    double asset = 2; //总资产
+    double etAsset = 3; //净资产
+    map<string, SubAccount> subAccounts = 4;
+}
+
+message SubAccount {
+    string currency = 1;
+    double amount = 2;
+    double forzenAmount = 3;
+    double loanAmount = 4;
+}
+
+message Orders {
+    repeated Order orders = 1;
+}
+
+enum TradeStatus {
+    UNFINISH = 0;
+    PART_FINISH = 1;
+    FINISH = 2;
+    CANCEL = 3;
+    REJECT = 4;
+    CANCEL_ING = 5;
+}
+
+enum TradeSide {
+    BUY = 0;
+    SELL = 1;
+    BUY_MARKET = 2;
+    SELL_MARKET = 3;
+}
+
+message Order {
+    double price = 1;
+    double amount = 2;
+    double avgPrice = 3;
+    double dealAmount = 4;
+    double fee = 5;
+    int32 orderID = 6;
+    int32 orderTime = 7;
+    TradeStatus status = 8;
+    string currencyPair = 9;
+    TradeSide tradeSide = 10;
+}
