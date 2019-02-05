@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"context"
 	"errors"
 	"github.com/jason-wj/bitesla/service/service-exchange/proto"
 )
@@ -13,7 +14,7 @@ func (e *exchangeResposity) getKlineRecords(reqCurrency *bitesla_srv_trader.ReqC
 	if err != nil {
 		return err
 	}
-	kLines.Klines, err = api.GetKlineRecords(reqCurrency.CurrencyPair, reqCurrency.Period, reqCurrency.Size, reqCurrency.Since)
+	err = api.GetKlineRecords(context.Background(), reqCurrency, kLines)
 	return err
 }
 
@@ -22,7 +23,7 @@ func (e *exchangeResposity) getAccount(reqCurrency *bitesla_srv_trader.ReqCurren
 	if err != nil {
 		return err
 	}
-	account.Accounts, err = api.GetAccount()
+	err = api.GetAccount(context.Background(), reqCurrency, account)
 	return err
 }
 
@@ -34,13 +35,13 @@ func (e *exchangeResposity) OrderPlace(reqCurrency *bitesla_srv_trader.ReqCurren
 
 	switch reqCurrency.OrderType {
 	case int32(bitesla_srv_trader.TradeSide_BUY):
-		order, err = api.LimitBuy(reqCurrency.Amount, reqCurrency.Price, reqCurrency.CurrencyPair, reqCurrency.AccountType)
+		err = api.LimitBuy(context.Background(), reqCurrency, order)
 	case int32(bitesla_srv_trader.TradeSide_SELL):
-		order, err = api.LimitSell(reqCurrency.Amount, reqCurrency.Price, reqCurrency.CurrencyPair, reqCurrency.AccountType)
+		err = api.LimitSell(context.Background(), reqCurrency, order)
 	case int32(bitesla_srv_trader.TradeSide_BUY_MARKET):
-		order, err = api.MarketBuy(reqCurrency.Amount, reqCurrency.Price, reqCurrency.CurrencyPair, reqCurrency.AccountType)
+		err = api.MarketBuy(context.Background(), reqCurrency, order)
 	case int32(bitesla_srv_trader.TradeSide_SELL_MARKET):
-		order, err = api.MarketSell(reqCurrency.Amount, reqCurrency.Price, reqCurrency.CurrencyPair, reqCurrency.AccountType)
+		err = api.MarketSell(context.Background(), reqCurrency, order)
 	default:
 		return errors.New("订单类型不存在")
 	}
@@ -53,7 +54,7 @@ func (e *exchangeResposity) CancelOrder(reqCurrency *bitesla_srv_trader.ReqCurre
 		return err
 	}
 	b.IsBool = false
-	b.IsBool, err = api.CancelOrder(reqCurrency.OrderId, reqCurrency.CurrencyPair)
+	err = api.CancelOrder(context.Background(), reqCurrency, b)
 	return err
 }
 
@@ -62,7 +63,7 @@ func (e *exchangeResposity) GetOneOrder(reqCurrency *bitesla_srv_trader.ReqCurre
 	if err != nil {
 		return err
 	}
-	order, err = api.GetOneOrder(reqCurrency.OrderId, reqCurrency.CurrencyPair)
+	err = api.GetOneOrder(context.Background(), reqCurrency, order)
 	return err
 }
 
@@ -71,7 +72,7 @@ func (e *exchangeResposity) GetUnfinishOrders(reqCurrency *bitesla_srv_trader.Re
 	if err != nil {
 		return err
 	}
-	orders.Orders, err = api.GetUnfinishOrders(reqCurrency.CurrencyPair)
+	err = api.GetUnfinishOrders(context.Background(), reqCurrency, orders)
 	return err
 }
 
@@ -80,7 +81,7 @@ func (e *exchangeResposity) GetOrderHistorys(reqCurrency *bitesla_srv_trader.Req
 	if err != nil {
 		return err
 	}
-	order.Orders, err = api.GetOrderHistorys(reqCurrency.CurrencyPair, reqCurrency.CurrentPage, reqCurrency.PageSize)
+	err = api.GetOrderHistorys(context.Background(), reqCurrency, order)
 	return err
 }
 
@@ -89,7 +90,7 @@ func (e *exchangeResposity) GetTicker(reqCurrency *bitesla_srv_trader.ReqCurrenc
 	if err != nil {
 		return err
 	}
-	ticker, err = api.GetTicker(reqCurrency.CurrencyPair)
+	err = api.GetTicker(context.Background(), reqCurrency, ticker)
 	return err
 }
 
@@ -98,7 +99,7 @@ func (e *exchangeResposity) GetDepth(reqCurrency *bitesla_srv_trader.ReqCurrency
 	if err != nil {
 		return err
 	}
-	depth, err = api.GetDepth(reqCurrency.Size, reqCurrency.CurrencyPair)
+	err = api.GetDepth(context.Background(), reqCurrency, depth)
 	return err
 }
 
@@ -107,7 +108,7 @@ func (e *exchangeResposity) GetTrades(reqCurrency *bitesla_srv_trader.ReqCurrenc
 	if err != nil {
 		return err
 	}
-	trades.Trades, err = api.GetTrades(reqCurrency.CurrencyPair, reqCurrency.Since)
+	err = api.GetTrades(context.Background(), reqCurrency, trades)
 	return err
 }
 
@@ -116,6 +117,6 @@ func (e *exchangeResposity) GetExchangeName(reqCurrency *bitesla_srv_trader.ReqC
 	if err != nil {
 		return err
 	}
-	name.Str = api.GetExchangeName()
-	return nil
+	err = api.GetExchangeName(context.Background(), reqCurrency, name)
+	return err
 }

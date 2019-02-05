@@ -3,6 +3,7 @@ package huobi
 import (
 	"bytes"
 	"compress/gzip"
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -127,8 +128,198 @@ func NewHuoBi(client *http.Client, apikey, secretkey string, needAccountInfo boo
 	return hbpro, nil
 }
 
-func (hbpro *HuoBiPro) GetAccount() ([]*bitesla_srv_trader.Account, error) {
-	var accounts []*bitesla_srv_trader.Account
+func (hbpro *HuoBiPro) LimitBuy(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, order *bitesla_srv_trader.Order) error {
+	orderId, err := hbpro.placeOrder(reqCurrency.Amount, reqCurrency.Price, reqCurrency.CurrencyPair, "buy-limit", reqCurrency.AccountType)
+	if err != nil {
+		return err
+	}
+	order.CurrencyPair = exchange.CurrencyPair[reqCurrency.CurrencyPair]
+	order.OrderID = exchange.ToInt32(orderId)
+	order.Amount = exchange.ToFloat64(reqCurrency.Amount)
+	order.Price = exchange.ToFloat64(reqCurrency.Price)
+	order.TradeSide = bitesla_srv_trader.TradeSide_BUY
+	return nil
+}
+
+func (hbpro *HuoBiPro) LimitSell(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, order *bitesla_srv_trader.Order) error {
+	orderId, err := hbpro.placeOrder(reqCurrency.Amount, reqCurrency.Price, reqCurrency.CurrencyPair, "sell-limit", reqCurrency.AccountType)
+	if err != nil {
+		return err
+	}
+	order.CurrencyPair = exchange.CurrencyPair[reqCurrency.CurrencyPair]
+	order.OrderID = exchange.ToInt32(orderId)
+	order.Amount = exchange.ToFloat64(reqCurrency.Amount)
+	order.Price = exchange.ToFloat64(reqCurrency.Price)
+	order.TradeSide = bitesla_srv_trader.TradeSide_SELL
+	return nil
+}
+
+func (hbpro *HuoBiPro) MarketBuy(cxt context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, order *bitesla_srv_trader.Order) error {
+	orderId, err := hbpro.placeOrder(reqCurrency.Amount, reqCurrency.Price, reqCurrency.CurrencyPair, "buy-market", reqCurrency.AccountType)
+	if err != nil {
+		return err
+	}
+	order.CurrencyPair = exchange.CurrencyPair[reqCurrency.CurrencyPair]
+	order.OrderID = exchange.ToInt32(orderId)
+	order.Amount = exchange.ToFloat64(reqCurrency.Amount)
+	order.Price = exchange.ToFloat64(reqCurrency.Price)
+	order.TradeSide = bitesla_srv_trader.TradeSide_BUY_MARKET
+	return nil
+}
+
+func (hbpro *HuoBiPro) MarketSell(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, order *bitesla_srv_trader.Order) error {
+	orderId, err := hbpro.placeOrder(reqCurrency.Amount, reqCurrency.Price, reqCurrency.CurrencyPair, "sell-market", reqCurrency.AccountType)
+	if err != nil {
+		return err
+	}
+
+	order.CurrencyPair = exchange.CurrencyPair[reqCurrency.CurrencyPair]
+	order.OrderID = exchange.ToInt32(orderId)
+	order.Amount = exchange.ToFloat64(reqCurrency.Amount)
+	order.Price = exchange.ToFloat64(reqCurrency.Price)
+	order.TradeSide = bitesla_srv_trader.TradeSide_SELL_MARKET
+	return nil
+}
+
+func (hbpro *HuoBiPro) CancelOrder(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, b *bitesla_srv_trader.Boolean) error {
+	path := fmt.Sprintf(cancelOrder, reqCurrency.OrderId)
+	params := url.Values{}
+	hbpro.buildPostForm("POST", path, &params)
+	resp, err := exchange.HttpPostForm3(hbpro.httpClient, hbpro.baseUrl+path+"?"+params.Encode(), hbpro.toJson(params),
+		map[string]string{"Content-Type": "application/json", "Accept-Language": "zh-cn"})
+	if err != nil {
+		b.IsBool = false
+		return err
+	}
+
+	var respmap map[string]interface{}
+	err = json.Unmarshal(resp, &respmap)
+	if err != nil {
+		b.IsBool = false
+		return err
+	}
+
+	if respmap["status"].(string) != "ok" {
+		b.IsBool = false
+		return errors.New(string(resp))
+	}
+	b.IsBool = true
+	return nil
+}
+
+func (hbpro *HuoBiPro) GetOneOrder(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, order *bitesla_srv_trader.Order) error {
+	path := oneOrder + reqCurrency.OrderId
+	params := url.Values{}
+	hbpro.buildPostForm("GET", path, &params)
+	respmap, err := exchange.HttpGet(hbpro.httpClient, hbpro.baseUrl+path+"?"+params.Encode())
+	if err != nil {
+		return err
+	}
+
+	if respmap["status"].(string) != "ok" {
+		return errors.New(respmap["err-code"].(string))
+	}
+
+	datamap := respmap["data"].(map[string]interface{})
+	hbpro.parseOrder(datamap, order)
+	order.CurrencyPair = exchange.CurrencyPair[reqCurrency.CurrencyPair]
+	return nil
+}
+
+func (hbpro *HuoBiPro) GetUnfinishOrders(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, orders *bitesla_srv_trader.Orders) error {
+	err := hbpro.getOrders(queryOrdersParams{
+		pair:   exchange.CurrencyPair[reqCurrency.CurrencyPair],
+		states: "pre-submitted,submitted,partial-filled",
+		size:   100,
+		//direct:""
+	}, orders)
+	return err
+}
+
+func (hbpro *HuoBiPro) GetOrderHistorys(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, orders *bitesla_srv_trader.Orders) error {
+	err := hbpro.getOrders(queryOrdersParams{
+		pair:   exchange.CurrencyPair[reqCurrency.CurrencyPair],
+		states: "partial-canceled,filled",
+		size:   100,
+		direct: "next",
+	}, orders)
+	return err
+}
+
+func (hbpro *HuoBiPro) GetTicker(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, ticker *bitesla_srv_trader.Ticker) error {
+	url := hbpro.baseUrl + getTicker + exchange.CurrencyPair[reqCurrency.CurrencyPair]
+	respmap, err := exchange.HttpGet(hbpro.httpClient, url)
+	if err != nil {
+		return err
+	}
+
+	if respmap["status"].(string) == "error" {
+		return errors.New(respmap["err-msg"].(string))
+	}
+
+	tickmap, ok := respmap["tick"].(map[string]interface{})
+	if !ok {
+		return errors.New("tick assert error")
+	}
+
+	ticker.Vol = exchange.ToFloat64(tickmap["amount"])
+	ticker.Low = exchange.ToFloat64(tickmap["low"])
+	ticker.High = exchange.ToFloat64(tickmap["high"])
+	bid, isOk := tickmap["bid"].([]interface{})
+	if isOk != true {
+		return errors.New("no bid")
+	}
+	ask, isOk := tickmap["ask"].([]interface{})
+	if isOk != true {
+		return errors.New("no ask")
+	}
+	ticker.Buy = exchange.ToFloat64(bid[0])
+	ticker.Sell = exchange.ToFloat64(ask[0])
+	ticker.Last = exchange.ToFloat64(tickmap["close"])
+	ticker.Date = exchange.ToUint64(respmap["ts"])
+
+	return nil
+}
+
+func (hbpro *HuoBiPro) GetKlineRecords(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, kLines *bitesla_srv_trader.Klines) error {
+	symbol := exchange.CurrencyPair[reqCurrency.CurrencyPair]
+	periodS, isOk := inernalKlinePeriodConverter[reqCurrency.Period]
+	if isOk != true {
+		periodS = "1min"
+	}
+
+	logger.Info("火币交易所请求k线URL：", fmt.Sprintf(hbpro.baseUrl+klineUrl, periodS, reqCurrency.Size, symbol))
+
+	ret, err := exchange.HttpGet(hbpro.httpClient, fmt.Sprintf(hbpro.baseUrl+klineUrl, periodS, reqCurrency.Size, symbol))
+	if err != nil {
+		return err
+	}
+
+	data, ok := ret["data"].([]interface{})
+	if !ok {
+		return errors.New("response format error")
+	}
+
+	for _, e := range data {
+		item := e.(map[string]interface{})
+		kLines.Klines = append(kLines.Klines, &bitesla_srv_trader.Kline{
+			CurrencyPair: symbol,
+			Open:         exchange.ToFloat64(item["open"]),
+			Close:        exchange.ToFloat64(item["close"]),
+			High:         exchange.ToFloat64(item["high"]),
+			Low:          exchange.ToFloat64(item["low"]),
+			Vol:          exchange.ToFloat64(item["vol"]),
+			Timestamp:    int64(exchange.ToUint64(item["id"]))})
+	}
+
+	return nil
+}
+
+func (hbpro *HuoBiPro) GetTrades(context.Context, *bitesla_srv_trader.ReqCurrency, *bitesla_srv_trader.Trades) error {
+	return nil
+}
+
+func (hbpro *HuoBiPro) GetAccount(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, accounts *bitesla_srv_trader.Accounts) error {
 	for _, accountInfo := range hbpro.accountInfos {
 
 		path := fmt.Sprintf(accountBalanceUrl, accountInfo.Id)
@@ -142,22 +333,28 @@ func (hbpro *HuoBiPro) GetAccount() ([]*bitesla_srv_trader.Account, error) {
 		respmap, err := exchange.HttpGet(hbpro.httpClient, urlStr)
 
 		if err != nil {
-			return nil, err
+			return err
 		}
 
 		if respmap["status"].(string) != "ok" {
-			return nil, errors.New(respmap["err-code"].(string))
+			return errors.New(respmap["err-code"].(string))
 		}
 
 		datamap := respmap["data"].(map[string]interface{})
 		if datamap["state"].(string) != "working" {
-			return nil, errors.New(datamap["state"].(string))
+			return errors.New(datamap["state"].(string))
 		}
 
 		list := datamap["list"].([]interface{})
+
 		acc := new(bitesla_srv_trader.Account)
 		acc.SubAccounts = make(map[string]*bitesla_srv_trader.SubAccount, 6)
-		acc.Exchange = hbpro.GetExchangeName()
+		name := &bitesla_srv_trader.Str{}
+		err = hbpro.GetExchangeName(ctx, nil, name)
+		if err != nil {
+			return err
+		}
+		acc.Exchange = name.Str
 
 		subAccMap := make(map[string]*bitesla_srv_trader.SubAccount)
 
@@ -182,9 +379,9 @@ func (hbpro *HuoBiPro) GetAccount() ([]*bitesla_srv_trader.Account, error) {
 		for k, v := range subAccMap {
 			acc.SubAccounts[k] = v
 		}
-		accounts = append(accounts, acc)
+		accounts.Accounts = append(accounts.Accounts, acc)
 	}
-	return accounts, nil
+	return nil
 }
 
 //发送一个新订单到火币以进行撮合
@@ -230,158 +427,44 @@ func (hbpro *HuoBiPro) placeOrder(amount, price, pair, orderType string, accType
 	return respmap["data"].(string), nil
 }
 
-func (hbpro *HuoBiPro) LimitBuy(amount, price, currency string, accountType int32) (*bitesla_srv_trader.Order, error) {
-	orderId, err := hbpro.placeOrder(amount, price, currency, "buy-limit", accountType)
-	if err != nil {
-		return nil, err
-	}
-	return &bitesla_srv_trader.Order{
-		CurrencyPair: exchange.CurrencyPair[currency],
-		OrderID:      exchange.ToInt32(orderId),
-		Amount:       exchange.ToFloat64(amount),
-		Price:        exchange.ToFloat64(price),
-		TradeSide:    bitesla_srv_trader.TradeSide_BUY}, nil
-}
+func (hbpro *HuoBiPro) parseOrder(ordmap map[string]interface{}, order *bitesla_srv_trader.Order) {
 
-func (hbpro *HuoBiPro) LimitSell(amount, price, currency string, accountType int32) (*bitesla_srv_trader.Order, error) {
-	orderId, err := hbpro.placeOrder(amount, price, currency, "sell-limit", accountType)
-	if err != nil {
-		return nil, err
-	}
-	return &bitesla_srv_trader.Order{
-		CurrencyPair: exchange.CurrencyPair[currency],
-		OrderID:      exchange.ToInt32(orderId),
-		Amount:       exchange.ToFloat64(amount),
-		Price:        exchange.ToFloat64(price),
-		TradeSide:    bitesla_srv_trader.TradeSide_SELL}, nil
-}
-
-func (hbpro *HuoBiPro) MarketBuy(amount, price, currency string, accountType int32) (*bitesla_srv_trader.Order, error) {
-	orderId, err := hbpro.placeOrder(amount, price, currency, "buy-market", accountType)
-	if err != nil {
-		return nil, err
-	}
-	return &bitesla_srv_trader.Order{
-		CurrencyPair: exchange.CurrencyPair[currency],
-		OrderID:      exchange.ToInt32(orderId),
-		Amount:       exchange.ToFloat64(amount),
-		Price:        exchange.ToFloat64(price),
-		TradeSide:    bitesla_srv_trader.TradeSide_BUY_MARKET}, nil
-}
-
-func (hbpro *HuoBiPro) MarketSell(amount, price, currency string, accountType int32) (*bitesla_srv_trader.Order, error) {
-	orderId, err := hbpro.placeOrder(amount, price, currency, "sell-market", accountType)
-	if err != nil {
-		return nil, err
-	}
-	return &bitesla_srv_trader.Order{
-		CurrencyPair: exchange.CurrencyPair[currency],
-		OrderID:      exchange.ToInt32(orderId),
-		Amount:       exchange.ToFloat64(amount),
-		Price:        exchange.ToFloat64(price),
-		TradeSide:    bitesla_srv_trader.TradeSide_SELL_MARKET}, nil
-}
-
-func (hbpro *HuoBiPro) parseOrder(ordmap map[string]interface{}) *bitesla_srv_trader.Order {
-	ord := &bitesla_srv_trader.Order{
-		OrderID:    exchange.ToInt32(ordmap["id"]),
-		Amount:     exchange.ToFloat64(ordmap["amount"]),
-		Price:      exchange.ToFloat64(ordmap["price"]),
-		DealAmount: exchange.ToFloat64(ordmap["field-amount"]),
-		Fee:        exchange.ToFloat64(ordmap["field-fees"]),
-		OrderTime:  exchange.ToInt32(ordmap["created-at"]),
-	}
+	order.OrderID = exchange.ToInt32(ordmap["id"])
+	order.Amount = exchange.ToFloat64(ordmap["amount"])
+	order.Price = exchange.ToFloat64(ordmap["price"])
+	order.DealAmount = exchange.ToFloat64(ordmap["field-amount"])
+	order.Fee = exchange.ToFloat64(ordmap["field-fees"])
+	order.OrderTime = exchange.ToInt32(ordmap["created-at"])
 
 	state := ordmap["state"].(string)
 	switch state {
 	case "submitted", "pre-submitted":
-		ord.Status = bitesla_srv_trader.TradeStatus_UNFINISH
+		order.Status = bitesla_srv_trader.TradeStatus_UNFINISH
 	case "filled":
-		ord.Status = bitesla_srv_trader.TradeStatus_FINISH
+		order.Status = bitesla_srv_trader.TradeStatus_FINISH
 	case "partial-filled":
-		ord.Status = bitesla_srv_trader.TradeStatus_PART_FINISH
+		order.Status = bitesla_srv_trader.TradeStatus_PART_FINISH
 	case "canceled", "partial-canceled":
-		ord.Status = bitesla_srv_trader.TradeStatus_CANCEL
+		order.Status = bitesla_srv_trader.TradeStatus_CANCEL
 	default:
-		ord.Status = bitesla_srv_trader.TradeStatus_UNFINISH
+		order.Status = bitesla_srv_trader.TradeStatus_UNFINISH
 	}
 
-	if ord.DealAmount > 0.0 {
-		ord.AvgPrice = exchange.ToFloat64(ordmap["field-cash-amount"]) / ord.DealAmount
+	if order.DealAmount > 0.0 {
+		order.AvgPrice = exchange.ToFloat64(ordmap["field-cash-amount"]) / order.DealAmount
 	}
 
 	typeS := ordmap["type"].(string)
 	switch typeS {
 	case "buy-limit":
-		ord.TradeSide = bitesla_srv_trader.TradeSide_BUY
+		order.TradeSide = bitesla_srv_trader.TradeSide_BUY
 	case "buy-market":
-		ord.TradeSide = bitesla_srv_trader.TradeSide_BUY_MARKET
+		order.TradeSide = bitesla_srv_trader.TradeSide_BUY_MARKET
 	case "sell-limit":
-		ord.TradeSide = bitesla_srv_trader.TradeSide_SELL
+		order.TradeSide = bitesla_srv_trader.TradeSide_SELL
 	case "sell-market":
-		ord.TradeSide = bitesla_srv_trader.TradeSide_SELL_MARKET
+		order.TradeSide = bitesla_srv_trader.TradeSide_SELL_MARKET
 	}
-	return ord
-}
-
-func (hbpro *HuoBiPro) GetOneOrder(orderId string, currency string) (*bitesla_srv_trader.Order, error) {
-	path := oneOrder + orderId
-	params := url.Values{}
-	hbpro.buildPostForm("GET", path, &params)
-	respmap, err := exchange.HttpGet(hbpro.httpClient, hbpro.baseUrl+path+"?"+params.Encode())
-	if err != nil {
-		return nil, err
-	}
-
-	if respmap["status"].(string) != "ok" {
-		return nil, errors.New(respmap["err-code"].(string))
-	}
-
-	datamap := respmap["data"].(map[string]interface{})
-	order := hbpro.parseOrder(datamap)
-	order.CurrencyPair = exchange.CurrencyPair[currency]
-	return order, nil
-}
-
-func (hbpro *HuoBiPro) GetUnfinishOrders(currency string) ([]*bitesla_srv_trader.Order, error) {
-	return hbpro.getOrders(queryOrdersParams{
-		pair:   exchange.CurrencyPair[currency],
-		states: "pre-submitted,submitted,partial-filled",
-		size:   100,
-		//direct:""
-	})
-}
-
-func (hbpro *HuoBiPro) CancelOrder(orderId string, currency string) (bool, error) {
-	path := fmt.Sprintf(cancelOrder, orderId)
-	params := url.Values{}
-	hbpro.buildPostForm("POST", path, &params)
-	resp, err := exchange.HttpPostForm3(hbpro.httpClient, hbpro.baseUrl+path+"?"+params.Encode(), hbpro.toJson(params),
-		map[string]string{"Content-Type": "application/json", "Accept-Language": "zh-cn"})
-	if err != nil {
-		return false, err
-	}
-
-	var respmap map[string]interface{}
-	err = json.Unmarshal(resp, &respmap)
-	if err != nil {
-		return false, err
-	}
-
-	if respmap["status"].(string) != "ok" {
-		return false, errors.New(string(resp))
-	}
-
-	return true, nil
-}
-
-func (hbpro *HuoBiPro) GetOrderHistorys(currency string, currentPage, pageSize int32) ([]*bitesla_srv_trader.Order, error) {
-	return hbpro.getOrders(queryOrdersParams{
-		pair:   currency,
-		size:   pageSize,
-		states: "partial-canceled,filled",
-		direct: "next",
-	})
 }
 
 type queryOrdersParams struct {
@@ -395,7 +478,7 @@ type queryOrdersParams struct {
 	pair string
 }
 
-func (hbpro *HuoBiPro) getOrders(queryparams queryOrdersParams) ([]*bitesla_srv_trader.Order, error) {
+func (hbpro *HuoBiPro) getOrders(queryparams queryOrdersParams, orders *bitesla_srv_trader.Orders) error {
 	path := getOrders
 	params := url.Values{}
 	params.Set("symbol", exchange.CurrencyPair[queryparams.pair])
@@ -412,119 +495,40 @@ func (hbpro *HuoBiPro) getOrders(queryparams queryOrdersParams) ([]*bitesla_srv_
 	hbpro.buildPostForm("GET", path, &params)
 	respmap, err := exchange.HttpGet(hbpro.httpClient, fmt.Sprintf("%s%s?%s", hbpro.baseUrl, path, params.Encode()))
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	if respmap["status"].(string) != "ok" {
-		return nil, errors.New(respmap["err-code"].(string))
+		return errors.New(respmap["err-code"].(string))
 	}
 
 	datamap := respmap["data"].([]interface{})
-	var orders []*bitesla_srv_trader.Order
 	for _, v := range datamap {
+		order := &bitesla_srv_trader.Order{}
 		ordmap := v.(map[string]interface{})
-		ord := hbpro.parseOrder(ordmap)
-		ord.CurrencyPair = queryparams.pair
-		orders = append(orders, ord)
+		hbpro.parseOrder(ordmap, order)
+		order.CurrencyPair = queryparams.pair
+		orders.Orders = append(orders.Orders, order)
 	}
 
-	return orders, nil
-}
-
-//提供24小时交易聚合信息
-func (hbpro *HuoBiPro) GetTicker(currencyPair string) (*bitesla_srv_trader.Ticker, error) {
-	url := hbpro.baseUrl + getTicker + exchange.CurrencyPair[currencyPair]
-	respmap, err := exchange.HttpGet(hbpro.httpClient, url)
-	if err != nil {
-		return nil, err
-	}
-
-	if respmap["status"].(string) == "error" {
-		return nil, errors.New(respmap["err-msg"].(string))
-	}
-
-	tickmap, ok := respmap["tick"].(map[string]interface{})
-	if !ok {
-		return nil, errors.New("tick assert error")
-	}
-
-	ticker := new(bitesla_srv_trader.Ticker)
-	ticker.Vol = exchange.ToFloat64(tickmap["amount"])
-	ticker.Low = exchange.ToFloat64(tickmap["low"])
-	ticker.High = exchange.ToFloat64(tickmap["high"])
-	bid, isOk := tickmap["bid"].([]interface{})
-	if isOk != true {
-		return nil, errors.New("no bid")
-	}
-	ask, isOk := tickmap["ask"].([]interface{})
-	if isOk != true {
-		return nil, errors.New("no ask")
-	}
-	ticker.Buy = exchange.ToFloat64(bid[0])
-	ticker.Sell = exchange.ToFloat64(ask[0])
-	ticker.Last = exchange.ToFloat64(tickmap["close"])
-	ticker.Date = exchange.ToUint64(respmap["ts"])
-
-	return ticker, nil
+	return nil
 }
 
 //返回深度数据
-func (hbpro *HuoBiPro) GetDepth(size int32, currency string) (*bitesla_srv_trader.Depth, error) {
+func (hbpro *HuoBiPro) GetDepth(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, depth *bitesla_srv_trader.Depth) error {
 	url := hbpro.baseUrl + getDepth
-	respmap, err := exchange.HttpGet(hbpro.httpClient, fmt.Sprintf(url, exchange.CurrencyPair[currency]))
+	respmap, err := exchange.HttpGet(hbpro.httpClient, fmt.Sprintf(url, exchange.CurrencyPair[reqCurrency.CurrencyPair]))
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	if "ok" != respmap["status"].(string) {
-		return nil, errors.New(respmap["err-msg"].(string))
+		return errors.New(respmap["err-msg"].(string))
 	}
 
 	tick, _ := respmap["tick"].(map[string]interface{})
-
-	return hbpro.parseDepthData(tick), nil
-}
-
-//倒序
-func (hbpro *HuoBiPro) GetKlineRecords(currencyPair string, period, size, since int32) ([]*bitesla_srv_trader.Kline, error) {
-	symbol := exchange.CurrencyPair[currencyPair]
-	periodS, isOk := inernalKlinePeriodConverter[period]
-	if isOk != true {
-		periodS = "1min"
-	}
-
-	logger.Info("火币交易所请求k线URL：", fmt.Sprintf(hbpro.baseUrl+klineUrl, periodS, size, symbol))
-
-	ret, err := exchange.HttpGet(hbpro.httpClient, fmt.Sprintf(hbpro.baseUrl+klineUrl, periodS, size, symbol))
-	if err != nil {
-		return nil, err
-	}
-
-	data, ok := ret["data"].([]interface{})
-	if !ok {
-		return nil, errors.New("response format error")
-	}
-
-	var klines []*bitesla_srv_trader.Kline
-	for _, e := range data {
-		item := e.(map[string]interface{})
-		klines = append(klines, &bitesla_srv_trader.Kline{
-			CurrencyPair: currencyPair,
-			Open:         exchange.ToFloat64(item["open"]),
-			Close:        exchange.ToFloat64(item["close"]),
-			High:         exchange.ToFloat64(item["high"]),
-			Low:          exchange.ToFloat64(item["low"]),
-			Vol:          exchange.ToFloat64(item["vol"]),
-			Timestamp:    int64(exchange.ToUint64(item["id"]))})
-	}
-
-	return klines, nil
-}
-
-//非个人，整个交易所的交易记录
-func (hbpro *HuoBiPro) GetTrades(currencyPair string, since int32) ([]*bitesla_srv_trader.Trade, error) {
-	//panic("not implement")
-	return nil, nil
+	hbpro.parseDepthData(tick, depth)
+	return nil
 }
 
 type ecdsaSignature struct {
@@ -614,7 +618,8 @@ func (hbpro *HuoBiPro) createWsConn() {
 			}
 
 			if hbpro.wsDepthHandleMap[ch] != nil {
-				depth := hbpro.parseDepthData(tick)
+				depth := &bitesla_srv_trader.Depth{}
+				hbpro.parseDepthData(tick, depth)
 				depth.CurrencyPair = pair
 				(hbpro.wsDepthHandleMap[ch])(depth)
 				return
@@ -666,11 +671,15 @@ func (hbpro *HuoBiPro) parseTickerData(tick map[string]interface{}) *bitesla_srv
 	return t
 }
 
-func (hbpro *HuoBiPro) parseDepthData(tick map[string]interface{}) *bitesla_srv_trader.Depth {
+func (hbpro *HuoBiPro) parseDepthData(tick map[string]interface{}, depth *bitesla_srv_trader.Depth) {
 	bids, _ := tick["bids"].([]interface{})
 	asks, _ := tick["asks"].([]interface{})
 
-	depth := new(bitesla_srv_trader.Depth)
+	//depth := &bitesla_srv_trader.Depth{}
+	depth.AskList = &bitesla_srv_trader.DepthRecords{}
+	depth.AskList.List = []*bitesla_srv_trader.DepthRecord{}
+	depth.BidList = &bitesla_srv_trader.DepthRecords{}
+	depth.BidList.List = []*bitesla_srv_trader.DepthRecord{}
 	for _, r := range asks {
 		var dr bitesla_srv_trader.DepthRecord
 		rr := r.([]interface{})
@@ -688,8 +697,6 @@ func (hbpro *HuoBiPro) parseDepthData(tick map[string]interface{}) *bitesla_srv_
 	}
 
 	sort.Sort(sort.Reverse(depth.AskList))
-
-	return depth
 }
 
 func (hbpro *HuoBiPro) parseWsKLineData(tick map[string]interface{}) *bitesla_srv_trader.Kline {
@@ -703,8 +710,9 @@ func (hbpro *HuoBiPro) parseWsKLineData(tick map[string]interface{}) *bitesla_sr
 }
 
 //获取交易所名称
-func (hbpro *HuoBiPro) GetExchangeName() string {
-	return exchange.HuobiPro
+func (hbpro *HuoBiPro) GetExchangeName(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, name *bitesla_srv_trader.Str) error {
+	name.Str = exchange.HuobiPro
+	return nil
 }
 
 //返回当前交易所支持的代币

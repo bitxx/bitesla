@@ -41,7 +41,7 @@ func (client *TraderClient) OrderPlace(data []byte) (interface{}, int, error) {
 	}
 
 	if err != nil {
-		return nil, errs.ExchangeAccountTypeErr, err
+		return nil, errs.Errors, err
 	}
 	return account, errs.Success, nil
 }

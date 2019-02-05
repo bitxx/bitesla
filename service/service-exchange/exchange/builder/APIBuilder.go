@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/jason-wj/bitesla/service/service-exchange/exchange"
 	"github.com/jason-wj/bitesla/service/service-exchange/exchange/huobi"
+	"github.com/jason-wj/bitesla/service/service-exchange/proto"
 	"net"
 	"net/http"
 	"net/url"
@@ -78,7 +79,7 @@ func (builder *APIBuilder) HttpTimeout(timeout time.Duration) (_builder *APIBuil
 
 //needAccountInfo:若为true，则会向对应交易所发起请求获取账户信息，false则不请求。因为对于某些隐私操作是需要用户信息的，
 //但还有一些开发性但信息，是不需要获取用户信息
-func (builder *APIBuilder) Build(exName string, needAccountInfo bool) (_api exchange.API, err error) {
+func (builder *APIBuilder) Build(exName string, needAccountInfo bool) (_api bitesla_srv_trader.ExchangeHandler, err error) {
 	switch exName {
 	/*case OKCOIN_CN:
 		_api = okcoin.New(builder.client, builder.apiKey, builder.secretkey)

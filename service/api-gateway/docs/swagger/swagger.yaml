@@ -12,10 +12,10 @@ definitions:
   model.Kline:
     properties:
       apiKey:
-        example: cf998e2f-ed32b3f8-42c02442-1011e
+        example: 自行输入
         type: string
       apiSecret:
-        example: 91e6e532-3bb37cad-c0a689ca-75ee5
+        example: 自行输入
         type: string
       currencyPair:
         example: BTC_USDT
@@ -36,10 +36,10 @@ definitions:
   model.OrderBase:
     properties:
       apiKey:
-        example: cf998e2f-ed32b3f8-42c02442-1011e
+        example: 自行输入
         type: string
       apiSecret:
-        example: 91e6e532-3bb37cad-c0a689ca-75ee5
+        example: 自行输入
         type: string
       currencyPair:
         example: BTC_USDT
@@ -54,10 +54,10 @@ definitions:
   model.OrderBase2:
     properties:
       apiKey:
-        example: cf998e2f-ed32b3f8-42c02442-1011e
+        example: 自行输入
         type: string
       apiSecret:
-        example: 91e6e532-3bb37cad-c0a689ca-75ee5
+        example: 自行输入
         type: string
       currencyPair:
         example: BTC_USDT
@@ -69,10 +69,10 @@ definitions:
   model.OrderBase3:
     properties:
       apiKey:
-        example: cf998e2f-ed32b3f8-42c02442-1011e
+        example: 自行输入
         type: string
       apiSecret:
-        example: 91e6e532-3bb37cad-c0a689ca-75ee5
+        example: 自行输入
         type: string
       currencyPair:
         example: BTC_USDT
@@ -87,10 +87,10 @@ definitions:
   model.OrderBase4:
     properties:
       apiKey:
-        example: cf998e2f-ed32b3f8-42c02442-1011e
+        example: 自行输入
         type: string
       apiSecret:
-        example: 91e6e532-3bb37cad-c0a689ca-75ee5
+        example: 自行输入
         type: string
       currencyPair:
         example: BTC_USDT
@@ -105,10 +105,10 @@ definitions:
   model.OrderHistory:
     properties:
       apiKey:
-        example: cf998e2f-ed32b3f8-42c02442-1011e
+        example: 自行输入
         type: string
       apiSecret:
-        example: 91e6e532-3bb37cad-c0a689ca-75ee5
+        example: 自行输入
         type: string
       currencyPair:
         example: BTC_USDT
@@ -132,10 +132,10 @@ definitions:
         example: "0"
         type: string
       apiKey:
-        example: cf998e2f-ed32b3f8-42c02442-1011e
+        example: 自行输入
         type: string
       apiSecret:
-        example: 91e6e532-3bb37cad-c0a689ca-75ee5
+        example: 自行输入
         type: string
       currencyPair:
         example: BTC_USDT
@@ -153,10 +153,10 @@ definitions:
   model.TokenAuth:
     properties:
       apiKey:
-        example: cf998e2f-ed32b3f8-42c02442-1011e
+        example: 自行输入
         type: string
       apiSecret:
-        example: 91e6e532-3bb37cad-c0a689ca-75ee5
+        example: 自行输入
         type: string
       exName:
         example: huobi.pro

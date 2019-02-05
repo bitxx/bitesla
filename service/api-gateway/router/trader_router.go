@@ -58,7 +58,6 @@ func orderPlace(c *gin.Context) {
 	res.Msg = errs.GetMsg(code)
 	if err != nil {
 		logger.Error("错误信息：", err.Error())
-		res.Msg = err.Error()
 		return
 	}
 	res.Data = data
@@ -169,7 +168,6 @@ func getAccount(c *gin.Context) {
 	res.Msg = errs.GetMsg(code)
 	if err != nil {
 		logger.Error("错误信息：", err.Error())
-		res.Msg = err.Error()
 		return
 	}
 	res.Data = data
@@ -236,7 +234,6 @@ func getKlineRecords(c *gin.Context) {
 	res.Msg = errs.GetMsg(code)
 	if err != nil {
 		logger.Error("错误信息：", err.Error())
-		res.Msg = err.Error()
 		return
 	}
 	res.Data = data

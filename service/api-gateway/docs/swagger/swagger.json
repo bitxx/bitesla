@@ -458,11 +458,11 @@
             "properties": {
                 "apiKey": {
                     "type": "string",
-                    "example": "cf998e2f-ed32b3f8-42c02442-1011e"
+                    "example": "自行输入"
                 },
                 "apiSecret": {
                     "type": "string",
-                    "example": "91e6e532-3bb37cad-c0a689ca-75ee5"
+                    "example": "自行输入"
                 },
                 "currencyPair": {
                     "type": "string",
@@ -491,11 +491,11 @@
             "properties": {
                 "apiKey": {
                     "type": "string",
-                    "example": "cf998e2f-ed32b3f8-42c02442-1011e"
+                    "example": "自行输入"
                 },
                 "apiSecret": {
                     "type": "string",
-                    "example": "91e6e532-3bb37cad-c0a689ca-75ee5"
+                    "example": "自行输入"
                 },
                 "currencyPair": {
                     "type": "string",
@@ -516,11 +516,11 @@
             "properties": {
                 "apiKey": {
                     "type": "string",
-                    "example": "cf998e2f-ed32b3f8-42c02442-1011e"
+                    "example": "自行输入"
                 },
                 "apiSecret": {
                     "type": "string",
-                    "example": "91e6e532-3bb37cad-c0a689ca-75ee5"
+                    "example": "自行输入"
                 },
                 "currencyPair": {
                     "type": "string",
@@ -537,11 +537,11 @@
             "properties": {
                 "apiKey": {
                     "type": "string",
-                    "example": "cf998e2f-ed32b3f8-42c02442-1011e"
+                    "example": "自行输入"
                 },
                 "apiSecret": {
                     "type": "string",
-                    "example": "91e6e532-3bb37cad-c0a689ca-75ee5"
+                    "example": "自行输入"
                 },
                 "currencyPair": {
                     "type": "string",
@@ -562,11 +562,11 @@
             "properties": {
                 "apiKey": {
                     "type": "string",
-                    "example": "cf998e2f-ed32b3f8-42c02442-1011e"
+                    "example": "自行输入"
                 },
                 "apiSecret": {
                     "type": "string",
-                    "example": "91e6e532-3bb37cad-c0a689ca-75ee5"
+                    "example": "自行输入"
                 },
                 "currencyPair": {
                     "type": "string",
@@ -587,11 +587,11 @@
             "properties": {
                 "apiKey": {
                     "type": "string",
-                    "example": "cf998e2f-ed32b3f8-42c02442-1011e"
+                    "example": "自行输入"
                 },
                 "apiSecret": {
                     "type": "string",
-                    "example": "91e6e532-3bb37cad-c0a689ca-75ee5"
+                    "example": "自行输入"
                 },
                 "currencyPair": {
                     "type": "string",
@@ -624,11 +624,11 @@
                 },
                 "apiKey": {
                     "type": "string",
-                    "example": "cf998e2f-ed32b3f8-42c02442-1011e"
+                    "example": "自行输入"
                 },
                 "apiSecret": {
                     "type": "string",
-                    "example": "91e6e532-3bb37cad-c0a689ca-75ee5"
+                    "example": "自行输入"
                 },
                 "currencyPair": {
                     "type": "string",
@@ -653,11 +653,11 @@
             "properties": {
                 "apiKey": {
                     "type": "string",
-                    "example": "cf998e2f-ed32b3f8-42c02442-1011e"
+                    "example": "自行输入"
                 },
                 "apiSecret": {
                     "type": "string",
-                    "example": "91e6e532-3bb37cad-c0a689ca-75ee5"
+                    "example": "自行输入"
                 },
                 "exName": {
                     "type": "string",

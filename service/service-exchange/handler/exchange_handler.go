@@ -59,7 +59,8 @@ func (exchange *ExchangeHandler) GetTicker(ctx context.Context, reqCurrency *bit
 }
 
 func (exchange *ExchangeHandler) GetDepth(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, depth *bitesla_srv_trader.Depth) error {
-	return exchange.repo.GetDepth(reqCurrency, depth)
+	err := exchange.repo.GetDepth(reqCurrency, depth)
+	return err
 }
 
 func (exchange *ExchangeHandler) GetKlineRecords(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, respKlines *bitesla_srv_trader.Klines) error {
