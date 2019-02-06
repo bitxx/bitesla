@@ -196,9 +196,10 @@
 		},
 		{
 			"checksumSHA1": "kJF/fCKfWtqyfYrqZdB6JYVo8yc=",
+			"origin": "github.com/jason-wj/bitesla/service/service-exchange/vendor/github.com/gorilla/websocket",
 			"path": "github.com/gorilla/websocket",
-			"revision": "3130e8d3f1986de7dc3fd86255f4ce9618677508",
-			"revisionTime": "2018-09-24T23:26:12Z"
+			"revision": "fa7c5fa07ff56d13009054d733a7c5444bc263da",
+			"revisionTime": "2019-02-06T17:52:10Z"
 		},
 		{
 			"checksumSHA1": "SB7wK1wwrVUhTK4Ozu1oXpYJkTI=",
@@ -250,74 +251,75 @@
 		{
 			"checksumSHA1": "qmoqHIma3spvjAFTcZGD4tB8U1I=",
 			"path": "github.com/jason-wj/bitesla/common/errs",
-			"revision": "71aa55029998c2ac74986b81548bce45d2e46714",
-			"revisionTime": "2019-02-05T16:15:46Z"
+			"revision": "fa7c5fa07ff56d13009054d733a7c5444bc263da",
+			"revisionTime": "2019-02-06T17:52:10Z"
 		},
 		{
 			"checksumSHA1": "9ILsFCYResBUsUgF8OzgW0l9F/o=",
 			"path": "github.com/jason-wj/bitesla/common/iniconfig",
-			"revision": "71aa55029998c2ac74986b81548bce45d2e46714",
-			"revisionTime": "2019-02-05T16:15:46Z"
+			"revision": "fa7c5fa07ff56d13009054d733a7c5444bc263da",
+			"revisionTime": "2019-02-06T17:52:10Z"
 		},
 		{
 			"checksumSHA1": "3HV27h4z5YjpMAAOgbTFY494tJI=",
 			"path": "github.com/jason-wj/bitesla/common/logger",
-			"revision": "71aa55029998c2ac74986b81548bce45d2e46714",
-			"revisionTime": "2019-02-05T16:15:46Z"
+			"revision": "fa7c5fa07ff56d13009054d733a7c5444bc263da",
+			"revisionTime": "2019-02-06T17:52:10Z"
 		},
 		{
 			"checksumSHA1": "BFuPARXdswsa7kUcXaQB80G0+00=",
 			"path": "github.com/jason-wj/bitesla/common/logger/daterot",
-			"revision": "71aa55029998c2ac74986b81548bce45d2e46714",
-			"revisionTime": "2019-02-05T16:15:46Z"
+			"revision": "fa7c5fa07ff56d13009054d733a7c5444bc263da",
+			"revisionTime": "2019-02-06T17:52:10Z"
 		},
 		{
 			"checksumSHA1": "/T5u1gZGNJ5i6/P0+3DIYuEdHCw=",
 			"path": "github.com/jason-wj/bitesla/common/util/cache",
-			"revision": "71aa55029998c2ac74986b81548bce45d2e46714",
-			"revisionTime": "2019-02-05T16:15:46Z"
+			"revision": "fa7c5fa07ff56d13009054d733a7c5444bc263da",
+			"revisionTime": "2019-02-06T17:52:10Z"
 		},
 		{
 			"checksumSHA1": "CGjL2XTYIZsoWqMJ+UEqRt2pDok=",
+			"origin": "github.com/jason-wj/bitesla/service/service-user/vendor/github.com/jason-wj/bitesla/common/util/stringutl",
 			"path": "github.com/jason-wj/bitesla/common/util/stringutl",
-			"revision": "71aa55029998c2ac74986b81548bce45d2e46714",
-			"revisionTime": "2019-02-05T16:15:46Z"
+			"revision": "fa7c5fa07ff56d13009054d733a7c5444bc263da",
+			"revisionTime": "2019-02-06T17:52:10Z"
 		},
 		{
 			"checksumSHA1": "pojl26VR6RYbPwfA8z6teSpPfGQ=",
 			"path": "github.com/jason-wj/bitesla/common/vo",
-			"revision": "71aa55029998c2ac74986b81548bce45d2e46714",
-			"revisionTime": "2019-02-05T16:15:46Z"
+			"revision": "fa7c5fa07ff56d13009054d733a7c5444bc263da",
+			"revisionTime": "2019-02-06T17:52:10Z"
 		},
 		{
-			"checksumSHA1": "SAEb3wZXwYB1k3obAfcRaRFZy8Y=",
+			"checksumSHA1": "2T0hPrDxnDFOr1U0EV74vL/iyTY=",
 			"path": "github.com/jason-wj/bitesla/service/service-exchange/client",
-			"revision": "71aa55029998c2ac74986b81548bce45d2e46714",
-			"revisionTime": "2019-02-05T16:15:46Z"
+			"revision": "fa7c5fa07ff56d13009054d733a7c5444bc263da",
+			"revisionTime": "2019-02-06T17:52:10Z"
 		},
 		{
 			"checksumSHA1": "mbqd5XFcOT2BBGgXHGpJchdlgXA=",
 			"path": "github.com/jason-wj/bitesla/service/service-exchange/exchange",
-			"revision": "71aa55029998c2ac74986b81548bce45d2e46714",
-			"revisionTime": "2019-02-05T16:15:46Z"
+			"revision": "fa7c5fa07ff56d13009054d733a7c5444bc263da",
+			"revisionTime": "2019-02-06T17:52:10Z"
 		},
 		{
 			"checksumSHA1": "lDpMyK2WEUvbyo6acn2qtlUzwp8=",
 			"path": "github.com/jason-wj/bitesla/service/service-exchange/proto",
-			"revision": "71aa55029998c2ac74986b81548bce45d2e46714",
-			"revisionTime": "2019-02-05T16:15:46Z"
+			"revision": "fa7c5fa07ff56d13009054d733a7c5444bc263da",
+			"revisionTime": "2019-02-06T17:52:10Z"
 		},
 		{
-			"checksumSHA1": "/hEbbbOBb4AfhpLikV6iB1CGSi8=",
+			"checksumSHA1": "gAGH1IYzGHqWd/riYVaorhDX4Z0=",
 			"path": "github.com/jason-wj/bitesla/service/service-user/client",
-			"revision": "71aa55029998c2ac74986b81548bce45d2e46714",
-			"revisionTime": "2019-02-05T16:15:46Z"
+			"revision": "fa7c5fa07ff56d13009054d733a7c5444bc263da",
+			"revisionTime": "2019-02-06T17:52:10Z"
 		},
 		{
 			"checksumSHA1": "kNJSNzFpxioe5DIul9USfjrVBaI=",
 			"path": "github.com/jason-wj/bitesla/service/service-user/proto",
-			"revision": "71aa55029998c2ac74986b81548bce45d2e46714",
-			"revisionTime": "2019-02-05T16:15:46Z"
+			"revision": "fa7c5fa07ff56d13009054d733a7c5444bc263da",
+			"revisionTime": "2019-02-06T17:52:10Z"
 		},
 		{
 			"checksumSHA1": "Cq9h7eDNXXyR/qJPvO8/Rk4pmFg=",

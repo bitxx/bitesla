@@ -35,7 +35,7 @@ func (client *UserClient) RegisterEmail(data []byte) (interface{}, int, error) {
 		return nil, errs.PwdEmptyErr, nil
 	}
 
-	resp, err := client.client.RegisterEmail(ctx, &pb.UserReq{
+	resp, err := client.client.RegisterEmail(context.Background(), &pb.UserReq{
 		Email:    userReq.Email,
 		Password: userReq.Password,
 	})
@@ -53,7 +53,7 @@ func (client *UserClient) RegisterPhone(data []byte) (interface{}, int, error) {
 		return nil, errs.RequestDataFmtErr, err
 	}
 
-	resp, err := client.client.RegisterPhone(ctx, &pb.UserReq{
+	resp, err := client.client.RegisterPhone(context.Background(), &pb.UserReq{
 		Phone: userReq.Phone,
 	})
 	return resp, 0, err
@@ -74,7 +74,7 @@ func (client *UserClient) LoginEmail(data []byte) (interface{}, int, error) {
 		return nil, errs.PwdEmptyErr, nil
 	}
 
-	resp, err := client.client.LoginEmail(ctx, &pb.UserReq{
+	resp, err := client.client.LoginEmail(context.Background(), &pb.UserReq{
 		Email:    userReq.Email,
 		Password: userReq.Password,
 	})
@@ -93,7 +93,7 @@ func (client *UserClient) LoginPhone(data []byte) (interface{}, int, error) {
 		return nil, errs.RequestDataFmtErr, err
 	}
 
-	resp, err := client.client.LoginPhone(ctx, &pb.UserReq{
+	resp, err := client.client.LoginPhone(context.Background(), &pb.UserReq{
 		Phone: userReq.Phone,
 	})
 	return resp, 0, err

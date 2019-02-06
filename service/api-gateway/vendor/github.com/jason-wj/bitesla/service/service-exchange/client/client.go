@@ -29,13 +29,13 @@ func (client *TraderClient) OrderPlace(data []byte) (interface{}, int, error) {
 	account := &pb.Order{}
 	switch currencyReq.OrderType {
 	case int32(pb.TradeSide_BUY):
-		account, err = client.client.LimitBuy(ctx, currencyReq)
+		account, err = client.client.LimitBuy(context.Background(), currencyReq)
 	case int32(pb.TradeSide_SELL):
-		account, err = client.client.LimitSell(ctx, currencyReq)
+		account, err = client.client.LimitSell(context.Background(), currencyReq)
 	case int32(pb.TradeSide_BUY_MARKET):
-		account, err = client.client.MarketBuy(ctx, currencyReq)
+		account, err = client.client.MarketBuy(context.Background(), currencyReq)
 	case int32(pb.TradeSide_SELL_MARKET):
-		account, err = client.client.MarketSell(ctx, currencyReq)
+		account, err = client.client.MarketSell(context.Background(), currencyReq)
 	default:
 		return nil, errs.ExchangeAccountTypeErr, err
 	}
@@ -57,7 +57,7 @@ func (client *TraderClient) CancelOrder(data []byte) (interface{}, int, error) {
 	if _, ok := exchange.CurrencyPair[currencyReq.CurrencyPair]; !ok {
 		return nil, errs.ExchangeCoinErr, nil
 	}
-	boolean, err := client.client.CancelOrder(ctx, currencyReq)
+	boolean, err := client.client.CancelOrder(context.Background(), currencyReq)
 	if err != nil {
 		return nil, errs.Errors, err
 	}
@@ -75,7 +75,7 @@ func (client *TraderClient) GetOneOrder(data []byte) (interface{}, int, error) {
 	if _, ok := exchange.CurrencyPair[currencyReq.CurrencyPair]; !ok {
 		return nil, errs.ExchangeCoinErr, nil
 	}
-	order, err := client.client.GetOneOrder(ctx, currencyReq)
+	order, err := client.client.GetOneOrder(context.Background(), currencyReq)
 	if err != nil {
 		return nil, errs.Errors, err
 	}
@@ -91,7 +91,7 @@ func (client *TraderClient) GetUnfinishOrders(data []byte) (interface{}, int, er
 	if _, ok := exchange.CurrencyPair[currencyReq.CurrencyPair]; !ok {
 		return nil, errs.ExchangeCoinErr, nil
 	}
-	orders, err := client.client.GetUnfinishOrders(ctx, currencyReq)
+	orders, err := client.client.GetUnfinishOrders(context.Background(), currencyReq)
 	if err != nil {
 		return nil, errs.Errors, err
 	}
@@ -112,7 +112,7 @@ func (client *TraderClient) GetOrderHistorys(data []byte) (interface{}, int, err
 	if currencyReq.PageSize <= 0 {
 		currencyReq.PageSize = 10
 	}
-	orders, err := client.client.GetOrderHistorys(ctx, currencyReq)
+	orders, err := client.client.GetOrderHistorys(context.Background(), currencyReq)
 	if err != nil {
 		return nil, errs.Errors, err
 	}
@@ -125,7 +125,7 @@ func (client *TraderClient) GetAccount(data []byte) (interface{}, int, error) {
 		return nil, code, err
 	}
 
-	account, err := client.client.GetAccount(ctx, currencyReq)
+	account, err := client.client.GetAccount(context.Background(), currencyReq)
 	if err != nil {
 		return nil, errs.Errors, err
 	}
@@ -140,7 +140,7 @@ func (client *TraderClient) GetTicker(data []byte) (interface{}, int, error) {
 	if _, ok := exchange.CurrencyPair[currencyReq.CurrencyPair]; !ok {
 		return nil, errs.ExchangeCoinErr, nil
 	}
-	ticker, err := client.client.GetTicker(ctx, currencyReq)
+	ticker, err := client.client.GetTicker(context.Background(), currencyReq)
 	if err != nil {
 		return nil, errs.Errors, err
 	}
@@ -155,7 +155,7 @@ func (client *TraderClient) GetDepth(data []byte) (interface{}, int, error) {
 	if _, ok := exchange.CurrencyPair[currencyReq.CurrencyPair]; !ok {
 		return nil, errs.ExchangeCoinErr, nil
 	}
-	depth, err := client.client.GetDepth(ctx, currencyReq)
+	depth, err := client.client.GetDepth(context.Background(), currencyReq)
 	if err != nil {
 		return nil, errs.Errors, err
 	}
@@ -177,7 +177,7 @@ func (client *TraderClient) GetKlineRecords(data []byte) (interface{}, int, erro
 		return nil, errs.ExchangeSinceErr, nil
 	}
 
-	klines, err := client.client.GetKlineRecords(ctx, currencyReq)
+	klines, err := client.client.GetKlineRecords(context.Background(), currencyReq)
 	if err != nil {
 		return nil, errs.Errors, err
 	}
@@ -195,7 +195,7 @@ func (client *TraderClient) GetTrades(data []byte) (interface{}, int, error) {
 	if currencyReq.Since <= 0 {
 		return nil, errs.ExchangeSinceErr, nil
 	}
-	trades, err := client.client.GetTrades(ctx, currencyReq)
+	trades, err := client.client.GetTrades(context.Background(), currencyReq)
 	if err != nil {
 		return nil, errs.Errors, err
 	}
@@ -207,7 +207,7 @@ func (client *TraderClient) GetExchangeName(data []byte) (interface{}, int, erro
 	if code != errs.Success {
 		return nil, code, err
 	}
-	name, err := client.client.GetExchangeName(ctx, currencyReq)
+	name, err := client.client.GetExchangeName(context.Background(), currencyReq)
 	if err != nil {
 		return nil, errs.Errors, err
 	}
