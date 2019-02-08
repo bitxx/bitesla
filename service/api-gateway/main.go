@@ -63,7 +63,7 @@ func init() {
 
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-// @host localhost:8090
+// @host 106.12.7.114:8090
 // @BasePath /
 
 // @securityDefinitions.apikey token

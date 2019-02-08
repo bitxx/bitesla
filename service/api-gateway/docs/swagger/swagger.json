@@ -15,7 +15,7 @@
         },
         "version": "2.0"
     },
-    "host": "localhost:8090",
+    "host": "106.12.7.114:8090",
     "basePath": "/",
     "paths": {
         "/trader/cancelOrder": {

@@ -162,7 +162,7 @@ definitions:
         example: huobi.pro
         type: string
     type: object
-host: localhost:8090
+host: 106.12.7.114:8090
 info:
   contact:
     email: idea_wj
