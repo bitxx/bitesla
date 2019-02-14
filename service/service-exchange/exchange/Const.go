@@ -49,7 +49,7 @@ const (
 	OKEX       = "okex.com"
 	OkexFuture = "okex.com"
 	HUOBI      = "huobi.com"
-	HuobiPro   = "huobi.pro"
+	HuobiPro   = 2358885120275906
 	BITSTAMP   = "bitstamp.net"
 	KRAKEN     = "kraken.com"
 	ZB         = "zb.com"
@@ -69,6 +69,33 @@ const (
 	BITMEX     = "bitmex.com"
 	CRYPTOPIA  = "cryptopia.co.nz"
 )
+
+/*const (
+	OkcoinCn   = "okcoin.cn"
+	OkcoinCom  = "okcoin.com"
+	OKEX       = "okex.com"
+	OkexFuture = "okex.com"
+	HUOBI      = "huobi.com"
+	HuobiPro   = "huobi.pro"
+	BITSTAMP   = "bitstamp.net"
+	KRAKEN     = "kraken.com"
+	ZB         = "zb.com"
+	BITFINEX   = "bitfinex.com"
+	BINANCE    = "binance.com"
+	POLONIEX   = "poloniex.com"
+	COINEX     = "coinex.com"
+	BITHUMB    = "bithumb.com"
+	GATEIO     = "gate.io"
+	BITTREX    = "bittrex.com"
+	GDAX       = "gdax.com"
+	WexNz      = "wex.nz"
+	BIGONE     = "big.one"
+	COIN58     = "58coin.com"
+	FCOIN      = "fcoin.com"
+	HITBTC     = "hitbtc.com"
+	BITMEX     = "bitmex.com"
+	CRYPTOPIA  = "cryptopia.co.nz"
+)*/
 
 // ETH_BTC --> ethbtc
 type Symbols map[string]string

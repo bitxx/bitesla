@@ -20,6 +20,9 @@ service User {
     rpc RegisterPhone (UserReq) returns (UserResp) {
 
     }
+    rpc GetUserById (UserReq) returns (UserResp) {
+
+    }
 }
 
 message UserReq {
@@ -28,15 +31,16 @@ message UserReq {
     string phone = 3;
     string phoneCode = 4;
     string email = 5;
+    int64 userId = 6;
 }
 
 message UserResp {
-    string userId = 1;
+    int64 userId = 1;
     string unionId = 2;
     string loginTime = 3;
     string phoneCode = 4;
     string type = 5;
-    string sex = 6;
+    int32 sex = 6;
     string nickname = 7;
     string birthday = 8;
     string verifyCode = 9;

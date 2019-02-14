@@ -12,7 +12,8 @@ var MsgFlags = map[int]string{
 	TokenExpire:   "Token过期",
 
 	//请求数据相关
-	RequestDataFmtErr: "请求数据格式异常",
+	RequestDataFmtErr:        "请求数据格式异常",
+	RequestHeadCurrUserIdErr: "请求数据中不得拥有currentLoginUserID字段",
 
 	//数据转换问题
 	DataConvertErr: "数据转换错误",
@@ -26,6 +27,8 @@ var MsgFlags = map[int]string{
 	PwdEmptyErr: "密码不得为空",
 	LoginErr:    "登录失败",
 	LoginSucc:   "登录成功",
+	GetUserErr:  "用户信息获取失败",
+	UserIdErr:   "用户id错误",
 
 	//交易所相关
 	ExchangeCurrencyPairSymbolFmtErr: "货币格式错误",
@@ -37,6 +40,14 @@ var MsgFlags = map[int]string{
 	ExchangeCoinErr:                  "币种异常，两币种需要大写，且用下划线'_'分割",
 	ExchangeAccountTypeErr:           "账户类型异常",
 	ExchangeOrderIDErr:               "订单号错误",
+	ExchangeDescriptionErr:           "交易所描述不得为空",
+	ExchangeIDErr:                    "exchangeId必须大于0 ",
+
+	//策略相关
+	StrategyNameErr:   "策略名称错误",
+	StrategyDescErr:   "策略描述错误",
+	StrategyScriptErr: "策略脚本错误",
+	StrategyIdErr:     "策略ID错误",
 }
 
 func GetMsg(code int) string {

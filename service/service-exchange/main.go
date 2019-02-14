@@ -3,9 +3,9 @@ package main
 import (
 	"github.com/jason-wj/bitesla/common/logger"
 	"github.com/jason-wj/bitesla/common/util/cache"
-	"github.com/jason-wj/bitesla/common/util/order"
+	"github.com/jason-wj/bitesla/common/util/idgenerate"
 	"github.com/jason-wj/bitesla/service/service-exchange/conf"
-	"github.com/jason-wj/bitesla/service/service-exchange/db/mysql"
+	"github.com/jason-wj/bitesla/service/service-exchange/db"
 	"github.com/jason-wj/bitesla/service/service-exchange/handler"
 	"github.com/jason-wj/bitesla/service/service-exchange/proto"
 	"github.com/micro/go-log"
@@ -16,7 +16,7 @@ import (
 
 const (
 	version = "lastest"
-	srvName = "bitesla.srv.trader"
+	srvName = "bitesla.srv.exchange"
 )
 
 func init() {
@@ -38,7 +38,7 @@ func init() {
 		conf.CurrentConfig.LoggerConf.MaxAgeDays)
 
 	//初始化mysql
-	issucc, err := mysql.GetInstance().InitPool()
+	issucc, err := db.GetInstance().InitPool()
 	if err != nil || !issucc {
 		logger.Error(err)
 		panic(err)
@@ -70,7 +70,7 @@ func init() {
 	}
 
 	//初始化订单号生成器
-	order.Init(true)
+	idgenerate.Init(true)
 }
 
 func main() {
@@ -88,7 +88,7 @@ func main() {
 	service.Init()
 
 	// Register Handler
-	err := bitesla_srv_trader.RegisterExchangeHandler(service.Server(), exchangeHandler)
+	err := bitesla_srv_exchange.RegisterExchangeHandler(service.Server(), exchangeHandler)
 	if err != nil {
 		log.Logf("RegisterExchangeHandler err %v", err)
 		return

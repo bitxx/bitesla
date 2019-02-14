@@ -1,4 +1,4 @@
-package bitesla_srv_trader
+package bitesla_srv_exchange
 
 func (x TradeSide) TradeSideSymbol() string {
 	switch x {

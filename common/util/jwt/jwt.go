@@ -8,15 +8,17 @@ import (
 type Claims struct {
 	Username string `json:"username"`
 	Pasword  string `json:"password"`
+	UserId   int64  `json:"userId"`
 	jwt.StandardClaims
 }
 
-func GetToken(username, password, issuer, jwtSecret string, d time.Duration) (string, error) {
+func GetToken(username, password, issuer, jwtSecret string, userId int64, d time.Duration) (string, error) {
 	nowTime := time.Now()
 	expireTime := nowTime.Add(d)
 	claims := Claims{
 		username,
 		password,
+		userId,
 		jwt.StandardClaims{
 			ExpiresAt: expireTime.Unix(),
 			Issuer:    issuer,

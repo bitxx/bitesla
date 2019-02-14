@@ -10,10 +10,10 @@ networks:
   #      config:
   #        - subnet: 172.66.1.0/24
 services:
-  bitesla-api-gateway:
-    image: bitesla-api-gateway
-    build: ./service/api-gateway
-    container_name: bitesla-api-gateway
+  bitesla-service-api:
+    image: bitesla-service-api
+    build: ./service/service-api
+    container_name: bitesla-service-api
     command: --registry_address=bitesla-consul:8500
     ports:
       - 8090:8090
@@ -51,16 +51,16 @@ services:
     build: ./service/service-exchange
     container_name: bitesla-service-exchange
     command: --registry_address=bitesla-consul:8500
-#    ports:
-#      - 50002:50002
-#    environment:
-#      DB_NAME: "mysql"
-#      DB_HOST: "mysql"
-#      DB_PORT: "3306"
-#      DB_USER: "root"
-#      DB_PASSWORD: "123456"
-#      REDIS_ADDR: "redis:6379"
-#      REDIS_PWD: ""
+    networks:
+      - basic
+    depends_on:
+      - bitesla-consul
+
+  bitesla-service-strategy:
+    image: bitesla-service-strategy
+    build: ./service/service-strategy
+    container_name: bitesla-service-strategy
+    command: --registry_address=bitesla-consul:8500
     networks:
       - basic
     depends_on:

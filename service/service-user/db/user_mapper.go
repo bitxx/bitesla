@@ -7,12 +7,13 @@ import (
 )
 
 //添加一个邮箱用户
-func AddUserByEmail(email, password string) error {
+func AddUserByEmail(email, password string, id int64) error {
 	db := GetInstance().GetMysqlDB()
 	if db == nil {
 		return errs.DBInitError
 	}
 	user := &orm.UserORM{
+		UserId:   id,
 		Email:    email,
 		Password: password,
 	}
@@ -20,9 +21,16 @@ func AddUserByEmail(email, password string) error {
 	return db.Error
 }
 
-func LoginUserByEmail(email, pwd string) int {
-	var count int
+func LoginUserByEmail(email, pwd string) (*orm.UserORM, error) {
+	user := &orm.UserORM{}
 	db := GetInstance().GetMysqlDB()
-	db.Model(orm.UserORM{}).Where(&orm.UserORM{Email: email, Password: pwd}).Count(&count)
-	return count
+	err := db.Where(&orm.UserORM{Email: email, Password: pwd}).First(user).Error
+	return user, err
+}
+
+func GetUserById(userId int64) (*orm.UserORM, error) {
+	user := &orm.UserORM{}
+	db := GetInstance().GetMysqlDB()
+	err := db.Where(&orm.UserORM{UserId: userId}).First(user).Error
+	return user, err
 }

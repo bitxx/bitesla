@@ -1,0 +1,1172 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "暂无描述",
+        "title": "bitesla",
+        "termsOfService": "http://www.wjblog.top/",
+        "contact": {
+            "name": "idea_wj@163.com",
+            "url": "http://www.wjblog.top/",
+            "email": "idea_wj"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "2.0"
+    },
+    "host": "localhost:8090",
+    "basePath": "/",
+    "paths": {
+        "/exchange/cancelOrder": {
+            "post": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "description": "此接口发送一个撤销订单的请求",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "交易所相关"
+                ],
+                "summary": "此接口发送一个撤销订单的请求",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.CancelOrder"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/exchange/getAccount": {
+            "post": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "description": "获取当前账户信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "交易所相关"
+                ],
+                "summary": "获取当前账户信息",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.Account"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/exchange/getDepth": {
+            "post": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "description": "返回指定交易对的当前市场深度数据",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "交易所相关"
+                ],
+                "summary": "返回指定交易对的当前市场深度数据",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.Depth"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/exchange/getExchangeDetail": {
+            "post": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "description": "获取交易所详情",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "交易所相关"
+                ],
+                "summary": "获取交易所详情",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.ExchangeDetail"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/exchange/getKlineRecords": {
+            "post": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "description": "获取k线",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "交易所相关"
+                ],
+                "summary": "获取k线",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.Kline"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/exchange/getOneOrder": {
+            "post": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "description": "返回订单的最新状况和详情",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "交易所相关"
+                ],
+                "summary": "返回订单的最新状况和详情",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.OneOrder"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/exchange/getOrderHistorys": {
+            "post": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "description": "获取某交易对交易历史",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "交易所相关"
+                ],
+                "summary": "获取某交易对交易历史",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.OrderHistory"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/exchange/getTicker": {
+            "post": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "description": "获取ticker信息，同时提供24小时交易聚合信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "交易所相关"
+                ],
+                "summary": "获取ticker信息，同时提供24小时交易聚合信息",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.Ticker"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/exchange/getTrades": {
+            "post": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "description": "非个人，整个交易所的交易记录",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "交易所相关"
+                ],
+                "summary": "非个人，整个交易所的交易记录",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.Trades"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/exchange/getUnfinishOrders": {
+            "post": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "description": "未完成的交易订单",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "交易所相关"
+                ],
+                "summary": "未完成的交易订单",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.UnfinishOrders"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/exchange/list": {
+            "post": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "description": "当前用户拥有的策略，分页展示",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "交易所相关"
+                ],
+                "summary": "当前用户拥有的策略，分页展示",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.ExchangeList"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/exchange/orderPlace": {
+            "post": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "description": "发送一个新的订单到某交易所进行撮合",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "交易所相关"
+                ],
+                "summary": "发送一个新的订单到某交易所进行撮合",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空,//\tOrderType: 0 表示limitBuy 1 表示limitSell 2 表示marketBuy 3 表示marketSell ; AccountType: 1 表示point 2 表示splot",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.OrderPlace"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/exchange/put": {
+            "post": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "description": "新增或者更新一个交易所",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "交易所相关"
+                ],
+                "summary": "新增或者更新一个交易所",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.ExchangeInfo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/strategy/detail": {
+            "post": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "description": "当前策略详情",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "策略管理相关"
+                ],
+                "summary": "当前策略详情",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.StrategyDetail"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/strategy/list": {
+            "post": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "description": "当前用户拥有的策略，分页展示",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "策略管理相关"
+                ],
+                "summary": "当前用户拥有的策略，分页展示",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.StrategyList"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/strategy/put": {
+            "post": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "description": "新增或者更新一个策略",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "策略管理相关"
+                ],
+                "summary": "新增或者更新一个策略",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.StrategyInfo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/loginEmail": {
+            "post": {
+                "description": "邮箱登陆",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "账户操作"
+                ],
+                "summary": "邮箱登陆",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.EmailLogin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/loginPhone": {
+            "post": {
+                "description": "手机号登陆（暂未实现）",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "账户操作"
+                ],
+                "summary": "手机号登陆（暂未实现）",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.PhoneLogin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/registerEmail": {
+            "post": {
+                "description": "邮箱注册",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "账户操作"
+                ],
+                "summary": "邮箱注册",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.EmailRegister"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/registerPhone": {
+            "post": {
+                "description": "手机号注册",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "账户操作"
+                ],
+                "summary": "手机号注册（暂未实现）",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.PhoneRegister"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "model.Account": {
+            "type": "object",
+            "properties": {
+                "apiKey": {
+                    "type": "string",
+                    "example": "自行输入"
+                },
+                "apiSecret": {
+                    "type": "string",
+                    "example": "自行输入"
+                },
+                "exchangeId": {
+                    "type": "integer",
+                    "example": 2358885120275906
+                }
+            }
+        },
+        "model.CancelOrder": {
+            "type": "object",
+            "properties": {
+                "apiKey": {
+                    "type": "string",
+                    "example": "自行输入"
+                },
+                "apiSecret": {
+                    "type": "string",
+                    "example": "自行输入"
+                },
+                "currencyPair": {
+                    "type": "string",
+                    "example": "BTC_USDT"
+                },
+                "exchangeId": {
+                    "type": "integer",
+                    "example": 2358885120275906
+                },
+                "orderId": {
+                    "type": "string",
+                    "example": "2xxxxx"
+                }
+            }
+        },
+        "model.Depth": {
+            "type": "object",
+            "properties": {
+                "currencyPair": {
+                    "type": "string",
+                    "example": "BTC_USDT"
+                },
+                "exchangeId": {
+                    "type": "integer",
+                    "example": 2358885120275906
+                }
+            }
+        },
+        "model.EmailLogin": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "idea_wj@163.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "sja123"
+                }
+            }
+        },
+        "model.EmailRegister": {
+            "type": "object",
+            "properties": {
+                "email": {
+                    "type": "string",
+                    "example": "idea_wj@163.com"
+                },
+                "password": {
+                    "type": "string",
+                    "example": "sja123"
+                }
+            }
+        },
+        "model.ExchangeDetail": {
+            "type": "object",
+            "properties": {
+                "exchangeId": {
+                    "type": "integer",
+                    "example": 2358885120275906
+                }
+            }
+        },
+        "model.ExchangeInfo": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "example": "我是火币交易所"
+                },
+                "exName": {
+                    "type": "string",
+                    "example": "huobi.pro"
+                },
+                "exchangeId": {
+                    "type": "integer",
+                    "example": 0
+                }
+            }
+        },
+        "model.ExchangeList": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "size": {
+                    "type": "integer",
+                    "example": 10
+                }
+            }
+        },
+        "model.Kline": {
+            "type": "object",
+            "properties": {
+                "currencyPair": {
+                    "type": "string",
+                    "example": "BTC_USDT"
+                },
+                "exchangeId": {
+                    "type": "integer",
+                    "example": 2358885120275906
+                },
+                "period": {
+                    "type": "integer",
+                    "example": 0
+                },
+                "since": {
+                    "type": "integer",
+                    "example": 10000000
+                },
+                "size": {
+                    "type": "integer",
+                    "example": 150
+                }
+            }
+        },
+        "model.OneOrder": {
+            "type": "object",
+            "properties": {
+                "apiKey": {
+                    "type": "string",
+                    "example": "自行输入"
+                },
+                "apiSecret": {
+                    "type": "string",
+                    "example": "自行输入"
+                },
+                "currencyPair": {
+                    "type": "string",
+                    "example": "BTC_USDT"
+                },
+                "exchangeId": {
+                    "type": "integer",
+                    "example": 2358885120275906
+                },
+                "orderId": {
+                    "type": "string",
+                    "example": "2xxxxx"
+                }
+            }
+        },
+        "model.OrderHistory": {
+            "type": "object",
+            "properties": {
+                "apiKey": {
+                    "type": "string",
+                    "example": "自行输入"
+                },
+                "apiSecret": {
+                    "type": "string",
+                    "example": "自行输入"
+                },
+                "currencyPair": {
+                    "type": "string",
+                    "example": "BTC_USDT"
+                },
+                "currentPage": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "exchangeId": {
+                    "type": "integer",
+                    "example": 2358885120275906
+                },
+                "pageSize": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "model.OrderPlace": {
+            "type": "object",
+            "properties": {
+                "accountType": {
+                    "type": "integer",
+                    "example": 2
+                },
+                "amount": {
+                    "type": "string",
+                    "example": "0"
+                },
+                "apiKey": {
+                    "type": "string",
+                    "example": "自行输入"
+                },
+                "apiSecret": {
+                    "type": "string",
+                    "example": "自行输入"
+                },
+                "currencyPair": {
+                    "type": "string",
+                    "example": "BTC_USDT"
+                },
+                "exchangeId": {
+                    "type": "integer",
+                    "example": 2358885120275906
+                },
+                "orderType": {
+                    "type": "integer",
+                    "example": 2
+                },
+                "price": {
+                    "type": "string",
+                    "example": "0"
+                }
+            }
+        },
+        "model.PhoneLogin": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string",
+                    "example": "sja123"
+                },
+                "phone": {
+                    "type": "string",
+                    "example": "13712345678"
+                },
+                "phoneCode": {
+                    "type": "string",
+                    "example": "9527"
+                }
+            }
+        },
+        "model.PhoneRegister": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "phoneCode": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.StrategyDetail": {
+            "type": "object",
+            "properties": {
+                "strategyId": {
+                    "type": "integer",
+                    "example": 23575003451411
+                }
+            }
+        },
+        "model.StrategyInfo": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "example": "我是策略描述"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "我是一个策略名称"
+                },
+                "script": {
+                    "type": "string",
+                    "example": "我是策略脚本，长长的。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。"
+                },
+                "strategyId": {
+                    "type": "integer",
+                    "example": 0
+                }
+            }
+        },
+        "model.StrategyList": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "size": {
+                    "type": "integer",
+                    "example": 10
+                }
+            }
+        },
+        "model.Ticker": {
+            "type": "object",
+            "properties": {
+                "currencyPair": {
+                    "type": "string",
+                    "example": "BTC_USDT"
+                },
+                "exchangeId": {
+                    "type": "integer",
+                    "example": 2358885120275906
+                }
+            }
+        },
+        "model.Trades": {
+            "type": "object",
+            "properties": {
+                "currencyPair": {
+                    "type": "string",
+                    "example": "BTC_USDT"
+                },
+                "exchangeId": {
+                    "type": "integer",
+                    "example": 2358885120275906
+                },
+                "since": {
+                    "type": "integer",
+                    "example": 1
+                }
+            }
+        },
+        "model.UnfinishOrders": {
+            "type": "object",
+            "properties": {
+                "apiKey": {
+                    "type": "string",
+                    "example": "自行输入"
+                },
+                "apiSecret": {
+                    "type": "string",
+                    "example": "自行输入"
+                },
+                "currencyPair": {
+                    "type": "string",
+                    "example": "BTC_USDT"
+                },
+                "exchangeId": {
+                    "type": "integer",
+                    "example": 2358885120275906
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "token": {
+            "type": "apiKey",
+            "name": "token",
+            "in": "header"
+        }
+    }
+}

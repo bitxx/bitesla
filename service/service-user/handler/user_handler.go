@@ -2,7 +2,6 @@ package handler
 
 import (
 	"context"
-	"github.com/jason-wj/bitesla/service/service-user/db"
 	"github.com/jason-wj/bitesla/service/service-user/proto"
 )
 
@@ -11,11 +10,15 @@ type UserHandler struct {
 }
 
 func NewUserHandler() *UserHandler {
-	repository := &userRepository{DB: db.GetInstance()}
+	repository := &userRepository{}
 	handler := &UserHandler{
 		repo: repository,
 	}
 	return handler
+}
+
+func (user *UserHandler) GetUserById(ctx context.Context, req *bitesla_srv_user.UserReq, resp *bitesla_srv_user.UserResp) error {
+	return user.repo.GetUserById(req, resp)
 }
 
 func (user *UserHandler) LoginEmail(ctx context.Context, req *bitesla_srv_user.UserReq, resp *bitesla_srv_user.UserResp) error {

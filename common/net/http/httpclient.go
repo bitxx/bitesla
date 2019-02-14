@@ -116,7 +116,6 @@ func (h *HttpSend) send(method string) ([]byte, error) {
 
 	req, err = http.NewRequest(method, h.Link, strings.NewReader(sendData))
 	if err != nil {
-		fmt.Println("-------------")
 		return nil, err
 	}
 	defer req.Body.Close()

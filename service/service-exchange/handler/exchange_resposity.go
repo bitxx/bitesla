@@ -1,112 +1,157 @@
 package handler
 
 import (
-	"context"
 	"errors"
+	"github.com/jason-wj/bitesla/common/util/idgenerate"
+	"github.com/jason-wj/bitesla/service/service-exchange/db"
 	"github.com/jason-wj/bitesla/service/service-exchange/proto"
 )
 
 type exchangeResposity struct {
 }
 
-func (e *exchangeResposity) getKlineRecords(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, kLines *bitesla_srv_trader.Klines) (err error) {
-	api, err := exchangeBuilder.APIKey(reqCurrency.ApiKey).APISecretkey(reqCurrency.ApiSecret).Build(reqCurrency.ExName, false)
+func (e *exchangeResposity) ListExchange(currencyReq *bitesla_srv_exchange.Currency, currencyResps *bitesla_srv_exchange.Currencys) error {
+	exchanges, err := db.GetExchangeList(currencyReq.Size, currencyReq.Page)
 	if err != nil {
 		return err
 	}
-	return api.GetKlineRecords(ctx, reqCurrency, kLines)
+	for _, exchange := range exchanges {
+		tmp := &bitesla_srv_exchange.Currency{
+			ExchangeId:  exchange.ExchangeId,
+			Description: exchange.Description,
+			ExName:      exchange.Name,
+			CreateTime:  exchange.CreateTime.Unix(),
+			UpdateTime:  exchange.UpdateTime.Unix(),
+		}
+		currencyResps.Currencys = append(currencyResps.Currencys, tmp)
+	}
+	return nil
 }
 
-func (e *exchangeResposity) getAccount(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, account *bitesla_srv_trader.Accounts) (err error) {
-	api, err := exchangeBuilder.APIKey(reqCurrency.ApiKey).APISecretkey(reqCurrency.ApiSecret).Build(reqCurrency.ExName, true)
+func (e *exchangeResposity) PutExchange(currencyReq *bitesla_srv_exchange.Currency, currencyResp *bitesla_srv_exchange.Currency) error {
+	var err error
+	exchangeId := currencyReq.ExchangeId
+	if exchangeId <= 0 {
+		exchangeId, err = idgenerate.GetId()
+		if err != nil {
+			return errors.New("交易所id生成失败")
+		}
+	} else {
+		exist := db.IsExchangeExist(exchangeId)
+		if !exist {
+			return errors.New("该交易所不存在，请检查策略ID是否正确")
+		}
+	}
+
+	err = db.AddOrUpdateExchange(currencyReq.CurrentLoginUserID, exchangeId, currencyReq.ExName, currencyReq.Description)
+	return err
+}
+
+//TODO 暂时不考虑实现
+func (e *exchangeResposity) DeleteExchange(*bitesla_srv_exchange.Currency, *bitesla_srv_exchange.Currency) error {
+	panic("implement me")
+}
+
+func (e *exchangeResposity) getKlineRecords(reqCurrency *bitesla_srv_exchange.Currency, kLines *bitesla_srv_exchange.Klines) (err error) {
+	api, err := exchangeBuilder.APIKey(reqCurrency.ApiKey).APISecretkey(reqCurrency.ApiSecret).Build(reqCurrency.ExchangeId, false)
 	if err != nil {
 		return err
 	}
-	return api.GetAccount(ctx, reqCurrency, account)
+	return api.GetKlineRecords(reqCurrency, kLines)
 }
 
-func (e *exchangeResposity) OrderPlace(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, order *bitesla_srv_trader.Order) error {
-	api, err := exchangeBuilder.APIKey(reqCurrency.ApiKey).APISecretkey(reqCurrency.ApiSecret).Build(reqCurrency.ExName, true)
+func (e *exchangeResposity) getAccount(reqCurrency *bitesla_srv_exchange.Currency, account *bitesla_srv_exchange.Accounts) (err error) {
+	api, err := exchangeBuilder.APIKey(reqCurrency.ApiKey).APISecretkey(reqCurrency.ApiSecret).Build(reqCurrency.ExchangeId, true)
+	if err != nil {
+		return err
+	}
+	return api.GetAccount(reqCurrency, account)
+}
+
+func (e *exchangeResposity) OrderPlace(reqCurrency *bitesla_srv_exchange.Currency, order *bitesla_srv_exchange.Order) error {
+	api, err := exchangeBuilder.APIKey(reqCurrency.ApiKey).APISecretkey(reqCurrency.ApiSecret).Build(reqCurrency.ExchangeId, true)
 	if err != nil {
 		return err
 	}
 
 	switch reqCurrency.OrderType {
-	case int32(bitesla_srv_trader.TradeSide_BUY):
-		err = api.LimitBuy(ctx, reqCurrency, order)
-	case int32(bitesla_srv_trader.TradeSide_SELL):
-		err = api.LimitSell(ctx, reqCurrency, order)
-	case int32(bitesla_srv_trader.TradeSide_BUY_MARKET):
-		err = api.MarketBuy(ctx, reqCurrency, order)
-	case int32(bitesla_srv_trader.TradeSide_SELL_MARKET):
-		err = api.MarketSell(ctx, reqCurrency, order)
+	case int32(bitesla_srv_exchange.TradeSide_BUY):
+		err = api.LimitBuy(reqCurrency, order)
+	case int32(bitesla_srv_exchange.TradeSide_SELL):
+		err = api.LimitSell(reqCurrency, order)
+	case int32(bitesla_srv_exchange.TradeSide_BUY_MARKET):
+		err = api.MarketBuy(reqCurrency, order)
+	case int32(bitesla_srv_exchange.TradeSide_SELL_MARKET):
+		err = api.MarketSell(reqCurrency, order)
 	default:
 		return errors.New("订单类型不存在")
 	}
 	return err
 }
 
-func (e *exchangeResposity) CancelOrder(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, b *bitesla_srv_trader.Boolean) error {
-	api, err := exchangeBuilder.APIKey(reqCurrency.ApiKey).APISecretkey(reqCurrency.ApiSecret).Build(reqCurrency.ExName, true)
+func (e *exchangeResposity) CancelOrder(reqCurrency *bitesla_srv_exchange.Currency, b *bitesla_srv_exchange.Boolean) error {
+	api, err := exchangeBuilder.APIKey(reqCurrency.ApiKey).APISecretkey(reqCurrency.ApiSecret).Build(reqCurrency.ExchangeId, true)
 	if err != nil {
 		return err
 	}
 	b.IsBool = false
-	return api.CancelOrder(ctx, reqCurrency, b)
+	return api.CancelOrder(reqCurrency, b)
 }
 
-func (e *exchangeResposity) GetOneOrder(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, order *bitesla_srv_trader.Order) error {
-	api, err := exchangeBuilder.APIKey(reqCurrency.ApiKey).APISecretkey(reqCurrency.ApiSecret).Build(reqCurrency.ExName, true)
+func (e *exchangeResposity) GetOneOrder(reqCurrency *bitesla_srv_exchange.Currency, order *bitesla_srv_exchange.Order) error {
+	api, err := exchangeBuilder.APIKey(reqCurrency.ApiKey).APISecretkey(reqCurrency.ApiSecret).Build(reqCurrency.ExchangeId, true)
 	if err != nil {
 		return err
 	}
-	return api.GetOneOrder(ctx, reqCurrency, order)
+	return api.GetOneOrder(reqCurrency, order)
 }
 
-func (e *exchangeResposity) GetUnfinishOrders(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, orders *bitesla_srv_trader.Orders) error {
-	api, err := exchangeBuilder.APIKey(reqCurrency.ApiKey).APISecretkey(reqCurrency.ApiSecret).Build(reqCurrency.ExName, true)
+func (e *exchangeResposity) GetUnfinishOrders(reqCurrency *bitesla_srv_exchange.Currency, orders *bitesla_srv_exchange.Orders) error {
+	api, err := exchangeBuilder.APIKey(reqCurrency.ApiKey).APISecretkey(reqCurrency.ApiSecret).Build(reqCurrency.ExchangeId, true)
 	if err != nil {
 		return err
 	}
-	return api.GetUnfinishOrders(ctx, reqCurrency, orders)
+	return api.GetUnfinishOrders(reqCurrency, orders)
 }
 
-func (e *exchangeResposity) GetOrderHistorys(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, order *bitesla_srv_trader.Orders) error {
-	api, err := exchangeBuilder.APIKey(reqCurrency.ApiKey).APISecretkey(reqCurrency.ApiSecret).Build(reqCurrency.ExName, true)
+func (e *exchangeResposity) GetOrderHistorys(reqCurrency *bitesla_srv_exchange.Currency, order *bitesla_srv_exchange.Orders) error {
+	api, err := exchangeBuilder.APIKey(reqCurrency.ApiKey).APISecretkey(reqCurrency.ApiSecret).Build(reqCurrency.ExchangeId, true)
 	if err != nil {
 		return err
 	}
-	return api.GetOrderHistorys(ctx, reqCurrency, order)
+	return api.GetOrderHistorys(reqCurrency, order)
 }
 
-func (e *exchangeResposity) GetTicker(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, ticker *bitesla_srv_trader.Ticker) error {
-	api, err := exchangeBuilder.APIKey(reqCurrency.ApiKey).APISecretkey(reqCurrency.ApiSecret).Build(reqCurrency.ExName, false)
+func (e *exchangeResposity) GetTicker(reqCurrency *bitesla_srv_exchange.Currency, ticker *bitesla_srv_exchange.Ticker) error {
+	api, err := exchangeBuilder.APIKey(reqCurrency.ApiKey).APISecretkey(reqCurrency.ApiSecret).Build(reqCurrency.ExchangeId, false)
 	if err != nil {
 		return err
 	}
-	return api.GetTicker(ctx, reqCurrency, ticker)
+	return api.GetTicker(reqCurrency, ticker)
 }
 
-func (e *exchangeResposity) GetDepth(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, depth *bitesla_srv_trader.Depth) error {
-	api, err := exchangeBuilder.APIKey(reqCurrency.ApiKey).APISecretkey(reqCurrency.ApiSecret).Build(reqCurrency.ExName, false)
+func (e *exchangeResposity) GetDepth(reqCurrency *bitesla_srv_exchange.Currency, depth *bitesla_srv_exchange.Depth) error {
+	api, err := exchangeBuilder.APIKey(reqCurrency.ApiKey).APISecretkey(reqCurrency.ApiSecret).Build(reqCurrency.ExchangeId, false)
 	if err != nil {
 		return err
 	}
-	return api.GetDepth(ctx, reqCurrency, depth)
+	return api.GetDepth(reqCurrency, depth)
 }
 
-func (e *exchangeResposity) GetTrades(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, trades *bitesla_srv_trader.Trades) error {
-	api, err := exchangeBuilder.APIKey(reqCurrency.ApiKey).APISecretkey(reqCurrency.ApiSecret).Build(reqCurrency.ExName, false)
+func (e *exchangeResposity) GetTrades(reqCurrency *bitesla_srv_exchange.Currency, trades *bitesla_srv_exchange.Trades) error {
+	api, err := exchangeBuilder.APIKey(reqCurrency.ApiKey).APISecretkey(reqCurrency.ApiSecret).Build(reqCurrency.ExchangeId, false)
 	if err != nil {
 		return err
 	}
-	return api.GetTrades(ctx, reqCurrency, trades)
+	return api.GetTrades(reqCurrency, trades)
 }
 
-func (e *exchangeResposity) GetExchangeName(ctx context.Context, reqCurrency *bitesla_srv_trader.ReqCurrency, name *bitesla_srv_trader.Str) error {
-	api, err := exchangeBuilder.APIKey(reqCurrency.ApiKey).APISecretkey(reqCurrency.ApiSecret).Build(reqCurrency.ExName, false)
-	if err != nil {
-		return err
-	}
-	return api.GetExchangeName(ctx, reqCurrency, name)
+func (e *exchangeResposity) GetExchangeDetail(reqCurrency *bitesla_srv_exchange.Currency, respCurrency *bitesla_srv_exchange.Currency) error {
+	exchange, err := db.GetExchangeDetail(reqCurrency.ExchangeId)
+	respCurrency.ExchangeId = exchange.ExchangeId
+	respCurrency.ExName = exchange.Name
+	respCurrency.CreateTime = exchange.CreateTime.Unix()
+	respCurrency.UpdateTime = exchange.UpdateTime.Unix()
+	respCurrency.Description = exchange.Description
+	return err
 }

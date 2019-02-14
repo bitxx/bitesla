@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/jason-wj/bitesla/common/logger"
 	"github.com/jason-wj/bitesla/common/util/cache"
+	"github.com/jason-wj/bitesla/common/util/idgenerate"
 	"github.com/jason-wj/bitesla/service/service-user/conf"
 	"github.com/jason-wj/bitesla/service/service-user/db"
 	"github.com/jason-wj/bitesla/service/service-user/handler"
@@ -55,6 +56,9 @@ func init() {
 
 	redisCache, err := cache.GetRedisCache()
 	err = redisCache.ClearAll()
+
+	//id生成器
+	idgenerate.Init(true)
 }
 
 func main() {

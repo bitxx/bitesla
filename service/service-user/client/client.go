@@ -73,7 +73,6 @@ func (client *UserClient) LoginEmail(data []byte) (interface{}, int, error) {
 	if userReq.Password == "" {
 		return nil, errs.PwdEmptyErr, nil
 	}
-
 	resp, err := client.client.LoginEmail(context.Background(), &pb.UserReq{
 		Email:    userReq.Email,
 		Password: userReq.Password,
@@ -97,4 +96,21 @@ func (client *UserClient) LoginPhone(data []byte) (interface{}, int, error) {
 		Phone: userReq.Phone,
 	})
 	return resp, 0, err
+}
+
+func (client *UserClient) GetUserById(data []byte) (interface{}, int, error) {
+	userReq := &pb.UserReq{}
+	err := json.Unmarshal(data, userReq)
+	if err != nil {
+		return nil, errs.RequestDataFmtErr, err
+	}
+
+	if userReq.UserId <= 0 {
+		return nil, errs.UserIdErr, err
+	}
+
+	resp, err := client.client.GetUserById(context.Background(), &pb.UserReq{
+		UserId: userReq.UserId,
+	})
+	return resp, errs.Success, err
 }

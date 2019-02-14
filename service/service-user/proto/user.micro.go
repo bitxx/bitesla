@@ -47,6 +47,7 @@ type UserService interface {
 	GetCode(ctx context.Context, in *UserReq, opts ...client.CallOption) (*UserResp, error)
 	RegisterEmail(ctx context.Context, in *UserReq, opts ...client.CallOption) (*UserResp, error)
 	RegisterPhone(ctx context.Context, in *UserReq, opts ...client.CallOption) (*UserResp, error)
+	GetUserById(ctx context.Context, in *UserReq, opts ...client.CallOption) (*UserResp, error)
 }
 
 type userService struct {
@@ -117,6 +118,16 @@ func (c *userService) RegisterPhone(ctx context.Context, in *UserReq, opts ...cl
 	return out, nil
 }
 
+func (c *userService) GetUserById(ctx context.Context, in *UserReq, opts ...client.CallOption) (*UserResp, error) {
+	req := c.c.NewRequest(c.name, "User.GetUserById", in)
+	out := new(UserResp)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for User service
 
 type UserHandler interface {
@@ -125,6 +136,7 @@ type UserHandler interface {
 	GetCode(context.Context, *UserReq, *UserResp) error
 	RegisterEmail(context.Context, *UserReq, *UserResp) error
 	RegisterPhone(context.Context, *UserReq, *UserResp) error
+	GetUserById(context.Context, *UserReq, *UserResp) error
 }
 
 func RegisterUserHandler(s server.Server, hdlr UserHandler, opts ...server.HandlerOption) error {
@@ -134,6 +146,7 @@ func RegisterUserHandler(s server.Server, hdlr UserHandler, opts ...server.Handl
 		GetCode(ctx context.Context, in *UserReq, out *UserResp) error
 		RegisterEmail(ctx context.Context, in *UserReq, out *UserResp) error
 		RegisterPhone(ctx context.Context, in *UserReq, out *UserResp) error
+		GetUserById(ctx context.Context, in *UserReq, out *UserResp) error
 	}
 	type User struct {
 		user
@@ -164,4 +177,8 @@ func (h *userHandler) RegisterEmail(ctx context.Context, in *UserReq, out *UserR
 
 func (h *userHandler) RegisterPhone(ctx context.Context, in *UserReq, out *UserResp) error {
 	return h.UserHandler.RegisterPhone(ctx, in, out)
+}
+
+func (h *userHandler) GetUserById(ctx context.Context, in *UserReq, out *UserResp) error {
+	return h.UserHandler.GetUserById(ctx, in, out)
 }

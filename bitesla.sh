@@ -34,8 +34,8 @@ function local_state(){
 # 生成服务
 function local_service(){
     echo "not need!"
-    # service-algorithm
-    #micro new github.com/jason-wj/${PROJECT_NAME}/service/service-algorithm --namespace=${PROJECT_NAME} --alias algorithm --type=srv
+    # service-strategy
+    #micro new github.com/jason-wj/${PROJECT_NAME}/service/service-strategy --namespace=${PROJECT_NAME} --alias algorithm --type=srv
 
     # service-exchange
     #micro new github.com/jason-wj/${PROJECT_NAME}/service/service-exchange --namespace=${PROJECT_NAME} --alias exchange --type=srv
@@ -50,20 +50,20 @@ function local_service(){
 # 生成接口文档
 function local_doc(){
     # 删掉旧的doc文档
-    rm -rf ${ROOT_PATH}/service/api-gateway/docs/*
+    rm -rf ${ROOT_PATH}/service/service-api/docs/*
     # 防止异常
-    cd  ${ROOT_PATH}/service/api-gateway/
+    cd  ${ROOT_PATH}/service/service-api/
     swag init
 }
 
 # proto生成
 function local_proto(){
     TMP_PATH=${GOPATH}/src/github.com/jason-wj/${PROJECT_NAME}/service
-#    TMP_S1=${TMP_PATH}/service-algorithm/
+    TMP_S1=${TMP_PATH}/service-strategy/
 #    TMP_S2=${TMP_PATH}/service-exchange/
     TMP_S3=${TMP_PATH}/service-exchange/
     TMP_S4=${TMP_PATH}/service-user/
-#    protoc --proto_path=${TMP_S1} --micro_out=${TMP_S1} --go_out=${TMP_S1} proto/example/example.proto
+    protoc --proto_path=${TMP_S1} --micro_out=${TMP_S1} --go_out=${TMP_S1} proto/strategy.proto
 #    protoc --proto_path=${TMP_S2} --micro_out=${TMP_S2} --go_out=${TMP_S2} proto/example/example.proto
     protoc --proto_path=${TMP_S3} --micro_out=${TMP_S3} --go_out=${TMP_S3} proto/exchange.proto
     protoc --proto_path=${TMP_S4} --micro_out=${TMP_S4} --go_out=${TMP_S4} proto/user.proto
@@ -72,15 +72,15 @@ function local_proto(){
 #function local_start(){
 #    # 配置
 #    cp -rf ./bitesla-config.ini ./service/service-user/conf
-#    cp -rf ./bitesla-config.ini ./service/api-gateway/conf
+#    cp -rf ./bitesla-config.ini ./service/service-api/conf
 #    docker_dep
 ##    cd ${ROOT_PATH}/service/service-user/
 ##    nohup go run ${ROOT_PATH}/service/service-user/main.go &
 ##    echo "------------"
 #    BUILD_PATH=${RUN_PATH} docker-compose -f ${ROOT_PATH}/docker-compose.yml up -d bitesla-service-user
 #
-#    cd ${ROOT_PATH}/service/api-gateway/
-#    go run ${ROOT_PATH}/service/api-gateway/main.go &
+#    cd ${ROOT_PATH}/service/service-api/
+#    go run ${ROOT_PATH}/service/service-api/main.go &
 #}
 
 ## docker操作
@@ -136,15 +136,17 @@ function release_state(){
 
 # 释放所有docker环境
 function release_all() {
-    rm -rf ${ROOT_PATH}/service/api-gateway/api-gateway
+    rm -rf ${ROOT_PATH}/service/service-api/api-srv
     rm -rf ${ROOT_PATH}/service/service-user/user-srv
     rm -rf ${ROOT_PATH}/service/service-exchange/exchange-srv
+    rm -rf ${ROOT_PATH}/service/service-strategy/strategy-srv
 
     docker-compose stop
     docker-compose rm -f
-    docker rmi -f bitesla-api-gateway
+    docker rmi -f bitesla-service-api
     docker rmi -f bitesla-service-user
     docker rmi -f bitesla-service-exchange
+    docker rmi -f bitesla-service-strategy
     # 删除为none的镜像
     docker images|grep none|awk '{print $3}'|xargs docker rmi
 }

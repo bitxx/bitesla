@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/jason-wj/bitesla/common/errs"
 	"github.com/jason-wj/bitesla/common/logger"
+	"github.com/jason-wj/bitesla/common/util/idgenerate"
 	"github.com/jason-wj/bitesla/common/util/jwt"
 	"github.com/jason-wj/bitesla/service/service-user/conf"
 	"github.com/jason-wj/bitesla/service/service-user/db"
@@ -19,11 +20,16 @@ const (
 )
 
 type userRepository struct {
-	DB *db.ConnectPool
 }
 
 func (r *userRepository) registerEmail(req *bitesla_srv_user.UserReq, resp *bitesla_srv_user.UserResp) error {
-	err := db.AddUserByEmail(req.Email, req.Password)
+	//生成id
+	userId, err := idgenerate.GetId()
+	if err != nil {
+		return err
+	}
+	resp.UserId = userId
+	err = db.AddUserByEmail(req.Email, req.Password, resp.UserId)
 	if err != nil {
 		logger.Error(err)
 		return err
@@ -38,11 +44,36 @@ func (r *userRepository) registerPhone(req *bitesla_srv_user.UserReq, resp *bite
 }
 
 func (r *userRepository) loginEmail(req *bitesla_srv_user.UserReq, resp *bitesla_srv_user.UserResp) error {
-	count := db.LoginUserByEmail(req.Email, req.Password)
-	if count != 1 {
+	user, err := db.LoginUserByEmail(req.Email, req.Password)
+	if err != nil || user == nil {
+		if err != nil {
+			return err
+		}
 		return errors.New(errs.GetMsg(errs.LoginErr))
 	}
-	err := generateToken(req, resp)
+	resp.UserId = user.UserId
+	resp.Username = user.Username
+	resp.Birthday = user.Birthday
+	resp.Email = user.Email
+	resp.Phone = user.Phone
+	resp.Nickname = user.Nickname
+	resp.Sex = int32(user.Sex)
+	err = generateToken(req, resp)
+	return err
+}
+
+func (r *userRepository) GetUserById(req *bitesla_srv_user.UserReq, resp *bitesla_srv_user.UserResp) error {
+	user, err := db.GetUserById(req.UserId)
+	if err != nil {
+		return errors.New(errs.GetMsg(errs.GetUserErr))
+	}
+	resp.UserId = user.UserId
+	resp.Username = user.Username
+	resp.Birthday = user.Birthday
+	resp.Email = user.Email
+	resp.Phone = user.Phone
+	resp.Nickname = user.Nickname
+	resp.Sex = int32(user.Sex)
 	return err
 }
 
@@ -64,7 +95,7 @@ func generateToken(req *bitesla_srv_user.UserReq, resp *bitesla_srv_user.UserRes
 		return err
 	}
 	dur := time.Duration(duration) * time.Hour
-	s, err := jwt.GetToken(req.Email, req.Password, issuer, secret, dur)
+	s, err := jwt.GetToken(req.Email, req.Password, issuer, secret, resp.UserId, dur)
 	if err != nil {
 		return err
 	}

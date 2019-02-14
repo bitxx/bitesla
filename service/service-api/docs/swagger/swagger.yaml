@@ -1,0 +1,770 @@
+basePath: /
+definitions:
+  model.Account:
+    properties:
+      apiKey:
+        example: 自行输入
+        type: string
+      apiSecret:
+        example: 自行输入
+        type: string
+      exchangeId:
+        example: 2358885120275906
+        type: integer
+    type: object
+  model.CancelOrder:
+    properties:
+      apiKey:
+        example: 自行输入
+        type: string
+      apiSecret:
+        example: 自行输入
+        type: string
+      currencyPair:
+        example: BTC_USDT
+        type: string
+      exchangeId:
+        example: 2358885120275906
+        type: integer
+      orderId:
+        example: 2xxxxx
+        type: string
+    type: object
+  model.Depth:
+    properties:
+      currencyPair:
+        example: BTC_USDT
+        type: string
+      exchangeId:
+        example: 2358885120275906
+        type: integer
+    type: object
+  model.EmailLogin:
+    properties:
+      email:
+        example: idea_wj@163.com
+        type: string
+      password:
+        example: sja123
+        type: string
+    type: object
+  model.EmailRegister:
+    properties:
+      email:
+        example: idea_wj@163.com
+        type: string
+      password:
+        example: sja123
+        type: string
+    type: object
+  model.ExchangeDetail:
+    properties:
+      exchangeId:
+        example: 2358885120275906
+        type: integer
+    type: object
+  model.ExchangeInfo:
+    properties:
+      description:
+        example: 我是火币交易所
+        type: string
+      exName:
+        example: huobi.pro
+        type: string
+      exchangeId:
+        example: 0
+        type: integer
+    type: object
+  model.ExchangeList:
+    properties:
+      page:
+        example: 1
+        type: integer
+      size:
+        example: 10
+        type: integer
+    type: object
+  model.Kline:
+    properties:
+      currencyPair:
+        example: BTC_USDT
+        type: string
+      exchangeId:
+        example: 2358885120275906
+        type: integer
+      period:
+        example: 0
+        type: integer
+      since:
+        example: 10000000
+        type: integer
+      size:
+        example: 150
+        type: integer
+    type: object
+  model.OneOrder:
+    properties:
+      apiKey:
+        example: 自行输入
+        type: string
+      apiSecret:
+        example: 自行输入
+        type: string
+      currencyPair:
+        example: BTC_USDT
+        type: string
+      exchangeId:
+        example: 2358885120275906
+        type: integer
+      orderId:
+        example: 2xxxxx
+        type: string
+    type: object
+  model.OrderHistory:
+    properties:
+      apiKey:
+        example: 自行输入
+        type: string
+      apiSecret:
+        example: 自行输入
+        type: string
+      currencyPair:
+        example: BTC_USDT
+        type: string
+      currentPage:
+        example: 1
+        type: integer
+      exchangeId:
+        example: 2358885120275906
+        type: integer
+      pageSize:
+        example: 1
+        type: integer
+    type: object
+  model.OrderPlace:
+    properties:
+      accountType:
+        example: 2
+        type: integer
+      amount:
+        example: "0"
+        type: string
+      apiKey:
+        example: 自行输入
+        type: string
+      apiSecret:
+        example: 自行输入
+        type: string
+      currencyPair:
+        example: BTC_USDT
+        type: string
+      exchangeId:
+        example: 2358885120275906
+        type: integer
+      orderType:
+        example: 2
+        type: integer
+      price:
+        example: "0"
+        type: string
+    type: object
+  model.PhoneLogin:
+    properties:
+      password:
+        example: sja123
+        type: string
+      phone:
+        example: "13712345678"
+        type: string
+      phoneCode:
+        example: "9527"
+        type: string
+    type: object
+  model.PhoneRegister:
+    properties:
+      password:
+        type: string
+      phone:
+        type: string
+      phoneCode:
+        type: string
+    type: object
+  model.StrategyDetail:
+    properties:
+      strategyId:
+        example: 23575003451411
+        type: integer
+    type: object
+  model.StrategyInfo:
+    properties:
+      description:
+        example: 我是策略描述
+        type: string
+      name:
+        example: 我是一个策略名称
+        type: string
+      script:
+        example: 我是策略脚本，长长的。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
+        type: string
+      strategyId:
+        example: 0
+        type: integer
+    type: object
+  model.StrategyList:
+    properties:
+      page:
+        example: 1
+        type: integer
+      size:
+        example: 10
+        type: integer
+    type: object
+  model.Ticker:
+    properties:
+      currencyPair:
+        example: BTC_USDT
+        type: string
+      exchangeId:
+        example: 2358885120275906
+        type: integer
+    type: object
+  model.Trades:
+    properties:
+      currencyPair:
+        example: BTC_USDT
+        type: string
+      exchangeId:
+        example: 2358885120275906
+        type: integer
+      since:
+        example: 1
+        type: integer
+    type: object
+  model.UnfinishOrders:
+    properties:
+      apiKey:
+        example: 自行输入
+        type: string
+      apiSecret:
+        example: 自行输入
+        type: string
+      currencyPair:
+        example: BTC_USDT
+        type: string
+      exchangeId:
+        example: 2358885120275906
+        type: integer
+    type: object
+host: localhost:8090
+info:
+  contact:
+    email: idea_wj
+    name: idea_wj@163.com
+    url: http://www.wjblog.top/
+  description: 暂无描述
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://www.wjblog.top/
+  title: bitesla
+  version: "2.0"
+paths:
+  /exchange/cancelOrder:
+    post:
+      consumes:
+      - application/json
+      description: 此接口发送一个撤销订单的请求
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.CancelOrder'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      security:
+      - token: []
+      summary: 此接口发送一个撤销订单的请求
+      tags:
+      - 交易所相关
+  /exchange/getAccount:
+    post:
+      consumes:
+      - application/json
+      description: 获取当前账户信息
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.Account'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      security:
+      - token: []
+      summary: 获取当前账户信息
+      tags:
+      - 交易所相关
+  /exchange/getDepth:
+    post:
+      consumes:
+      - application/json
+      description: 返回指定交易对的当前市场深度数据
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.Depth'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      security:
+      - token: []
+      summary: 返回指定交易对的当前市场深度数据
+      tags:
+      - 交易所相关
+  /exchange/getExchangeDetail:
+    post:
+      consumes:
+      - application/json
+      description: 获取交易所详情
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.ExchangeDetail'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      security:
+      - token: []
+      summary: 获取交易所详情
+      tags:
+      - 交易所相关
+  /exchange/getKlineRecords:
+    post:
+      consumes:
+      - application/json
+      description: 获取k线
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.Kline'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      security:
+      - token: []
+      summary: 获取k线
+      tags:
+      - 交易所相关
+  /exchange/getOneOrder:
+    post:
+      consumes:
+      - application/json
+      description: 返回订单的最新状况和详情
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.OneOrder'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      security:
+      - token: []
+      summary: 返回订单的最新状况和详情
+      tags:
+      - 交易所相关
+  /exchange/getOrderHistorys:
+    post:
+      consumes:
+      - application/json
+      description: 获取某交易对交易历史
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.OrderHistory'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      security:
+      - token: []
+      summary: 获取某交易对交易历史
+      tags:
+      - 交易所相关
+  /exchange/getTicker:
+    post:
+      consumes:
+      - application/json
+      description: 获取ticker信息，同时提供24小时交易聚合信息
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.Ticker'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      security:
+      - token: []
+      summary: 获取ticker信息，同时提供24小时交易聚合信息
+      tags:
+      - 交易所相关
+  /exchange/getTrades:
+    post:
+      consumes:
+      - application/json
+      description: 非个人，整个交易所的交易记录
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.Trades'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      security:
+      - token: []
+      summary: 非个人，整个交易所的交易记录
+      tags:
+      - 交易所相关
+  /exchange/getUnfinishOrders:
+    post:
+      consumes:
+      - application/json
+      description: 未完成的交易订单
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.UnfinishOrders'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      security:
+      - token: []
+      summary: 未完成的交易订单
+      tags:
+      - 交易所相关
+  /exchange/list:
+    post:
+      consumes:
+      - application/json
+      description: 当前用户拥有的策略，分页展示
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.ExchangeList'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      security:
+      - token: []
+      summary: 当前用户拥有的策略，分页展示
+      tags:
+      - 交易所相关
+  /exchange/orderPlace:
+    post:
+      consumes:
+      - application/json
+      description: 发送一个新的订单到某交易所进行撮合
+      parameters:
+      - description: "每个参数均不得为空,//\tOrderType: 0 表示limitBuy 1 表示limitSell 2 表示marketBuy
+          3 表示marketSell ; AccountType: 1 表示point 2 表示splot"
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.OrderPlace'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      security:
+      - token: []
+      summary: 发送一个新的订单到某交易所进行撮合
+      tags:
+      - 交易所相关
+  /exchange/put:
+    post:
+      consumes:
+      - application/json
+      description: 新增或者更新一个交易所
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.ExchangeInfo'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      security:
+      - token: []
+      summary: 新增或者更新一个交易所
+      tags:
+      - 交易所相关
+  /strategy/detail:
+    post:
+      consumes:
+      - application/json
+      description: 当前策略详情
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.StrategyDetail'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      security:
+      - token: []
+      summary: 当前策略详情
+      tags:
+      - 策略管理相关
+  /strategy/list:
+    post:
+      consumes:
+      - application/json
+      description: 当前用户拥有的策略，分页展示
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.StrategyList'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      security:
+      - token: []
+      summary: 当前用户拥有的策略，分页展示
+      tags:
+      - 策略管理相关
+  /strategy/put:
+    post:
+      consumes:
+      - application/json
+      description: 新增或者更新一个策略
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.StrategyInfo'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      security:
+      - token: []
+      summary: 新增或者更新一个策略
+      tags:
+      - 策略管理相关
+  /user/loginEmail:
+    post:
+      consumes:
+      - application/json
+      description: 邮箱登陆
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.EmailLogin'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      summary: 邮箱登陆
+      tags:
+      - 账户操作
+  /user/loginPhone:
+    post:
+      consumes:
+      - application/json
+      description: 手机号登陆（暂未实现）
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.PhoneLogin'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      summary: 手机号登陆（暂未实现）
+      tags:
+      - 账户操作
+  /user/registerEmail:
+    post:
+      consumes:
+      - application/json
+      description: 邮箱注册
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.EmailRegister'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      summary: 邮箱注册
+      tags:
+      - 账户操作
+  /user/registerPhone:
+    post:
+      consumes:
+      - application/json
+      description: 手机号注册
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.PhoneRegister'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      summary: 手机号注册（暂未实现）
+      tags:
+      - 账户操作
+securityDefinitions:
+  token:
+    in: header
+    name: token
+    type: apiKey
+swagger: "2.0"

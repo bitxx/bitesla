@@ -1,6 +1,10 @@
 package util
 
 import (
+	"bytes"
+	"encoding/gob"
+	"encoding/json"
+	"errors"
 	"strconv"
 )
 
@@ -57,4 +61,27 @@ func ToUint64(v interface{}) uint64 {
 	default:
 		panic("to uint64 error.")
 	}
+}
+
+func ToBytes(v interface{}) ([]byte, error) {
+	var buf bytes.Buffer
+	enc := gob.NewEncoder(&buf)
+	err := enc.Encode(v)
+	if err != nil {
+		return nil, err
+	}
+	return buf.Bytes(), nil
+}
+
+//将interface{}转换为某个指定的结构体
+func ToStruct(vFrom interface{}, vTo interface{}) error {
+	bytes, err := json.Marshal(vFrom)
+	if err != nil {
+		return errors.New("data err, please check vFrom")
+	}
+	err = json.Unmarshal(bytes, vTo)
+	if err != nil {
+		return errors.New("data err, please check vTo")
+	}
+	return nil
 }

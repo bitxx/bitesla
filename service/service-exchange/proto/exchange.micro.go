@@ -2,13 +2,14 @@
 // source: proto/exchange.proto
 
 /*
-Package bitesla_srv_trader is a generated protocol buffer package.
+Package bitesla_srv_exchange is a generated protocol buffer package.
 
 It is generated from these files:
 	proto/exchange.proto
 
 It has these top-level messages:
-	ReqCurrency
+	Currency
+	Currencys
 	Boolean
 	Str
 	Trade
@@ -25,7 +26,7 @@ It has these top-level messages:
 	Orders
 	Order
 */
-package bitesla_srv_trader
+package bitesla_srv_exchange
 
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
@@ -56,20 +57,23 @@ var _ server.Option
 // Client API for Exchange service
 
 type ExchangeService interface {
-	LimitBuy(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Order, error)
-	LimitSell(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Order, error)
-	MarketBuy(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Order, error)
-	MarketSell(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Order, error)
-	CancelOrder(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Boolean, error)
-	GetOneOrder(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Order, error)
-	GetUnfinishOrders(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Orders, error)
-	GetOrderHistorys(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Orders, error)
-	GetTicker(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Ticker, error)
-	GetDepth(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Depth, error)
-	GetKlineRecords(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Klines, error)
-	GetTrades(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Trades, error)
-	GetAccount(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Accounts, error)
-	GetExchangeName(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Str, error)
+	LimitBuy(ctx context.Context, in *Currency, opts ...client.CallOption) (*Order, error)
+	LimitSell(ctx context.Context, in *Currency, opts ...client.CallOption) (*Order, error)
+	MarketBuy(ctx context.Context, in *Currency, opts ...client.CallOption) (*Order, error)
+	MarketSell(ctx context.Context, in *Currency, opts ...client.CallOption) (*Order, error)
+	CancelOrder(ctx context.Context, in *Currency, opts ...client.CallOption) (*Boolean, error)
+	GetOneOrder(ctx context.Context, in *Currency, opts ...client.CallOption) (*Order, error)
+	GetUnfinishOrders(ctx context.Context, in *Currency, opts ...client.CallOption) (*Orders, error)
+	GetOrderHistorys(ctx context.Context, in *Currency, opts ...client.CallOption) (*Orders, error)
+	GetTicker(ctx context.Context, in *Currency, opts ...client.CallOption) (*Ticker, error)
+	GetDepth(ctx context.Context, in *Currency, opts ...client.CallOption) (*Depth, error)
+	GetKlineRecords(ctx context.Context, in *Currency, opts ...client.CallOption) (*Klines, error)
+	GetTrades(ctx context.Context, in *Currency, opts ...client.CallOption) (*Trades, error)
+	GetAccount(ctx context.Context, in *Currency, opts ...client.CallOption) (*Accounts, error)
+	GetExchangeDetail(ctx context.Context, in *Currency, opts ...client.CallOption) (*Currency, error)
+	ListExchange(ctx context.Context, in *Currency, opts ...client.CallOption) (*Currencys, error)
+	PutExchange(ctx context.Context, in *Currency, opts ...client.CallOption) (*Currency, error)
+	DeleteExchange(ctx context.Context, in *Currency, opts ...client.CallOption) (*Currency, error)
 }
 
 type exchangeService struct {
@@ -82,7 +86,7 @@ func NewExchangeService(name string, c client.Client) ExchangeService {
 		c = client.NewClient()
 	}
 	if len(name) == 0 {
-		name = "bitesla.srv.trader"
+		name = "bitesla.srv.exchange"
 	}
 	return &exchangeService{
 		c:    c,
@@ -90,7 +94,7 @@ func NewExchangeService(name string, c client.Client) ExchangeService {
 	}
 }
 
-func (c *exchangeService) LimitBuy(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Order, error) {
+func (c *exchangeService) LimitBuy(ctx context.Context, in *Currency, opts ...client.CallOption) (*Order, error) {
 	req := c.c.NewRequest(c.name, "Exchange.LimitBuy", in)
 	out := new(Order)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -100,7 +104,7 @@ func (c *exchangeService) LimitBuy(ctx context.Context, in *ReqCurrency, opts ..
 	return out, nil
 }
 
-func (c *exchangeService) LimitSell(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Order, error) {
+func (c *exchangeService) LimitSell(ctx context.Context, in *Currency, opts ...client.CallOption) (*Order, error) {
 	req := c.c.NewRequest(c.name, "Exchange.LimitSell", in)
 	out := new(Order)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -110,7 +114,7 @@ func (c *exchangeService) LimitSell(ctx context.Context, in *ReqCurrency, opts .
 	return out, nil
 }
 
-func (c *exchangeService) MarketBuy(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Order, error) {
+func (c *exchangeService) MarketBuy(ctx context.Context, in *Currency, opts ...client.CallOption) (*Order, error) {
 	req := c.c.NewRequest(c.name, "Exchange.MarketBuy", in)
 	out := new(Order)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -120,7 +124,7 @@ func (c *exchangeService) MarketBuy(ctx context.Context, in *ReqCurrency, opts .
 	return out, nil
 }
 
-func (c *exchangeService) MarketSell(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Order, error) {
+func (c *exchangeService) MarketSell(ctx context.Context, in *Currency, opts ...client.CallOption) (*Order, error) {
 	req := c.c.NewRequest(c.name, "Exchange.MarketSell", in)
 	out := new(Order)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -130,7 +134,7 @@ func (c *exchangeService) MarketSell(ctx context.Context, in *ReqCurrency, opts 
 	return out, nil
 }
 
-func (c *exchangeService) CancelOrder(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Boolean, error) {
+func (c *exchangeService) CancelOrder(ctx context.Context, in *Currency, opts ...client.CallOption) (*Boolean, error) {
 	req := c.c.NewRequest(c.name, "Exchange.CancelOrder", in)
 	out := new(Boolean)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -140,7 +144,7 @@ func (c *exchangeService) CancelOrder(ctx context.Context, in *ReqCurrency, opts
 	return out, nil
 }
 
-func (c *exchangeService) GetOneOrder(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Order, error) {
+func (c *exchangeService) GetOneOrder(ctx context.Context, in *Currency, opts ...client.CallOption) (*Order, error) {
 	req := c.c.NewRequest(c.name, "Exchange.GetOneOrder", in)
 	out := new(Order)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -150,7 +154,7 @@ func (c *exchangeService) GetOneOrder(ctx context.Context, in *ReqCurrency, opts
 	return out, nil
 }
 
-func (c *exchangeService) GetUnfinishOrders(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Orders, error) {
+func (c *exchangeService) GetUnfinishOrders(ctx context.Context, in *Currency, opts ...client.CallOption) (*Orders, error) {
 	req := c.c.NewRequest(c.name, "Exchange.GetUnfinishOrders", in)
 	out := new(Orders)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -160,7 +164,7 @@ func (c *exchangeService) GetUnfinishOrders(ctx context.Context, in *ReqCurrency
 	return out, nil
 }
 
-func (c *exchangeService) GetOrderHistorys(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Orders, error) {
+func (c *exchangeService) GetOrderHistorys(ctx context.Context, in *Currency, opts ...client.CallOption) (*Orders, error) {
 	req := c.c.NewRequest(c.name, "Exchange.GetOrderHistorys", in)
 	out := new(Orders)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -170,7 +174,7 @@ func (c *exchangeService) GetOrderHistorys(ctx context.Context, in *ReqCurrency,
 	return out, nil
 }
 
-func (c *exchangeService) GetTicker(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Ticker, error) {
+func (c *exchangeService) GetTicker(ctx context.Context, in *Currency, opts ...client.CallOption) (*Ticker, error) {
 	req := c.c.NewRequest(c.name, "Exchange.GetTicker", in)
 	out := new(Ticker)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -180,7 +184,7 @@ func (c *exchangeService) GetTicker(ctx context.Context, in *ReqCurrency, opts .
 	return out, nil
 }
 
-func (c *exchangeService) GetDepth(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Depth, error) {
+func (c *exchangeService) GetDepth(ctx context.Context, in *Currency, opts ...client.CallOption) (*Depth, error) {
 	req := c.c.NewRequest(c.name, "Exchange.GetDepth", in)
 	out := new(Depth)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -190,7 +194,7 @@ func (c *exchangeService) GetDepth(ctx context.Context, in *ReqCurrency, opts ..
 	return out, nil
 }
 
-func (c *exchangeService) GetKlineRecords(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Klines, error) {
+func (c *exchangeService) GetKlineRecords(ctx context.Context, in *Currency, opts ...client.CallOption) (*Klines, error) {
 	req := c.c.NewRequest(c.name, "Exchange.GetKlineRecords", in)
 	out := new(Klines)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -200,7 +204,7 @@ func (c *exchangeService) GetKlineRecords(ctx context.Context, in *ReqCurrency, 
 	return out, nil
 }
 
-func (c *exchangeService) GetTrades(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Trades, error) {
+func (c *exchangeService) GetTrades(ctx context.Context, in *Currency, opts ...client.CallOption) (*Trades, error) {
 	req := c.c.NewRequest(c.name, "Exchange.GetTrades", in)
 	out := new(Trades)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -210,7 +214,7 @@ func (c *exchangeService) GetTrades(ctx context.Context, in *ReqCurrency, opts .
 	return out, nil
 }
 
-func (c *exchangeService) GetAccount(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Accounts, error) {
+func (c *exchangeService) GetAccount(ctx context.Context, in *Currency, opts ...client.CallOption) (*Accounts, error) {
 	req := c.c.NewRequest(c.name, "Exchange.GetAccount", in)
 	out := new(Accounts)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -220,9 +224,39 @@ func (c *exchangeService) GetAccount(ctx context.Context, in *ReqCurrency, opts 
 	return out, nil
 }
 
-func (c *exchangeService) GetExchangeName(ctx context.Context, in *ReqCurrency, opts ...client.CallOption) (*Str, error) {
-	req := c.c.NewRequest(c.name, "Exchange.GetExchangeName", in)
-	out := new(Str)
+func (c *exchangeService) GetExchangeDetail(ctx context.Context, in *Currency, opts ...client.CallOption) (*Currency, error) {
+	req := c.c.NewRequest(c.name, "Exchange.GetExchangeDetail", in)
+	out := new(Currency)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *exchangeService) ListExchange(ctx context.Context, in *Currency, opts ...client.CallOption) (*Currencys, error) {
+	req := c.c.NewRequest(c.name, "Exchange.ListExchange", in)
+	out := new(Currencys)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *exchangeService) PutExchange(ctx context.Context, in *Currency, opts ...client.CallOption) (*Currency, error) {
+	req := c.c.NewRequest(c.name, "Exchange.PutExchange", in)
+	out := new(Currency)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *exchangeService) DeleteExchange(ctx context.Context, in *Currency, opts ...client.CallOption) (*Currency, error) {
+	req := c.c.NewRequest(c.name, "Exchange.DeleteExchange", in)
+	out := new(Currency)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -233,38 +267,44 @@ func (c *exchangeService) GetExchangeName(ctx context.Context, in *ReqCurrency, 
 // Server API for Exchange service
 
 type ExchangeHandler interface {
-	LimitBuy(context.Context, *ReqCurrency, *Order) error
-	LimitSell(context.Context, *ReqCurrency, *Order) error
-	MarketBuy(context.Context, *ReqCurrency, *Order) error
-	MarketSell(context.Context, *ReqCurrency, *Order) error
-	CancelOrder(context.Context, *ReqCurrency, *Boolean) error
-	GetOneOrder(context.Context, *ReqCurrency, *Order) error
-	GetUnfinishOrders(context.Context, *ReqCurrency, *Orders) error
-	GetOrderHistorys(context.Context, *ReqCurrency, *Orders) error
-	GetTicker(context.Context, *ReqCurrency, *Ticker) error
-	GetDepth(context.Context, *ReqCurrency, *Depth) error
-	GetKlineRecords(context.Context, *ReqCurrency, *Klines) error
-	GetTrades(context.Context, *ReqCurrency, *Trades) error
-	GetAccount(context.Context, *ReqCurrency, *Accounts) error
-	GetExchangeName(context.Context, *ReqCurrency, *Str) error
+	LimitBuy(context.Context, *Currency, *Order) error
+	LimitSell(context.Context, *Currency, *Order) error
+	MarketBuy(context.Context, *Currency, *Order) error
+	MarketSell(context.Context, *Currency, *Order) error
+	CancelOrder(context.Context, *Currency, *Boolean) error
+	GetOneOrder(context.Context, *Currency, *Order) error
+	GetUnfinishOrders(context.Context, *Currency, *Orders) error
+	GetOrderHistorys(context.Context, *Currency, *Orders) error
+	GetTicker(context.Context, *Currency, *Ticker) error
+	GetDepth(context.Context, *Currency, *Depth) error
+	GetKlineRecords(context.Context, *Currency, *Klines) error
+	GetTrades(context.Context, *Currency, *Trades) error
+	GetAccount(context.Context, *Currency, *Accounts) error
+	GetExchangeDetail(context.Context, *Currency, *Currency) error
+	ListExchange(context.Context, *Currency, *Currencys) error
+	PutExchange(context.Context, *Currency, *Currency) error
+	DeleteExchange(context.Context, *Currency, *Currency) error
 }
 
 func RegisterExchangeHandler(s server.Server, hdlr ExchangeHandler, opts ...server.HandlerOption) error {
 	type exchange interface {
-		LimitBuy(ctx context.Context, in *ReqCurrency, out *Order) error
-		LimitSell(ctx context.Context, in *ReqCurrency, out *Order) error
-		MarketBuy(ctx context.Context, in *ReqCurrency, out *Order) error
-		MarketSell(ctx context.Context, in *ReqCurrency, out *Order) error
-		CancelOrder(ctx context.Context, in *ReqCurrency, out *Boolean) error
-		GetOneOrder(ctx context.Context, in *ReqCurrency, out *Order) error
-		GetUnfinishOrders(ctx context.Context, in *ReqCurrency, out *Orders) error
-		GetOrderHistorys(ctx context.Context, in *ReqCurrency, out *Orders) error
-		GetTicker(ctx context.Context, in *ReqCurrency, out *Ticker) error
-		GetDepth(ctx context.Context, in *ReqCurrency, out *Depth) error
-		GetKlineRecords(ctx context.Context, in *ReqCurrency, out *Klines) error
-		GetTrades(ctx context.Context, in *ReqCurrency, out *Trades) error
-		GetAccount(ctx context.Context, in *ReqCurrency, out *Accounts) error
-		GetExchangeName(ctx context.Context, in *ReqCurrency, out *Str) error
+		LimitBuy(ctx context.Context, in *Currency, out *Order) error
+		LimitSell(ctx context.Context, in *Currency, out *Order) error
+		MarketBuy(ctx context.Context, in *Currency, out *Order) error
+		MarketSell(ctx context.Context, in *Currency, out *Order) error
+		CancelOrder(ctx context.Context, in *Currency, out *Boolean) error
+		GetOneOrder(ctx context.Context, in *Currency, out *Order) error
+		GetUnfinishOrders(ctx context.Context, in *Currency, out *Orders) error
+		GetOrderHistorys(ctx context.Context, in *Currency, out *Orders) error
+		GetTicker(ctx context.Context, in *Currency, out *Ticker) error
+		GetDepth(ctx context.Context, in *Currency, out *Depth) error
+		GetKlineRecords(ctx context.Context, in *Currency, out *Klines) error
+		GetTrades(ctx context.Context, in *Currency, out *Trades) error
+		GetAccount(ctx context.Context, in *Currency, out *Accounts) error
+		GetExchangeDetail(ctx context.Context, in *Currency, out *Currency) error
+		ListExchange(ctx context.Context, in *Currency, out *Currencys) error
+		PutExchange(ctx context.Context, in *Currency, out *Currency) error
+		DeleteExchange(ctx context.Context, in *Currency, out *Currency) error
 	}
 	type Exchange struct {
 		exchange
@@ -277,58 +317,70 @@ type exchangeHandler struct {
 	ExchangeHandler
 }
 
-func (h *exchangeHandler) LimitBuy(ctx context.Context, in *ReqCurrency, out *Order) error {
+func (h *exchangeHandler) LimitBuy(ctx context.Context, in *Currency, out *Order) error {
 	return h.ExchangeHandler.LimitBuy(ctx, in, out)
 }
 
-func (h *exchangeHandler) LimitSell(ctx context.Context, in *ReqCurrency, out *Order) error {
+func (h *exchangeHandler) LimitSell(ctx context.Context, in *Currency, out *Order) error {
 	return h.ExchangeHandler.LimitSell(ctx, in, out)
 }
 
-func (h *exchangeHandler) MarketBuy(ctx context.Context, in *ReqCurrency, out *Order) error {
+func (h *exchangeHandler) MarketBuy(ctx context.Context, in *Currency, out *Order) error {
 	return h.ExchangeHandler.MarketBuy(ctx, in, out)
 }
 
-func (h *exchangeHandler) MarketSell(ctx context.Context, in *ReqCurrency, out *Order) error {
+func (h *exchangeHandler) MarketSell(ctx context.Context, in *Currency, out *Order) error {
 	return h.ExchangeHandler.MarketSell(ctx, in, out)
 }
 
-func (h *exchangeHandler) CancelOrder(ctx context.Context, in *ReqCurrency, out *Boolean) error {
+func (h *exchangeHandler) CancelOrder(ctx context.Context, in *Currency, out *Boolean) error {
 	return h.ExchangeHandler.CancelOrder(ctx, in, out)
 }
 
-func (h *exchangeHandler) GetOneOrder(ctx context.Context, in *ReqCurrency, out *Order) error {
+func (h *exchangeHandler) GetOneOrder(ctx context.Context, in *Currency, out *Order) error {
 	return h.ExchangeHandler.GetOneOrder(ctx, in, out)
 }
 
-func (h *exchangeHandler) GetUnfinishOrders(ctx context.Context, in *ReqCurrency, out *Orders) error {
+func (h *exchangeHandler) GetUnfinishOrders(ctx context.Context, in *Currency, out *Orders) error {
 	return h.ExchangeHandler.GetUnfinishOrders(ctx, in, out)
 }
 
-func (h *exchangeHandler) GetOrderHistorys(ctx context.Context, in *ReqCurrency, out *Orders) error {
+func (h *exchangeHandler) GetOrderHistorys(ctx context.Context, in *Currency, out *Orders) error {
 	return h.ExchangeHandler.GetOrderHistorys(ctx, in, out)
 }
 
-func (h *exchangeHandler) GetTicker(ctx context.Context, in *ReqCurrency, out *Ticker) error {
+func (h *exchangeHandler) GetTicker(ctx context.Context, in *Currency, out *Ticker) error {
 	return h.ExchangeHandler.GetTicker(ctx, in, out)
 }
 
-func (h *exchangeHandler) GetDepth(ctx context.Context, in *ReqCurrency, out *Depth) error {
+func (h *exchangeHandler) GetDepth(ctx context.Context, in *Currency, out *Depth) error {
 	return h.ExchangeHandler.GetDepth(ctx, in, out)
 }
 
-func (h *exchangeHandler) GetKlineRecords(ctx context.Context, in *ReqCurrency, out *Klines) error {
+func (h *exchangeHandler) GetKlineRecords(ctx context.Context, in *Currency, out *Klines) error {
 	return h.ExchangeHandler.GetKlineRecords(ctx, in, out)
 }
 
-func (h *exchangeHandler) GetTrades(ctx context.Context, in *ReqCurrency, out *Trades) error {
+func (h *exchangeHandler) GetTrades(ctx context.Context, in *Currency, out *Trades) error {
 	return h.ExchangeHandler.GetTrades(ctx, in, out)
 }
 
-func (h *exchangeHandler) GetAccount(ctx context.Context, in *ReqCurrency, out *Accounts) error {
+func (h *exchangeHandler) GetAccount(ctx context.Context, in *Currency, out *Accounts) error {
 	return h.ExchangeHandler.GetAccount(ctx, in, out)
 }
 
-func (h *exchangeHandler) GetExchangeName(ctx context.Context, in *ReqCurrency, out *Str) error {
-	return h.ExchangeHandler.GetExchangeName(ctx, in, out)
+func (h *exchangeHandler) GetExchangeDetail(ctx context.Context, in *Currency, out *Currency) error {
+	return h.ExchangeHandler.GetExchangeDetail(ctx, in, out)
+}
+
+func (h *exchangeHandler) ListExchange(ctx context.Context, in *Currency, out *Currencys) error {
+	return h.ExchangeHandler.ListExchange(ctx, in, out)
+}
+
+func (h *exchangeHandler) PutExchange(ctx context.Context, in *Currency, out *Currency) error {
+	return h.ExchangeHandler.PutExchange(ctx, in, out)
+}
+
+func (h *exchangeHandler) DeleteExchange(ctx context.Context, in *Currency, out *Currency) error {
+	return h.ExchangeHandler.DeleteExchange(ctx, in, out)
 }

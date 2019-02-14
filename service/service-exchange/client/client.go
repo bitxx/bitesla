@@ -9,17 +9,17 @@ import (
 	"github.com/micro/go-micro/client"
 )
 
-type TraderClient struct {
+type ExchangeClient struct {
 	client pb.ExchangeService
 }
 
-func NewTraderClient() *TraderClient {
+func NewTraderClient() *ExchangeClient {
 	c := pb.NewExchangeService("", client.DefaultClient)
-	return &TraderClient{c}
+	return &ExchangeClient{c}
 }
 
-func (client *TraderClient) OrderPlace(data []byte) (interface{}, int, error) {
-	currencyReq, code, err := commonJudge(data)
+func (client *ExchangeClient) OrderPlace(data []byte) (interface{}, int, error) {
+	currencyReq, code, err := commonJudge(data, true)
 	if code != errs.Success {
 		return nil, code, err
 	}
@@ -46,8 +46,8 @@ func (client *TraderClient) OrderPlace(data []byte) (interface{}, int, error) {
 	return account, errs.Success, nil
 }
 
-func (client *TraderClient) CancelOrder(data []byte) (interface{}, int, error) {
-	currencyReq, code, err := commonJudge(data)
+func (client *ExchangeClient) CancelOrder(data []byte) (interface{}, int, error) {
+	currencyReq, code, err := commonJudge(data, true)
 	if code != errs.Success {
 		return nil, code, err
 	}
@@ -64,8 +64,8 @@ func (client *TraderClient) CancelOrder(data []byte) (interface{}, int, error) {
 	return boolean, errs.ExchangeOrderIDErr, nil
 }
 
-func (client *TraderClient) GetOneOrder(data []byte) (interface{}, int, error) {
-	currencyReq, code, err := commonJudge(data)
+func (client *ExchangeClient) GetOneOrder(data []byte) (interface{}, int, error) {
+	currencyReq, code, err := commonJudge(data, true)
 	if code != errs.Success {
 		return nil, code, err
 	}
@@ -83,8 +83,8 @@ func (client *TraderClient) GetOneOrder(data []byte) (interface{}, int, error) {
 	return order, errs.Success, nil
 }
 
-func (client *TraderClient) GetUnfinishOrders(data []byte) (interface{}, int, error) {
-	currencyReq, code, err := commonJudge(data)
+func (client *ExchangeClient) GetUnfinishOrders(data []byte) (interface{}, int, error) {
+	currencyReq, code, err := commonJudge(data, true)
 	if code != errs.Success {
 		return nil, code, err
 	}
@@ -98,19 +98,19 @@ func (client *TraderClient) GetUnfinishOrders(data []byte) (interface{}, int, er
 	return orders, errs.Success, nil
 }
 
-func (client *TraderClient) GetOrderHistorys(data []byte) (interface{}, int, error) {
-	currencyReq, code, err := commonJudge(data)
+func (client *ExchangeClient) GetOrderHistorys(data []byte) (interface{}, int, error) {
+	currencyReq, code, err := commonJudge(data, true)
 	if code != errs.Success {
 		return nil, code, err
 	}
 	if _, ok := exchange.CurrencyPair[currencyReq.CurrencyPair]; !ok {
 		return nil, errs.ExchangeCoinErr, nil
 	}
-	if currencyReq.CurrentPage <= 0 {
-		currencyReq.CurrentPage = 1
+	if currencyReq.Page <= 0 {
+		currencyReq.Page = 1
 	}
-	if currencyReq.PageSize <= 0 {
-		currencyReq.PageSize = 10
+	if currencyReq.Size <= 0 {
+		currencyReq.Size = 10
 	}
 	orders, err := client.client.GetOrderHistorys(context.Background(), currencyReq)
 	if err != nil {
@@ -119,8 +119,8 @@ func (client *TraderClient) GetOrderHistorys(data []byte) (interface{}, int, err
 	return orders, errs.Success, nil
 }
 
-func (client *TraderClient) GetAccount(data []byte) (interface{}, int, error) {
-	currencyReq, code, err := commonJudge(data)
+func (client *ExchangeClient) GetAccount(data []byte) (interface{}, int, error) {
+	currencyReq, code, err := commonJudge(data, true)
 	if code != errs.Success {
 		return nil, code, err
 	}
@@ -132,8 +132,8 @@ func (client *TraderClient) GetAccount(data []byte) (interface{}, int, error) {
 	return account, errs.Success, nil
 }
 
-func (client *TraderClient) GetTicker(data []byte) (interface{}, int, error) {
-	currencyReq, code, err := commonJudge(data)
+func (client *ExchangeClient) GetTicker(data []byte) (interface{}, int, error) {
+	currencyReq, code, err := commonJudge(data, false)
 	if code != errs.Success {
 		return nil, code, err
 	}
@@ -147,8 +147,8 @@ func (client *TraderClient) GetTicker(data []byte) (interface{}, int, error) {
 	return ticker, errs.Success, nil
 }
 
-func (client *TraderClient) GetDepth(data []byte) (interface{}, int, error) {
-	currencyReq, code, err := commonJudge(data)
+func (client *ExchangeClient) GetDepth(data []byte) (interface{}, int, error) {
+	currencyReq, code, err := commonJudge(data, false)
 	if code != errs.Success {
 		return nil, code, err
 	}
@@ -162,8 +162,8 @@ func (client *TraderClient) GetDepth(data []byte) (interface{}, int, error) {
 	return depth, errs.Success, nil
 }
 
-func (client *TraderClient) GetKlineRecords(data []byte) (interface{}, int, error) {
-	currencyReq, code, err := commonJudge(data)
+func (client *ExchangeClient) GetKlineRecords(data []byte) (interface{}, int, error) {
+	currencyReq, code, err := commonJudge(data, false)
 	if code != errs.Success {
 		return nil, code, err
 	}
@@ -171,7 +171,7 @@ func (client *TraderClient) GetKlineRecords(data []byte) (interface{}, int, erro
 		return nil, errs.ExchangePeriodErr, nil
 	}
 	if currencyReq.Size <= 0 {
-		return nil, errs.ExchangeSizeErr, nil
+		currencyReq.Size = 10
 	}
 	if currencyReq.Since <= 0 {
 		return nil, errs.ExchangeSinceErr, nil
@@ -184,8 +184,8 @@ func (client *TraderClient) GetKlineRecords(data []byte) (interface{}, int, erro
 	return klines.Klines, errs.Success, nil
 }
 
-func (client *TraderClient) GetTrades(data []byte) (interface{}, int, error) {
-	currencyReq, code, err := commonJudge(data)
+func (client *ExchangeClient) GetTrades(data []byte) (interface{}, int, error) {
+	currencyReq, code, err := commonJudge(data, false)
 	if code != errs.Success {
 		return nil, code, err
 	}
@@ -202,30 +202,76 @@ func (client *TraderClient) GetTrades(data []byte) (interface{}, int, error) {
 	return trades.Trades, errs.Success, nil
 }
 
-func (client *TraderClient) GetExchangeName(data []byte) (interface{}, int, error) {
-	currencyReq, code, err := commonJudge(data)
+func (client *ExchangeClient) GetExchangeDetail(data []byte) (interface{}, int, error) {
+	currencyReq, code, err := commonJudge(data, false)
 	if code != errs.Success {
 		return nil, code, err
 	}
-	name, err := client.client.GetExchangeName(context.Background(), currencyReq)
+
+	exchange, err := client.client.GetExchangeDetail(context.Background(), currencyReq)
 	if err != nil {
 		return nil, errs.Errors, err
 	}
-	return name.Str, errs.Success, nil
+	return exchange, errs.Success, nil
 }
 
-func commonJudge(data []byte) (*pb.ReqCurrency, int, error) {
-	currencyReq := &pb.ReqCurrency{}
+//新增一个策略
+func (client *ExchangeClient) PutExchange(data []byte) (interface{}, int, error) {
+	currency := &pb.Currency{}
+	err := json.Unmarshal(data, currency)
+	if err != nil {
+		return nil, errs.RequestDataFmtErr, err
+	}
+	if len(currency.ExName) <= 0 {
+		return nil, errs.ExchangeNameErr, err
+	}
+
+	if len(currency.Description) <= 0 {
+		return nil, errs.ExchangeDescriptionErr, err
+	}
+
+	resp, err := client.client.PutExchange(context.Background(), currency)
+	if err != nil {
+		return nil, errs.Errors, err
+	}
+	return resp, errs.Success, nil
+}
+
+//获取当前用户策略列表
+func (client *ExchangeClient) ListExchange(data []byte) (interface{}, int, error) {
+	currency := &pb.Currency{}
+	err := json.Unmarshal(data, currency)
+	if err != nil {
+		return nil, errs.RequestDataFmtErr, err
+	}
+	if currency.Page <= 0 {
+		currency.Page = 1
+	}
+
+	if currency.Size <= 0 {
+		currency.Size = 10
+	}
+
+	resp, err := client.client.ListExchange(context.Background(), currency)
+	if err != nil {
+		return nil, errs.Errors, err
+	}
+	return resp.Currencys, errs.Success, nil
+}
+
+//needAuth:是否需要key和secret
+func commonJudge(data []byte, needAuth bool) (*pb.Currency, int, error) {
+	currencyReq := &pb.Currency{}
 	err := json.Unmarshal(data, currencyReq)
 	if err != nil {
 		return nil, errs.RequestDataFmtErr, err
 	}
-	if currencyReq.ApiKey == "" || currencyReq.ApiSecret == "" {
+	if needAuth && (currencyReq.ApiKey == "" || currencyReq.ApiSecret == "") {
 		return nil, errs.ExchangeApiKeyAndSecret, nil
 	}
 
-	if currencyReq.ExName == "" {
-		return nil, errs.ExchangeNameErr, nil
+	if currencyReq.ExchangeId <= 0 {
+		return nil, errs.ExchangeIDErr, nil
 	}
 	return currencyReq, errs.Success, nil
 }

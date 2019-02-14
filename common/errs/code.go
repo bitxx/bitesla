@@ -13,7 +13,8 @@ const (
 	TokenExpire   = 1003
 
 	//请求相关
-	RequestDataFmtErr = 2001
+	RequestDataFmtErr        = 2001
+	RequestHeadCurrUserIdErr = 2002
 
 	//数据处理问题
 	DataConvertErr = 3001
@@ -27,6 +28,8 @@ const (
 	PwdEmptyErr = 20003
 	LoginErr    = 20004
 	LoginSucc   = 20005
+	GetUserErr  = 20006
+	UserIdErr   = 20007
 
 	//交易所相关
 	ExchangeCurrencyPairSymbolFmtErr = 30001
@@ -38,4 +41,12 @@ const (
 	ExchangeCoinErr                  = 30007
 	ExchangeAccountTypeErr           = 30008
 	ExchangeOrderIDErr               = 30009
+	ExchangeDescriptionErr           = 30010
+	ExchangeIDErr                    = 30011
+
+	//策略相关
+	StrategyNameErr   = 40001
+	StrategyDescErr   = 40002
+	StrategyScriptErr = 40003
+	StrategyIdErr     = 40004
 )
