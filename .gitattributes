@@ -1,0 +1,3 @@
+*.ini linguist-language=Go
+Makefile linguist-language=Go
+*.yml linguist-language=Go
