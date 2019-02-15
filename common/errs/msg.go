@@ -43,11 +43,18 @@ var MsgFlags = map[int]string{
 	ExchangeDescriptionErr:           "交易所描述不得为空",
 	ExchangeIDErr:                    "exchangeId必须大于0 ",
 
-	//策略相关
+	//策略管理相关
 	StrategyNameErr:   "策略名称错误",
 	StrategyDescErr:   "策略描述错误",
 	StrategyScriptErr: "策略脚本错误",
 	StrategyIdErr:     "策略ID错误",
+
+	//策略执行相关
+	TraderNameErr:       "策略执行名称不得为空",
+	TraderDescErr:       "策略执行的描述错误",
+	TraderIdErr:         "策略执行的id错误",
+	TraderStrategyIdErr: "策略执行时，所运行的策略ID错误",
+	TraderExchangeIdErr: "策略执行的交易所ID错误",
 }
 
 func GetMsg(code int) string {

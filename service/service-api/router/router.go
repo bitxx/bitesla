@@ -25,5 +25,6 @@ func GetAllRounters() *gin.Engine {
 	userRouter(router)
 	exchangeRouter(router)
 	strategyRouter(router)
+	traderRouter(router)
 	return router
 }

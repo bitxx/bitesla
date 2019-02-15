@@ -66,6 +66,16 @@ services:
     depends_on:
       - bitesla-consul
 
+  bitesla-service-trader:
+    image: bitesla-service-trader
+    build: ./service/service-trader
+    container_name: bitesla-service-trader
+    command: --registry_address=bitesla-consul:8500
+    networks:
+      - basic
+    depends_on:
+      - bitesla-consul
+
   bitesla-mysql:
     image: mysql:5.7
     container_name: bitesla-mysql

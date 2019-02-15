@@ -658,6 +658,166 @@
                 }
             }
         },
+        "/trader/detail": {
+            "post": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "description": "当前所执行的策略状况详情",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "策略执行相关"
+                ],
+                "summary": "当前所执行的策略状况详情",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.TraderDetail"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/trader/list": {
+            "post": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "description": "当前用户拥有的策略，分页展示",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "策略执行相关"
+                ],
+                "summary": "当前用户拥有的策略，分页展示",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.TraderList"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/trader/put": {
+            "post": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "description": "新增或者更新一个要执行的策略",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "策略执行相关"
+                ],
+                "summary": "新增或者更新一个要执行的策略",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.TraderPut"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/trader/switch": {
+            "post": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "description": "执行指定策略",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "策略执行相关"
+                ],
+                "summary": "执行指定策略",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.TraderSwitch"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/user/loginEmail": {
             "post": {
                 "description": "邮箱登陆",
@@ -1120,6 +1280,82 @@
                 "exchangeId": {
                     "type": "integer",
                     "example": 2358885120275906
+                }
+            }
+        },
+        "model.TraderDetail": {
+            "type": "object",
+            "properties": {
+                "exchangeId": {
+                    "type": "integer",
+                    "example": 2358885120275906
+                },
+                "strategyId": {
+                    "type": "integer",
+                    "example": 23575003451411
+                },
+                "traderId": {
+                    "type": "integer",
+                    "example": 948904443912
+                }
+            }
+        },
+        "model.TraderList": {
+            "type": "object",
+            "properties": {
+                "page": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "size": {
+                    "type": "integer",
+                    "example": 10
+                }
+            }
+        },
+        "model.TraderPut": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "example": "选好交易所，选好策略，准备执行！"
+                },
+                "exchangeId": {
+                    "type": "integer",
+                    "example": 2358885120275906
+                },
+                "name": {
+                    "type": "string",
+                    "example": "我要执行这个策略"
+                },
+                "script": {
+                    "type": "string",
+                    "example": "我是策略脚本，长长的。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。"
+                },
+                "strategyId": {
+                    "type": "integer",
+                    "example": 23575003451411
+                },
+                "traderId": {
+                    "type": "integer",
+                    "example": 948904443912
+                }
+            }
+        },
+        "model.TraderSwitch": {
+            "type": "object",
+            "properties": {
+                "exchangeId": {
+                    "type": "integer",
+                    "example": 2358885120275906
+                },
+                "strategyId": {
+                    "type": "integer",
+                    "example": 23575003451411
+                },
+                "traderId": {
+                    "type": "integer",
+                    "example": 948904443912
                 }
             }
         },

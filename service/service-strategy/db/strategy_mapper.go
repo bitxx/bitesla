@@ -44,10 +44,10 @@ func GetStrategyDetail(userID, strategyID int64) (*orm.StrategyORM, error) {
 	return strategy, err
 }
 
-func IsStrategyExist(strategyId int64) bool {
+func IsStrategyExist(strategyId, currentUserId int64) bool {
 	var count int
 	db := GetInstance().GetMysqlDB()
-	db.Model(orm.StrategyORM{}).Where(&orm.StrategyORM{StrategyId: strategyId}).Count(&count)
+	db.Model(orm.StrategyORM{}).Where(&orm.StrategyORM{StrategyId: strategyId, UserId: currentUserId}).Count(&count)
 	if count > 0 {
 		return false
 	}

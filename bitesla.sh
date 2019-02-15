@@ -60,15 +60,16 @@ function local_doc(){
 function local_proto(){
     TMP_PATH=${GOPATH}/src/github.com/jason-wj/${PROJECT_NAME}/service
     TMP_S1=${TMP_PATH}/service-strategy/
-#    TMP_S2=${TMP_PATH}/service-exchange/
+    TMP_S2=${TMP_PATH}/service-trader/
     TMP_S3=${TMP_PATH}/service-exchange/
     TMP_S4=${TMP_PATH}/service-user/
     protoc --proto_path=${TMP_S1} --micro_out=${TMP_S1} --go_out=${TMP_S1} proto/strategy.proto
-#    protoc --proto_path=${TMP_S2} --micro_out=${TMP_S2} --go_out=${TMP_S2} proto/example/example.proto
+    protoc --proto_path=${TMP_S2} --micro_out=${TMP_S2} --go_out=${TMP_S2} proto/trader.proto
     protoc --proto_path=${TMP_S3} --micro_out=${TMP_S3} --go_out=${TMP_S3} proto/exchange.proto
     protoc --proto_path=${TMP_S4} --micro_out=${TMP_S4} --go_out=${TMP_S4} proto/user.proto
 }
 
+# 用于本地执行，但感觉不方便
 #function local_start(){
 #    # 配置
 #    cp -rf ./bitesla-config.ini ./service/service-user/conf
@@ -118,6 +119,14 @@ function docker_move() {
 
 # 启动所有项目
 function docker_start() {
+    # 将执行环境复制到不同的服务中，统一管理
+    cp -rf ./bitesla-config.ini ./service/service-user/conf
+    cp -rf ./bitesla-config.ini ./service/service-api/conf
+    cp -rf ./bitesla-config.ini ./service/service-strategy/conf
+    cp -rf ./bitesla-config.ini ./service/service-trader/conf
+    cp -rf ./bitesla-config.ini ./service/service-exchange/conf
+
+    # 开始执行
     make build
     # 再启动
     BUILD_PATH=${RUN_PATH} docker-compose -f ${ROOT_PATH}/docker-compose.yml up -d
@@ -134,12 +143,13 @@ function release_state(){
     fi
 }
 
-# 释放所有docker环境
+# 释放所有docker环境,数据库等基建镜像不会被删除
 function release_all() {
     rm -rf ${ROOT_PATH}/service/service-api/api-srv
     rm -rf ${ROOT_PATH}/service/service-user/user-srv
     rm -rf ${ROOT_PATH}/service/service-exchange/exchange-srv
     rm -rf ${ROOT_PATH}/service/service-strategy/strategy-srv
+     rm -rf ${ROOT_PATH}/service/service-trader/trader-srv
 
     docker-compose stop
     docker-compose rm -f
@@ -147,6 +157,7 @@ function release_all() {
     docker rmi -f bitesla-service-user
     docker rmi -f bitesla-service-exchange
     docker rmi -f bitesla-service-strategy
+    docker rmi -f bitesla-service-trader
     # 删除为none的镜像
     docker images|grep none|awk '{print $3}'|xargs docker rmi
 }

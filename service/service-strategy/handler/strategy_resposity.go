@@ -6,22 +6,12 @@ import (
 	"github.com/jason-wj/bitesla/common/util/idgenerate"
 	"github.com/jason-wj/bitesla/service/service-strategy/db"
 	"github.com/jason-wj/bitesla/service/service-strategy/proto"
-	"github.com/jason-wj/bitesla/service/service-user/client"
-)
-
-const (
-	Facebook = "facebook"
-	Phone    = "phone"
-)
-
-var (
-	userClient = client.NewUserClient()
 )
 
 type strategyRepository struct {
 }
 
-func (s *strategyRepository) ListStrategy(ctx context.Context, strategyInfoReq *bitesla_srv_strategy.StrategyInfo, strategyInfosResp *bitesla_srv_strategy.StrategyInfos) error {
+func (s *strategyRepository) listStrategy(ctx context.Context, strategyInfoReq *bitesla_srv_strategy.StrategyInfo, strategyInfosResp *bitesla_srv_strategy.StrategyInfos) error {
 	strategys, err := db.GetStrategyList(strategyInfoReq.Size, strategyInfoReq.Page, strategyInfoReq.CurrentLoginUserID)
 	if err != nil {
 		return err
@@ -41,7 +31,7 @@ func (s *strategyRepository) ListStrategy(ctx context.Context, strategyInfoReq *
 	return nil
 }
 
-func (s *strategyRepository) GetStrategyDetail(ctx context.Context, strategyInfoReq *bitesla_srv_strategy.StrategyInfo, strategyInfoResp *bitesla_srv_strategy.StrategyInfo) error {
+func (s *strategyRepository) getStrategyDetail(ctx context.Context, strategyInfoReq *bitesla_srv_strategy.StrategyInfo, strategyInfoResp *bitesla_srv_strategy.StrategyInfo) error {
 	strategy, err := db.GetStrategyDetail(strategyInfoReq.CurrentLoginUserID, strategyInfoReq.StrategyId)
 	strategyInfoResp.StrategyId = strategy.StrategyId
 	strategyInfoResp.Name = strategy.Name
@@ -52,7 +42,7 @@ func (s *strategyRepository) GetStrategyDetail(ctx context.Context, strategyInfo
 	return err
 }
 
-func (s *strategyRepository) PutStrategy(ctx context.Context, strategyInfoReq *bitesla_srv_strategy.StrategyInfo, strategyInfoResp *bitesla_srv_strategy.StrategyInfo) error {
+func (s *strategyRepository) putStrategy(ctx context.Context, strategyInfoReq *bitesla_srv_strategy.StrategyInfo, strategyInfoResp *bitesla_srv_strategy.StrategyInfo) error {
 	var err error
 	strategyID := strategyInfoReq.StrategyId
 	if strategyID <= 0 {
@@ -61,7 +51,7 @@ func (s *strategyRepository) PutStrategy(ctx context.Context, strategyInfoReq *b
 			return errors.New("策略id生成失败")
 		}
 	} else {
-		exist := db.IsStrategyExist(strategyID)
+		exist := db.IsStrategyExist(strategyID, strategyInfoReq.CurrentLoginUserID)
 		if !exist {
 			return errors.New("该策略不存在，请检查策略ID是否正确")
 		}
@@ -72,6 +62,6 @@ func (s *strategyRepository) PutStrategy(ctx context.Context, strategyInfoReq *b
 }
 
 //TODO 暂时不考虑实现
-func (s *strategyRepository) DeleteStrategy(ctx context.Context, strategyInfoReq *bitesla_srv_strategy.StrategyInfo, strategyInfoResp *bitesla_srv_strategy.StrategyInfo) error {
+func (s *strategyRepository) deleteStrategy(ctx context.Context, strategyInfoReq *bitesla_srv_strategy.StrategyInfo, strategyInfoResp *bitesla_srv_strategy.StrategyInfo) error {
 	panic("implement me")
 }

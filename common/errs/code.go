@@ -44,9 +44,16 @@ const (
 	ExchangeDescriptionErr           = 30010
 	ExchangeIDErr                    = 30011
 
-	//策略相关
+	//策略管理相关
 	StrategyNameErr   = 40001
 	StrategyDescErr   = 40002
 	StrategyScriptErr = 40003
 	StrategyIdErr     = 40004
+
+	//策略执行相关
+	TraderNameErr       = 50001
+	TraderDescErr       = 50002
+	TraderIdErr         = 50003
+	TraderStrategyIdErr = 50004
+	TraderExchangeIdErr = 50005
 )

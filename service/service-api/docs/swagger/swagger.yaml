@@ -228,6 +228,60 @@ definitions:
         example: 2358885120275906
         type: integer
     type: object
+  model.TraderDetail:
+    properties:
+      exchangeId:
+        example: 2358885120275906
+        type: integer
+      strategyId:
+        example: 23575003451411
+        type: integer
+      traderId:
+        example: 948904443912
+        type: integer
+    type: object
+  model.TraderList:
+    properties:
+      page:
+        example: 1
+        type: integer
+      size:
+        example: 10
+        type: integer
+    type: object
+  model.TraderPut:
+    properties:
+      description:
+        example: 选好交易所，选好策略，准备执行！
+        type: string
+      exchangeId:
+        example: 2358885120275906
+        type: integer
+      name:
+        example: 我要执行这个策略
+        type: string
+      script:
+        example: 我是策略脚本，长长的。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
+        type: string
+      strategyId:
+        example: 23575003451411
+        type: integer
+      traderId:
+        example: 948904443912
+        type: integer
+    type: object
+  model.TraderSwitch:
+    properties:
+      exchangeId:
+        example: 2358885120275906
+        type: integer
+      strategyId:
+        example: 23575003451411
+        type: integer
+      traderId:
+        example: 948904443912
+        type: integer
+    type: object
   model.Trades:
     properties:
       currencyPair:
@@ -670,6 +724,106 @@ paths:
       summary: 新增或者更新一个策略
       tags:
       - 策略管理相关
+  /trader/detail:
+    post:
+      consumes:
+      - application/json
+      description: 当前所执行的策略状况详情
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.TraderDetail'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      security:
+      - token: []
+      summary: 当前所执行的策略状况详情
+      tags:
+      - 策略执行相关
+  /trader/list:
+    post:
+      consumes:
+      - application/json
+      description: 当前用户拥有的策略，分页展示
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.TraderList'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      security:
+      - token: []
+      summary: 当前用户拥有的策略，分页展示
+      tags:
+      - 策略执行相关
+  /trader/put:
+    post:
+      consumes:
+      - application/json
+      description: 新增或者更新一个要执行的策略
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.TraderPut'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      security:
+      - token: []
+      summary: 新增或者更新一个要执行的策略
+      tags:
+      - 策略执行相关
+  /trader/switch:
+    post:
+      consumes:
+      - application/json
+      description: 执行指定策略
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.TraderSwitch'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      security:
+      - token: []
+      summary: 执行指定策略
+      tags:
+      - 策略执行相关
   /user/loginEmail:
     post:
       consumes:

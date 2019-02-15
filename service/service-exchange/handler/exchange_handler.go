@@ -23,55 +23,55 @@ func NewExchangeHandler() *ExchangeHandler {
 }
 
 func (exchange *ExchangeHandler) ListExchange(ctx context.Context, reqCurrency *bitesla_srv_exchange.Currency, respCurrencys *bitesla_srv_exchange.Currencys) error {
-	return exchange.repo.ListExchange(reqCurrency, respCurrencys)
+	return exchange.repo.listExchange(reqCurrency, respCurrencys)
 }
 
 func (exchange *ExchangeHandler) PutExchange(ctx context.Context, reqCurrency *bitesla_srv_exchange.Currency, respCurrency *bitesla_srv_exchange.Currency) error {
-	return exchange.repo.PutExchange(reqCurrency, respCurrency)
+	return exchange.repo.putExchange(reqCurrency, respCurrency)
 }
 
 func (exchange *ExchangeHandler) DeleteExchange(ctx context.Context, reqCurrency *bitesla_srv_exchange.Currency, respCurrency *bitesla_srv_exchange.Currency) error {
-	return exchange.repo.DeleteExchange(reqCurrency, respCurrency)
+	return exchange.repo.deleteExchange(reqCurrency, respCurrency)
 }
 
 func (exchange *ExchangeHandler) LimitBuy(ctx context.Context, reqCurrency *bitesla_srv_exchange.Currency, order *bitesla_srv_exchange.Order) error {
-	return exchange.repo.OrderPlace(reqCurrency, order)
+	return exchange.repo.orderPlace(reqCurrency, order)
 }
 
 func (exchange *ExchangeHandler) LimitSell(ctx context.Context, reqCurrency *bitesla_srv_exchange.Currency, order *bitesla_srv_exchange.Order) error {
-	return exchange.repo.OrderPlace(reqCurrency, order)
+	return exchange.repo.orderPlace(reqCurrency, order)
 }
 
 func (exchange *ExchangeHandler) MarketBuy(ctx context.Context, reqCurrency *bitesla_srv_exchange.Currency, order *bitesla_srv_exchange.Order) error {
-	return exchange.repo.OrderPlace(reqCurrency, order)
+	return exchange.repo.orderPlace(reqCurrency, order)
 }
 
 func (exchange *ExchangeHandler) MarketSell(ctx context.Context, reqCurrency *bitesla_srv_exchange.Currency, order *bitesla_srv_exchange.Order) error {
-	return exchange.repo.OrderPlace(reqCurrency, order)
+	return exchange.repo.orderPlace(reqCurrency, order)
 }
 
 func (exchange *ExchangeHandler) CancelOrder(ctx context.Context, reqCurrency *bitesla_srv_exchange.Currency, b *bitesla_srv_exchange.Boolean) error {
-	return exchange.repo.CancelOrder(reqCurrency, b)
+	return exchange.repo.cancelOrder(reqCurrency, b)
 }
 
 func (exchange *ExchangeHandler) GetOneOrder(ctx context.Context, reqCurrency *bitesla_srv_exchange.Currency, order *bitesla_srv_exchange.Order) error {
-	return exchange.repo.GetOneOrder(reqCurrency, order)
+	return exchange.repo.getOneOrder(reqCurrency, order)
 }
 
 func (exchange *ExchangeHandler) GetUnfinishOrders(ctx context.Context, reqCurrency *bitesla_srv_exchange.Currency, order *bitesla_srv_exchange.Orders) error {
-	return exchange.repo.GetUnfinishOrders(reqCurrency, order)
+	return exchange.repo.getUnfinishOrders(reqCurrency, order)
 }
 
 func (exchange *ExchangeHandler) GetOrderHistorys(ctx context.Context, reqCurrency *bitesla_srv_exchange.Currency, order *bitesla_srv_exchange.Orders) error {
-	return exchange.repo.GetOrderHistorys(reqCurrency, order)
+	return exchange.repo.getOrderHistorys(reqCurrency, order)
 }
 
 func (exchange *ExchangeHandler) GetTicker(ctx context.Context, reqCurrency *bitesla_srv_exchange.Currency, tracker *bitesla_srv_exchange.Ticker) error {
-	return exchange.repo.GetTicker(reqCurrency, tracker)
+	return exchange.repo.getTicker(reqCurrency, tracker)
 }
 
 func (exchange *ExchangeHandler) GetDepth(ctx context.Context, reqCurrency *bitesla_srv_exchange.Currency, depth *bitesla_srv_exchange.Depth) error {
-	err := exchange.repo.GetDepth(reqCurrency, depth)
+	err := exchange.repo.getDepth(reqCurrency, depth)
 	return err
 }
 
@@ -80,7 +80,7 @@ func (exchange *ExchangeHandler) GetKlineRecords(ctx context.Context, reqCurrenc
 }
 
 func (exchange *ExchangeHandler) GetTrades(ctx context.Context, reqCurrency *bitesla_srv_exchange.Currency, trades *bitesla_srv_exchange.Trades) error {
-	return exchange.repo.GetTrades(reqCurrency, trades)
+	return exchange.repo.getTrades(reqCurrency, trades)
 }
 
 func (exchange *ExchangeHandler) GetAccount(ctx context.Context, reqCurrency *bitesla_srv_exchange.Currency, account *bitesla_srv_exchange.Accounts) error {
@@ -88,5 +88,5 @@ func (exchange *ExchangeHandler) GetAccount(ctx context.Context, reqCurrency *bi
 }
 
 func (exchange *ExchangeHandler) GetExchangeDetail(ctx context.Context, reqCurrency *bitesla_srv_exchange.Currency, respCurrency *bitesla_srv_exchange.Currency) error {
-	return exchange.repo.GetExchangeDetail(reqCurrency, respCurrency)
+	return exchange.repo.getExchangeDetail(reqCurrency, respCurrency)
 }

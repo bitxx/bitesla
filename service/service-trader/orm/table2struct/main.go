@@ -9,7 +9,7 @@ import (
 
 //将表文件映射为通用结构体入口
 func main() {
-	rootPath := "/Users/idea_wj/Documents/project/go/src/github.com/jason-wj/bitesla/service/"
+	rootPath := "/Users/su/Documents/project/go/src/github.com/jason-wj/bitesla/service/"
 	if rootPath == "" {
 		if len(os.Args) < 2 {
 			panic(errors.New("请传入根路径！"))
@@ -20,7 +20,7 @@ func main() {
 	}
 
 	//contract_conf结构体生成
-	generateStruct("user", rootPath+"/service-trader/orm/tra.go")
+	generateStruct("trader", rootPath+"/service-trader/orm/trader.go")
 
 }
 

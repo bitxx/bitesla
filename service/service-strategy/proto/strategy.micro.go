@@ -10,7 +10,6 @@ It is generated from these files:
 It has these top-level messages:
 	StrategyInfo
 	StrategyInfos
-	User
 */
 package bitesla_srv_strategy
 
