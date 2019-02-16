@@ -38,6 +38,11 @@ func (client *StrategyClient) PutStrategy(data []byte) (interface{}, int, error)
 		return nil, errs.StrategyScriptErr, err
 	}
 
+	_, ok := pb.Language_name[strategyInfo.Language]
+	if !ok {
+		return nil, errs.StrategyLanguageErr, err
+	}
+
 	resp, err := client.client.PutStrategy(context.Background(), strategyInfo)
 	if err != nil {
 		return nil, errs.Errors, err

@@ -56,12 +56,12 @@ func (h *HttpSend) SetSendType(sendType string) {
 	h.SendType = sendType
 }
 
-func (h *HttpSend) Get() ([]byte, error) {
-	return h.send(GetMethod)
+func (h *HttpSend) Get(needProxy bool) ([]byte, error) {
+	return h.send(GetMethod, needProxy)
 }
 
-func (h *HttpSend) Post() ([]byte, error) {
-	return h.send(PostMethod)
+func (h *HttpSend) Post(needProxy bool) ([]byte, error) {
+	return h.send(PostMethod, needProxy)
 }
 
 func GetUrlBuild(link string, data map[string]string) string {
@@ -74,7 +74,7 @@ func GetUrlBuild(link string, data map[string]string) string {
 	return u.String()
 }
 
-func (h *HttpSend) send(method string) ([]byte, error) {
+func (h *HttpSend) send(method string, needProxy bool) ([]byte, error) {
 	var (
 		req      *http.Request
 		resp     *http.Response
@@ -101,17 +101,20 @@ func (h *HttpSend) send(method string) ([]byte, error) {
 		}
 	}
 
-	client.Transport = &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-		Proxy: func(req *http.Request) (*url.URL, error) {
-			return &url.URL{
-				Scheme: "socks5",
-				Host:   "127.0.0.1:1086"}, nil
-		},
-		Dial: (&net.Dialer{
-			Timeout: 10 * time.Second,
-		}).Dial,
+	if needProxy {
+		client.Transport = &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+			Proxy: func(req *http.Request) (*url.URL, error) {
+				return &url.URL{
+					Scheme: "socks5",
+					Host:   "127.0.0.1:1086"}, nil
+			},
+			Dial: (&net.Dialer{
+				Timeout: 10 * time.Second,
+			}).Dial,
+		}
 	}
+
 	client.Timeout = time.Duration(10 * time.Second)
 
 	req, err = http.NewRequest(method, h.Link, strings.NewReader(sendData))

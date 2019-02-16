@@ -45,10 +45,11 @@ const (
 	ExchangeIDErr                    = 30011
 
 	//策略管理相关
-	StrategyNameErr   = 40001
-	StrategyDescErr   = 40002
-	StrategyScriptErr = 40003
-	StrategyIdErr     = 40004
+	StrategyNameErr     = 40001
+	StrategyDescErr     = 40002
+	StrategyScriptErr   = 40003
+	StrategyIdErr       = 40004
+	StrategyLanguageErr = 40005
 
 	//策略执行相关
 	TraderNameErr       = 50001

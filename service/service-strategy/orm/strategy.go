@@ -7,6 +7,7 @@ type StrategyORM struct {
 	UserId      int64     `orm:"user_id" json:"user_id"`         // 用户id
 	StrategyId  int64     `orm:"strategy_id" json:"strategy_id"` // 策略id
 	Description string    `orm:"description" json:"description"` // 策略描述
+	Language    int       `orm:"language" json:"language"`       // 0:golang 1:python
 	Name        string    `orm:"name" json:"name"`               // 策略名，方便记忆
 	Script      string    `orm:"script" json:"script"`           // 策略脚本
 	CreateUser  int64     `orm:"create_user" json:"create_user"` // 创建人

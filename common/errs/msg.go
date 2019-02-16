@@ -44,10 +44,11 @@ var MsgFlags = map[int]string{
 	ExchangeIDErr:                    "exchangeId必须大于0 ",
 
 	//策略管理相关
-	StrategyNameErr:   "策略名称错误",
-	StrategyDescErr:   "策略描述错误",
-	StrategyScriptErr: "策略脚本错误",
-	StrategyIdErr:     "策略ID错误",
+	StrategyNameErr:     "策略名称错误",
+	StrategyDescErr:     "策略描述错误",
+	StrategyScriptErr:   "策略脚本错误",
+	StrategyIdErr:       "策略ID错误",
+	StrategyLanguageErr: "策略开发语言选择错误",
 
 	//策略执行相关
 	TraderNameErr:       "策略执行名称不得为空",

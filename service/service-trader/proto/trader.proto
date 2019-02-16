@@ -39,6 +39,7 @@ message TraderInfos {
     repeated TraderInfo traderInfos = 1;
 }
 
+
 message StrategyInfo {
     int64 currentLoginUserID = 1;
     int64 strategyId = 2;
@@ -49,4 +50,18 @@ message StrategyInfo {
     int32 size = 7;
     int64 createTime = 8;
     int64 updateTime = 9;
+    int32 language = 10;
+}
+
+enum Status {
+    STOP = 0;
+    START = 1;
+    PENDING = 2;
+    SUCCESS = 3;
+    ERROR = 4;
+}
+
+enum Language {
+    GOLANG = 0;
+    PYTHON = 1;
 }

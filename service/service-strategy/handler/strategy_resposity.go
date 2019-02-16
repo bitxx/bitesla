@@ -57,7 +57,7 @@ func (s *strategyRepository) putStrategy(ctx context.Context, strategyInfoReq *b
 		}
 	}
 
-	err = db.AddOrUpdateStrategy(strategyInfoReq.CurrentLoginUserID, strategyID, strategyInfoReq.Name, strategyInfoReq.Description, strategyInfoReq.Script)
+	err = db.AddOrUpdateStrategy(strategyInfoReq.Language, strategyInfoReq.CurrentLoginUserID, strategyID, strategyInfoReq.Name, strategyInfoReq.Description, strategyInfoReq.Script)
 	return err
 }
 

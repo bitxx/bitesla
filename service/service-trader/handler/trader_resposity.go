@@ -1,20 +1,12 @@
 package handler
 
 import (
-	"encoding/json"
 	"errors"
-	"github.com/jason-wj/bitesla/common/errs"
-	"github.com/jason-wj/bitesla/common/util"
+	"github.com/jason-wj/bitesla/common/net/http"
 	"github.com/jason-wj/bitesla/common/util/idgenerate"
-	"github.com/jason-wj/bitesla/service/service-strategy/client"
+	"github.com/jason-wj/bitesla/service/service-trader/conf"
 	"github.com/jason-wj/bitesla/service/service-trader/db"
-	"github.com/jason-wj/bitesla/service/service-trader/model"
 	"github.com/jason-wj/bitesla/service/service-trader/proto"
-)
-
-var (
-	strategyClient = client.NewStrategyClient()
-	consts         = []string{"M", "M5", "M15", "M30", "H", "D", "W"}
 )
 
 type traderRepository struct {
@@ -81,13 +73,25 @@ func (t *traderRepository) switchTrader(reqTraderInfo *bitesla_srv_trader.Trader
 	reqTraderInfo.Status = int32(trader.Status)
 	reqTraderInfo.Description = trader.Description
 	reqTraderInfo.Name = trader.Name
-	if trader.Status > 0 {
-		t.stopTaskTrader(reqTraderInfo)
-	} else {
-		err := t.startTaskTrader(reqTraderInfo)
-		if err != nil {
-			return err
-		}
+	reqTraderInfo.CurrentLoginUserID = trader.UserId
+	reqTraderInfo.Status = int32(trader.Status)
+	reqTraderInfo.TraderId = trader.TraderId
+	reqTraderInfo.StrategyId = trader.StrategyId
+	reqTraderInfo.ExchangeId = trader.ExchangeId
+
+	switch trader.Status {
+	case int(bitesla_srv_trader.Status_STOP):
+		//推送到队列
+		//TODO 此处http client工具需要完善，目前重复实例化，并且代理使用不方便，需要改造到和交易所使用的方式类似
+		h := http.NewHttpSend(conf.CurrentConfig.Nsq.HttpUrl + "/pub?topic=" + conf.CurrentConfig.Nsq.TopicDefaultName)
+		h.SendType = http.SendtypeJson
+		h.SetBody(reqTraderInfo)
+		_, err := h.Post(false)
+		return err
+	case int(bitesla_srv_trader.Status_ERROR):
+	case int(bitesla_srv_trader.Status_PENDING):
+	case int(bitesla_srv_trader.Status_START):
+	case int(bitesla_srv_trader.Status_SUCCESS):
 	}
 	return nil
 
@@ -99,7 +103,7 @@ func (t *traderRepository) deleteTrader(*bitesla_srv_trader.TraderInfo, *bitesla
 }
 
 //初始化策略执行任务
-func (t *traderRepository) initTaskTrader(reqTraderInfo *bitesla_srv_trader.TraderInfo) (*model.Global, error) {
+/*func (t *traderRepository) initTaskTrader(reqTraderInfo *bitesla_srv_trader.TraderInfo) (*model.Global, error) {
 	btTraderInfo, err := json.Marshal(reqTraderInfo)
 	if err != nil {
 		return nil, err
@@ -175,4 +179,4 @@ func (t *traderRepository) startTaskTrader(reqTraderInfo *bitesla_srv_trader.Tra
 		}
 	}
 	return nil
-}
+}*/

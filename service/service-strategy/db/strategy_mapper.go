@@ -6,7 +6,7 @@ import (
 	"github.com/jason-wj/bitesla/service/service-strategy/orm"
 )
 
-func AddOrUpdateStrategy(userId, strategyId int64, name, description, script string) error {
+func AddOrUpdateStrategy(language int32, userId, strategyId int64, name, description, script string) error {
 	db := GetInstance().GetMysqlDB()
 	if db == nil {
 		return errs.DBInitError
@@ -20,6 +20,7 @@ func AddOrUpdateStrategy(userId, strategyId int64, name, description, script str
 		Script:      script,
 		CreateUser:  userId,
 		UpdateUser:  userId,
+		Language:    int(language),
 	}
 	return db.Omit(constants.CreateTime, constants.UpdateTime).Save(strategy).Error
 }

@@ -27,8 +27,14 @@ message StrategyInfo {
     int32 size = 7;
     int64 createTime = 8;
     int64 updateTime = 9;
+    int32 language = 10;
 }
 
 message StrategyInfos {
     repeated StrategyInfo strategyInfos = 1;
+}
+
+enum Language {
+    GOLANG = 0;
+    PYTHON = 1;
 }

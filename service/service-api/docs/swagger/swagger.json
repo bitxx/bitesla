@@ -1243,6 +1243,10 @@
                     "type": "string",
                     "example": "我是策略描述"
                 },
+                "language": {
+                    "type": "integer",
+                    "example": 0
+                },
                 "name": {
                     "type": "string",
                     "example": "我是一个策略名称"

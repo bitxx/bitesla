@@ -8,6 +8,7 @@ import (
 	"github.com/jason-wj/bitesla/service/service-trader/db"
 	"github.com/jason-wj/bitesla/service/service-trader/handler"
 	"github.com/jason-wj/bitesla/service/service-trader/proto"
+	"github.com/jason-wj/bitesla/service/service-trader/trader"
 	"github.com/micro/go-log"
 	"github.com/micro/go-micro"
 	"time"
@@ -62,6 +63,13 @@ func init() {
 }
 
 func main() {
+	//初始化用户交易消费者
+	err := trader.InitTraderQueue(conf.CurrentConfig.Nsq.TopicDefaultName, conf.CurrentConfig.Nsq.ChannelDefaultName, conf.CurrentConfig.Nsq.Tcp)
+	if err != nil {
+		logger.Error(err)
+		return
+	}
+
 	traderHandler := handler.NewTraderHandler()
 
 	// New Service
@@ -76,7 +84,7 @@ func main() {
 	service.Init()
 
 	// Register Handler
-	err := bitesla_srv_trader.RegisterTraderHandler(service.Server(), traderHandler)
+	err = bitesla_srv_trader.RegisterTraderHandler(service.Server(), traderHandler)
 	if err != nil {
 		logger.Error("RegisterTraderHandler err :", err)
 		return

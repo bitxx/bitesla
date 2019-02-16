@@ -34,6 +34,7 @@ type CommonConfig struct {
 	ServerConf ServerConfig `ini:"server"`
 	LoggerConf LoggerConfig `ini:"logger"`
 	MySQL      MySQL        `ini:"mysql"`
+	Nsq        Nsq          `ini:"nsq"`
 	Redis      Redis        `ini:"redis"`
 }
 
@@ -47,6 +48,13 @@ type Redis struct {
 	DefaultKey  string `ini:"bitesla_key"`
 }
 
+type Nsq struct {
+	HttpUrl            string `ini:"http_url"`
+	Tcp                string `ini:"tcp"`
+	TopicDefaultName   string `ini:"topic_default_name"`
+	ChannelDefaultName string `ini:"channel_default_name"`
+}
+
 type MySQL struct {
 	Username string `ini:"username"`
 	Password string `ini:"password"`
@@ -56,11 +64,14 @@ type MySQL struct {
 
 //ServerConfig 服务器配置
 type ServerConfig struct {
-	Ip          string `ini:"ip"`
-	Port        string `ini:"port"`
-	JwtSecret   string `ini:"jwt_secret"`
-	JwtIssuer   string `ini:"jwt_issuer"`
-	JwtDuration string `ini:"jwt_duration"`
+	Ip                    string `ini:"ip"`
+	Port                  string `ini:"port"`
+	JwtSecret             string `ini:"jwt_secret"`
+	JwtIssuer             string `ini:"jwt_issuer"`
+	JwtDuration           string `ini:"jwt_duration"`
+	RunPath               string `ini:"run_path"`
+	GolangDefualtFileName string `ini:"golang_default_filename"`
+	PythonDefualtFileName string `ini:"python_default_filename"`
 }
 
 //LoggerConfig 日志配置

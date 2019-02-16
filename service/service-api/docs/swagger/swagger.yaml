@@ -200,6 +200,9 @@ definitions:
       description:
         example: 我是策略描述
         type: string
+      language:
+        example: 0
+        type: integer
       name:
         example: 我是一个策略名称
         type: string
