@@ -42,7 +42,7 @@ func exchangeRouter(router *gin.Engine) {
 }
 
 var (
-	exchangeClient = client.NewTraderClient()
+	exchangeClient = client.NewExchangeClient()
 )
 
 // @Summary 发送一个新的订单到某交易所进行撮合
