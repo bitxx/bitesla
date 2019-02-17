@@ -33,6 +33,8 @@ message TraderInfo {
     int32 page = 9;
     int32 size = 10;
     int64 traderId = 11;
+    string apiKey = 13;
+    string apiSecret = 14;
 }
 
 message TraderInfos {

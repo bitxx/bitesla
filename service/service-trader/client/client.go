@@ -106,6 +106,10 @@ func (client *TraderClient) SwitchTrader(data []byte) (interface{}, int, error) 
 		return nil, errs.TraderIdErr, err
 	}
 
+	if traderInfo.ApiKey == "" || traderInfo.ApiSecret == "" {
+		return nil, errs.ExchangeApiKeyAndSecret, nil
+	}
+
 	resp, err := client.client.SwitchTrader(context.Background(), traderInfo)
 	if err != nil {
 		return nil, errs.Errors, err

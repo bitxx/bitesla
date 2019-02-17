@@ -40,9 +40,10 @@ func (c *CustomerTraderQueue) HandleMessage(msg *nsq.Message) error {
 	return nil
 }
 
+//运行策略
 func (c *CustomerTraderQueue) Run(trader *bitesla_srv_trader.TraderInfo) {
 	//目录:runPath/用户id/交易所id/策略id/策略运行id/
-	rootPath := runPath + "/" + strconv.FormatInt(trader.CurrentLoginUserID, 10) + "/" + strconv.FormatInt(trader.ExchangeId, 10) + "/" + strconv.FormatInt(trader.StrategyId, 10) + "/" + strconv.FormatInt(trader.TraderId, 10)
+	rootPath := runPath + "/" + strconv.FormatInt(trader.CurrentLoginUserID, 10) + "/" + strconv.FormatInt(trader.ExchangeId, 10) + "/" + strconv.FormatInt(trader.StrategyId, 10) + "/" + strconv.FormatInt(trader.TraderId, 10) + "/"
 	//defer os.RemoveAll(rootPath)
 	//生成路径
 	cmd := exec.Command("mkdir", "-p", rootPath)
@@ -75,18 +76,24 @@ func (c *CustomerTraderQueue) Run(trader *bitesla_srv_trader.TraderInfo) {
 	}
 
 	//生成文件，并将策略代码写入到文件中
-	var codefilename string
+	var codePath string
 	switch strategyInfo.Language {
 	case int32(bitesla_srv_trader.Language_GOLANG):
-		codefilename = rootPath + "/" + conf.CurrentConfig.ServerConf.GolangDefualtFileName
+		codePath = rootPath + conf.CurrentConfig.ServerConf.GolangDefualtFileName
+		//将编写策略需要的main.go文件复制到当前执行目录下
+		cmd = exec.Command("cp", "-p", conf.CurrentConfig.ServerConf.GolangMainFilepath+conf.CurrentConfig.ServerConf.GolangMainFileName, rootPath+"/")
+		err = cmd.Run()
+		if err != nil {
+			logger.Info("main.go 文件拷贝失败，错误原因:", err)
+		}
 	case int32(bitesla_srv_trader.Language_PYTHON):
-		codefilename = rootPath + "/" + conf.CurrentConfig.ServerConf.PythonDefualtFileName
+		codePath = rootPath + conf.CurrentConfig.ServerConf.PythonDefualtFileName
 	default:
 		logger.Error("所选语言不支持，请重新选择")
 		return
 	}
 
-	codefile, err := os.Create(codefilename)
+	codefile, err := os.Create(codePath)
 	if err != nil {
 		logger.Error("创建代码文件错误，错误原因：", err)
 		return
@@ -99,19 +106,35 @@ func (c *CustomerTraderQueue) Run(trader *bitesla_srv_trader.TraderInfo) {
 		return
 	}
 
-	logger.Info("rootpath:", codefilename)
-
 	//运行策略
-	var out bytes.Buffer
-	cmd = exec.Command("go", "run", codefilename)
-	cmd.Stdout = &out
-	err = cmd.Run()
+	switch strategyInfo.Language {
+	case int32(bitesla_srv_trader.Language_GOLANG):
+		var out bytes.Buffer
+		var outErr bytes.Buffer
+		uid := strconv.FormatInt(trader.CurrentLoginUserID, 10)
+		exchangeId := strconv.FormatInt(trader.ExchangeId, 10)
+		apiKey := trader.ApiKey
+		apiSecret := trader.ApiSecret
 
-	logger.Info("out:", out.String())
+		//主文件，依赖用的
+		mainPath := rootPath + conf.CurrentConfig.ServerConf.GolangMainFileName
 
-	if err != nil {
-		logger.Error("策略运行失败，错误原因：'", err)
+		cmd = exec.Command("go", "run", mainPath, codePath, uid, exchangeId, apiKey, apiSecret)
+		cmd.Stdout = &out
+		cmd.Stderr = &outErr
+		err = cmd.Run()
+
+		logger.Info("输出结果:", out.String())
+		if err != nil {
+			logger.Error("策略运行失败，错误原因：'", err, "，另一个原因：", outErr.String())
+		}
+
+	case int32(bitesla_srv_trader.Language_PYTHON):
+	default:
+		logger.Error("所选语言不支持，请重新选择")
+		return
 	}
+
 }
 
 func InitTraderQueue(topic string, channel string, address string) error {

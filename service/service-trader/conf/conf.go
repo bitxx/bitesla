@@ -71,6 +71,8 @@ type ServerConfig struct {
 	JwtDuration           string `ini:"jwt_duration"`
 	RunPath               string `ini:"run_path"`
 	GolangDefualtFileName string `ini:"golang_default_filename"`
+	GolangMainFilepath    string `ini:"golang_main_filepath"`
+	GolangMainFileName    string `ini:"golang_main_filename"`
 	PythonDefualtFileName string `ini:"python_default_filename"`
 }
 

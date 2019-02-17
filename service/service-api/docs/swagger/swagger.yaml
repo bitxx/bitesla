@@ -275,6 +275,12 @@ definitions:
     type: object
   model.TraderSwitch:
     properties:
+      apiKey:
+        example: 自行输入
+        type: string
+      apiSecret:
+        example: 自行输入
+        type: string
       exchangeId:
         example: 2358885120275906
         type: integer
