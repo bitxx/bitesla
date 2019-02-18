@@ -1,11 +1,7 @@
-FROM golang:1.11-alpine
+FROM wujason/bitesla-alpine:latest
 MAINTAINER  wj
 ADD trader-srv /data/trader-srv
 ADD ./conf/*.ini /data/conf/
-ADD ./main/main.go /data/
-
-#WORKDIR /go/src/github.com/jason-wj/bitesla/
-#COPY . .
 
 WORKDIR /data
 ENTRYPOINT [ "/data/trader-srv" ]

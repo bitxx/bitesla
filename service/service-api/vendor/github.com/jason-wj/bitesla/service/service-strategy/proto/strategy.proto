@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package bitesla.srv.strategy;
+
+service Strategy {
+    rpc ListStrategy (StrategyInfo) returns (StrategyInfos) {
+    }
+
+    rpc PutStrategy (StrategyInfo) returns (StrategyInfo) {
+    }
+
+    rpc GetStrategyDetail (StrategyInfo) returns (StrategyInfo) {
+    }
+
+    rpc DeleteStrategy (StrategyInfo) returns (StrategyInfo) {
+
+    }
+}
+
+message StrategyInfo {
+    int64 currentLoginUserID = 1;
+    int64 strategyId = 2;
+    string name = 3;
+    string description = 4;
+    string script = 5;
+    int32 page = 6;
+    int32 size = 7;
+    int64 createTime = 8;
+    int64 updateTime = 9;
+    int32 language = 10;
+}
+
+message StrategyInfos {
+    repeated StrategyInfo strategyInfos = 1;
+}
+
+enum Language {
+    GOLANG = 0;
+    PYTHON = 1;
+}

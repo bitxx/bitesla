@@ -5,6 +5,7 @@ import (
 	"github.com/jason-wj/bitesla/common/errs"
 	"github.com/jason-wj/bitesla/common/logger"
 	"github.com/jason-wj/bitesla/common/vo"
+	"github.com/jason-wj/bitesla/service/service-api/constants"
 	"github.com/jason-wj/bitesla/service/service-trader/client"
 	"net/http"
 )
@@ -112,7 +113,7 @@ func traderSwitch(c *gin.Context) {
 	res := result.NewResult()
 	defer c.JSON(http.StatusOK, res)
 	reqData, _ := c.GetRawData()
-	data, code, err := traderClient.SwitchTrader(reqData)
+	data, code, err := traderClient.SwitchTrader(reqData, c.GetHeader(constants.Token))
 	res.Code = code
 	res.Msg = errs.GetMsg(code)
 	if err != nil {

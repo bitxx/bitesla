@@ -16,9 +16,11 @@ import (
 	"time"
 )
 
+//此为nsq消息队列，专门接收要执行的策略
+
 var (
 	strategyClient = client.NewStrategyClient()
-	runPath        string
+	//runPath        string
 )
 
 // 消费者
@@ -43,7 +45,7 @@ func (c *CustomerTraderQueue) HandleMessage(msg *nsq.Message) error {
 //运行策略
 func (c *CustomerTraderQueue) Run(trader *bitesla_srv_trader.TraderInfo) {
 	//目录:runPath/用户id/交易所id/策略id/策略运行id/
-	rootPath := runPath + "/" + strconv.FormatInt(trader.CurrentLoginUserID, 10) + "/" + strconv.FormatInt(trader.ExchangeId, 10) + "/" + strconv.FormatInt(trader.StrategyId, 10) + "/" + strconv.FormatInt(trader.TraderId, 10) + "/"
+	rootPath := conf.CurrentConfig.ServerConf.RunPath + strconv.FormatInt(trader.CurrentLoginUserID, 10) + "/" + strconv.FormatInt(trader.ExchangeId, 10) + "/" + strconv.FormatInt(trader.StrategyId, 10) + "/" + strconv.FormatInt(trader.TraderId, 10) + "/"
 	//defer os.RemoveAll(rootPath)
 	//生成路径
 	cmd := exec.Command("mkdir", "-p", rootPath)
@@ -76,24 +78,24 @@ func (c *CustomerTraderQueue) Run(trader *bitesla_srv_trader.TraderInfo) {
 	}
 
 	//生成文件，并将策略代码写入到文件中
-	var codePath string
+	var strategyPath string
 	switch strategyInfo.Language {
 	case int32(bitesla_srv_trader.Language_GOLANG):
-		codePath = rootPath + conf.CurrentConfig.ServerConf.GolangDefualtFileName
+		strategyPath = rootPath + conf.CurrentConfig.ServerConf.GolangDefualtFileName
 		//将编写策略需要的main.go文件复制到当前执行目录下
-		cmd = exec.Command("cp", "-p", conf.CurrentConfig.ServerConf.GolangMainFilepath+conf.CurrentConfig.ServerConf.GolangMainFileName, rootPath+"/")
+		cmd = exec.Command("cp", "-p", conf.CurrentConfig.ServerConf.GolangMainFilepath+conf.CurrentConfig.ServerConf.GolangMainFileName, rootPath)
 		err = cmd.Run()
 		if err != nil {
 			logger.Info("main.go 文件拷贝失败，错误原因:", err)
 		}
 	case int32(bitesla_srv_trader.Language_PYTHON):
-		codePath = rootPath + conf.CurrentConfig.ServerConf.PythonDefualtFileName
+		strategyPath = rootPath + conf.CurrentConfig.ServerConf.PythonDefualtFileName
 	default:
 		logger.Error("所选语言不支持，请重新选择")
 		return
 	}
 
-	codefile, err := os.Create(codePath)
+	codefile, err := os.Create(strategyPath)
 	if err != nil {
 		logger.Error("创建代码文件错误，错误原因：", err)
 		return
@@ -115,11 +117,12 @@ func (c *CustomerTraderQueue) Run(trader *bitesla_srv_trader.TraderInfo) {
 		exchangeId := strconv.FormatInt(trader.ExchangeId, 10)
 		apiKey := trader.ApiKey
 		apiSecret := trader.ApiSecret
+		token := trader.Token
 
 		//主文件，依赖用的
 		mainPath := rootPath + conf.CurrentConfig.ServerConf.GolangMainFileName
 
-		cmd = exec.Command("go", "run", mainPath, codePath, uid, exchangeId, apiKey, apiSecret)
+		cmd = exec.Command("go", "run", mainPath, strategyPath, uid, exchangeId, token, apiKey, apiSecret)
 		cmd.Stdout = &out
 		cmd.Stderr = &outErr
 		err = cmd.Run()
@@ -134,11 +137,10 @@ func (c *CustomerTraderQueue) Run(trader *bitesla_srv_trader.TraderInfo) {
 		logger.Error("所选语言不支持，请重新选择")
 		return
 	}
-
 }
 
 func InitTraderQueue(topic string, channel string, address string) error {
-	runPath = os.Getenv(conf.CurrentConfig.ServerConf.RunPath)
+	//runPath = os.Getenv(conf.CurrentConfig.ServerConf.RunPath)
 
 	cfg := nsq.NewConfig()
 	cfg.LookupdPollInterval = 15 * time.Second     //设置服务发现的轮询时间

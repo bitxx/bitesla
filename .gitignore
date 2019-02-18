@@ -3,4 +3,5 @@ service/service-api/api-srv
 service/service-user/user-srv
 service/service-exchange/exchange-srv
 service/service-strategy/strategy-srv
+service/service-trader/trader-srv
 local.md
