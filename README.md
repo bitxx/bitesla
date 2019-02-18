@@ -74,6 +74,7 @@ git clone https://github.com/jason-wj/bitesla
 
 #### 主要目录介绍
 .
+
 |\_\_\_\_bitesla-server         //这是项目运行时候，mysql、redis、nsq等镜像的volume默认映射位置，我测试时候的所有数据均在这里，可直接使用
 |\_\_\_\_common                 //golang的通用内容
 |\_\_\_\_service                //微服务，其中有不同的服务
