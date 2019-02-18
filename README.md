@@ -73,19 +73,18 @@ git clone https://github.com/jason-wj/bitesla
 ```
 
 #### 主要目录介绍
-.
-
-|\_\_\_\_bitesla-server         //这是项目运行时候，mysql、redis、nsq等镜像的volume默认映射位置，我测试时候的所有数据均在这里，可直接使用
-|\_\_\_\_common                 //golang的通用内容
-|\_\_\_\_service                //微服务，其中有不同的服务
-| |\_\_\_\_service-api
-| |\_\_\_\_service-exchange
-| |\_\_\_\_service-strategy
-| |\_\_\_\_service-trader
-| |\_\_\_\_service-user
-|\_\_\_\_bitesla-config.ini     //用于配置当前项目处于哪个环境下，目前来说，哪个环境都一样
-|\_\_\_\_Makefile               //统一编译各服务
-|\_\_\_\_docker-compose.yml     //镜像部署目录
+.  
+|\_\_\_\_bitesla-server         //这是项目运行时候，mysql、redis、nsq等镜像的volume默认映射位置，我测试时候的所有数据均在这里，可直接使用  
+|\_\_\_\_common                 //golang的通用内容  
+|\_\_\_\_service                //微服务，其中有不同的服务  
+| |\_\_\_\_service-api  
+| |\_\_\_\_service-exchange  
+| |\_\_\_\_service-strategy  
+| |\_\_\_\_service-trader  
+| |\_\_\_\_service-user  
+|\_\_\_\_bitesla-config.ini     //用于配置当前项目处于哪个环境下，目前来说，哪个环境都一样  
+|\_\_\_\_Makefile               //统一编译各服务  
+|\_\_\_\_docker-compose.yml     //镜像部署目录  
 |\_\_\_\_bitesla.sh             //脚本，便捷操作编译运行项目或者清理项目
 
 ### 项目启动
