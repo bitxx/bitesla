@@ -1,0 +1,172 @@
+version: '3.1'
+
+networks:
+  basic:
+  #driver: bridge
+  #      config:
+  #        - subnet: 172.66.1.0/24
+  #    ipam:
+  #      driver: default
+  #      config:
+  #        - subnet: 172.66.1.0/24
+services:
+  # 微服务-对外restful api
+  bitesla-service-api:
+    image: wujason/bitesla-service-api
+    container_name: bitesla-service-api
+    command: --registry_address=bitesla-consul:8500
+    ports:
+      - 8090:8090
+    #    environment:
+    #      NET: "host"
+    depends_on:
+      - bitesla-consul
+    links:
+      - bitesla-mysql
+    networks:
+      - basic
+
+  # 微服务-用户管理
+  bitesla-service-user:
+    image: wujason/bitesla-service-user
+    container_name: bitesla-service-user
+    command: --registry_address=bitesla-consul:8500
+    #    ports:
+    #      - 50001:50001
+    #    environment:
+    #      DB_NAME: "mysql"
+    #      DB_HOST: "mysql"
+    #      DB_PORT: "3306"
+    #      DB_USER: "root"
+    #      DB_PASSWORD: "123456"
+    #      REDIS_ADDR: "redis:6379"
+    #      REDIS_PWD: ""
+    networks:
+      - basic
+    depends_on:
+      - bitesla-consul
+
+  # 微服务-交易所管理
+  bitesla-service-exchange:
+    image: wujason/bitesla-service-exchange
+    container_name: bitesla-service-exchange
+    command: --registry_address=bitesla-consul:8500
+    networks:
+      - basic
+    depends_on:
+      - bitesla-consul
+
+  # 微服务-策略管理
+  bitesla-service-strategy:
+    image: wujason/bitesla-service-strategy
+    container_name: bitesla-service-strategy
+    command: --registry_address=bitesla-consul:8500
+    networks:
+      - basic
+    depends_on:
+      - bitesla-consul
+
+  # 微服务-策略执行相关
+  bitesla-service-trader:
+    image: wujason/bitesla-service-trader
+    container_name: bitesla-service-trader
+    command: --registry_address=bitesla-consul:8500
+    networks:
+      - basic
+    depends_on:
+      - bitesla-consul
+      - bitesla-nsqlookupd
+      - bitesla-nsqd
+      - bitesla-nsqadmin
+
+  # 全局-微服务中枢
+  bitesla-consul:
+    image: progrium/consul:latest
+    container_name: bitesla-consul
+    #    environment:
+    #      NET: "host"
+    command: -ui-dir /ui -server -bootstrap
+    networks:
+      - basic
+    ports:
+      - 8300:8300
+      - 8301:8301
+      - 8301:8301/udp
+      - 8302:8302
+      - 8302:8302/udp
+      - 8400:8400
+      - 8500:8500
+      - 53:53/udp
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8500"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+
+  # 全局-关系型数据库mysql
+  bitesla-mysql:
+    image: mysql:5.7
+    container_name: bitesla-mysql
+    volumes:
+      - $RUN_PATH/mysql/data:/var/lib/mysql
+      - $RUN_PATH/mysql/conf/my.cnf:/etc/mysql/conf.d/my.cnf
+    environment:
+      - MYSQL_ROOT_PASSWORD=wuj123
+      # 时区，默认差8小时
+      - TZ=Asia/Shanghai
+    ports:
+      - 3306:3306
+    networks:
+      - basic
+
+  # 全局-缓存redis
+  bitesla-redis:
+    container_name:  bitesla-redis
+    ports:
+      - 6379:6379
+    image: redis
+    volumes:
+      - $RUN_PATH/redis/conf/redis.conf:/etc/redis/redis.conf
+      - $RUN_PATH/redis/data:/data
+    networks:
+      - basic
+    command: redis-server --requirepass wuj123
+
+  # nsq-用于发现
+  bitesla-nsqlookupd:
+    image: nsqio/nsq
+    container_name: bitesla-nsqlookupd
+    command: /nsqlookupd
+    ports:
+      - 4160:4160
+      - 4161:4161
+    networks:
+      - basic
+
+  # nsq-生产者消费者使用
+  bitesla-nsqd:
+    image: nsqio/nsq
+    container_name: bitesla-nsqd
+    # 需要用--broadcast-address显示的绑定，否则无法读取
+    command: /nsqd -data-path=/data --broadcast-address=localhost --lookupd-tcp-address=bitesla-nsqlookupd:4160
+    volumes:
+      - $RUN_PATH/nsq/data:/data
+    depends_on:
+      - bitesla-nsqlookupd
+    ports:
+      - 4150:4150
+      - 4151:4151
+    networks:
+      - basic
+
+  # nsq-web管理使用:http://localhost:4171/
+  bitesla-nsqadmin:
+    image: nsqio/nsq
+    container_name: bitesla-nsqadmin
+    command: /nsqadmin --lookupd-http-address=bitesla-nsqlookupd:4161
+    depends_on:
+      - bitesla-nsqlookupd
+    ports:
+      - 4171:4171
+    networks:
+      - basic

@@ -1,8 +1,8 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "暂无描述",
-        "title": "bitesla",
+        "description": "代币量化交易框架，使用前请先在本地hosts文件中加入: xx.xx.xx.xx(当前机器的ip地址) www.bitesla.com",
+        "title": "bitesla（比特斯拉）",
         "termsOfService": "http://www.wjblog.top/",
         "contact": {
             "name": "idea_wj@163.com",
@@ -10,12 +10,12 @@
             "email": "idea_wj"
         },
         "license": {
-            "name": "Apache 2.0",
+            "name": "Apache beta 1.0",
             "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
         },
         "version": "2.0"
     },
-    "host": "localhost:8090",
+    "host": "www.bitesla.com:8090",
     "basePath": "/",
     "paths": {
         "/exchange/cancelOrder": {

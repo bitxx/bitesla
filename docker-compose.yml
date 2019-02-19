@@ -113,8 +113,8 @@ services:
     image: mysql:5.7
     container_name: bitesla-mysql
     volumes:
-      - $BUILD_PATH/bitesla-server/mysql/data:/var/lib/mysql
-      - $BUILD_PATH/bitesla-server/mysql/conf/my.cnf:/etc/mysql/conf.d/my.cnf
+      - $RUN_PATH/bitesla-server/mysql/data:/var/lib/mysql
+      - $RUN_PATH/bitesla-server/mysql/conf/my.cnf:/etc/mysql/conf.d/my.cnf
     environment:
       - MYSQL_ROOT_PASSWORD=wuj123
       # 时区，默认差8小时
@@ -131,8 +131,8 @@ services:
       - 6379:6379
     image: redis
     volumes:
-      - $BUILD_PATH/bitesla-server/redis/conf/redis.conf:/etc/redis/redis.conf
-      - $BUILD_PATH/bitesla-server/redis/data:/data
+      - $RUN_PATH/bitesla-server/redis/conf/redis.conf:/etc/redis/redis.conf
+      - $RUN_PATH/bitesla-server/redis/data:/data
     networks:
       - basic
     command: redis-server --requirepass wuj123
@@ -155,7 +155,7 @@ services:
     # 需要用--broadcast-address显示的绑定，否则无法读取
     command: /nsqd -data-path=/data --broadcast-address=localhost --lookupd-tcp-address=bitesla-nsqlookupd:4160
     volumes:
-      - $BUILD_PATH/bitesla-server/nsq/data:/data
+      - $RUN_PATH/bitesla-server/nsq/data:/data
     depends_on:
       - bitesla-nsqlookupd
     ports:
