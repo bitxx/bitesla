@@ -3,8 +3,7 @@ package orm
 import "time"
 
 type UserORM struct {
-	Id         int64     `orm:"id" json:"id"`                   // id
-	UserId     int64     `orm:"user_id" json:"user_id"`         // 用户id
+	Id         int64     `orm:"id" json:"id"`                   // 用户id
 	Username   string    `orm:"username" json:"username"`       // 用户名
 	Email      string    `orm:"email" json:"email"`             // 邮箱
 	Password   string    `orm:"password" json:"password"`       // 密码

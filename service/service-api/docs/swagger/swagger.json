@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "代币量化交易框架，使用前请先在本地hosts文件中加入: xx.xx.xx.xx(当前机器的ip地址) www.bitesla.com",
+        "description": "代币量化交易框架，",
         "title": "bitesla（比特斯拉）",
         "termsOfService": "http://www.wjblog.top/",
         "contact": {
@@ -15,7 +15,7 @@
         },
         "version": "2.0"
     },
-    "host": "www.bitesla.com:8090",
+    "host": "localhost:8090",
     "basePath": "/",
     "paths": {
         "/exchange/cancelOrder": {
@@ -198,7 +198,7 @@
                 "summary": "获取k线",
                 "parameters": [
                     {
-                        "description": "每个参数均不得为空",
+                        "description": "每个参数均不得为空,period:0-\u003e1min,1-\u003e5min,2-\u003e15min,3-\u003e30min,4-\u003e60min,5-\u003e1d,6-\u003e1week,7-\u003e1mon,8-\u003e1year",
                         "name": "group",
                         "in": "body",
                         "required": true,
@@ -818,6 +818,46 @@
                 }
             }
         },
+        "/trader/updatestatus": {
+            "post": {
+                "security": [
+                    {
+                        "token": []
+                    }
+                ],
+                "description": "更新策略执行状态",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "策略执行相关"
+                ],
+                "summary": "更新策略执行状态",
+                "parameters": [
+                    {
+                        "description": "每个参数均不得为空",
+                        "name": "group",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/model.TraderStatus"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "返回成功与否",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/user/loginEmail": {
             "post": {
                 "description": "邮箱登陆",
@@ -1095,13 +1135,9 @@
                     "type": "integer",
                     "example": 0
                 },
-                "since": {
-                    "type": "integer",
-                    "example": 10000000
-                },
                 "size": {
                     "type": "integer",
-                    "example": 150
+                    "example": 1
                 }
             }
         },
@@ -1339,6 +1375,19 @@
                 "strategyId": {
                     "type": "integer",
                     "example": 23575003451411
+                },
+                "traderId": {
+                    "type": "integer",
+                    "example": 948904443912
+                }
+            }
+        },
+        "model.TraderStatus": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "integer",
+                    "example": 0
                 },
                 "traderId": {
                     "type": "integer",

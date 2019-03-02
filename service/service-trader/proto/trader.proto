@@ -19,6 +19,9 @@ service Trader {
     rpc SwitchTrader (TraderInfo) returns (TraderInfo) {
 
     }
+    rpc UpdateTraderStatus (TraderInfo) returns (TraderInfo) {
+
+    }
 }
 
 message TraderInfo {
@@ -59,9 +62,6 @@ message StrategyInfo {
 enum Status {
     STOP = 0;
     START = 1;
-    PENDING = 2;
-    SUCCESS = 3;
-    ERROR = 4;
 }
 
 enum Language {

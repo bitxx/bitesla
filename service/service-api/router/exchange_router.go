@@ -243,7 +243,7 @@ func exchangeGetDepth(c *gin.Context) {
 // @Accept   json
 // @Produce   json
 // @Security token
-// @Param group body model.Kline true "每个参数均不得为空"
+// @Param group body model.Kline true "每个参数均不得为空,period:0->1min,1->5min,2->15min,3->30min,4->60min,5->1d,6->1week,7->1mon,8->1year"
 // @Success 200 {string} string "返回成功与否"
 // @Router /exchange/getKlineRecords [post]
 func exchangeGetKlineRecords(c *gin.Context) {

@@ -95,11 +95,8 @@ definitions:
       period:
         example: 0
         type: integer
-      since:
-        example: 10000000
-        type: integer
       size:
-        example: 150
+        example: 1
         type: integer
     type: object
   model.OneOrder:
@@ -273,6 +270,15 @@ definitions:
         example: 948904443912
         type: integer
     type: object
+  model.TraderStatus:
+    properties:
+      status:
+        example: 0
+        type: integer
+      traderId:
+        example: 948904443912
+        type: integer
+    type: object
   model.TraderSwitch:
     properties:
       apiKey:
@@ -318,13 +324,13 @@ definitions:
         example: 2358885120275906
         type: integer
     type: object
-host: www.bitesla.com:8090
+host: localhost:8090
 info:
   contact:
     email: idea_wj
     name: idea_wj@163.com
     url: http://www.wjblog.top/
-  description: '代币量化交易框架，使用前请先在本地hosts文件中加入: xx.xx.xx.xx(当前机器的ip地址) www.bitesla.com'
+  description: 代币量化交易框架，
   license:
     name: Apache beta 1.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -438,7 +444,7 @@ paths:
       - application/json
       description: 获取k线
       parameters:
-      - description: 每个参数均不得为空
+      - description: 每个参数均不得为空,period:0->1min,1->5min,2->15min,3->30min,4->60min,5->1d,6->1week,7->1mon,8->1year
         in: body
         name: group
         required: true
@@ -831,6 +837,31 @@ paths:
       security:
       - token: []
       summary: 执行指定策略
+      tags:
+      - 策略执行相关
+  /trader/updatestatus:
+    post:
+      consumes:
+      - application/json
+      description: 更新策略执行状态
+      parameters:
+      - description: 每个参数均不得为空
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/model.TraderStatus'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 返回成功与否
+          schema:
+            type: string
+      security:
+      - token: []
+      summary: 更新策略执行状态
       tags:
       - 策略执行相关
   /user/loginEmail:

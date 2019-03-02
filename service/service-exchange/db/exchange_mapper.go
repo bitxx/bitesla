@@ -14,7 +14,7 @@ func AddOrUpdateExchange(currentUserId, exchangeId int64, name, descriptio strin
 
 	strategy := &orm.ExchangeORM{
 		UserId:      currentUserId,
-		ExchangeId:  exchangeId,
+		Id:          exchangeId,
 		Name:        name,
 		Description: descriptio,
 		CreateUser:  currentUserId,
@@ -29,23 +29,23 @@ func GetExchangeList(size, page int32) (exchanges []orm.ExchangeORM, err error) 
 		size = 10
 	}
 
-	err = db.Model(orm.ExchangeORM{}).Select("exchange_id,description,name,create_time,update_time").Limit(size).Offset((page - 1) * size).Scan(&exchanges).Error
+	err = db.Model(orm.ExchangeORM{}).Select("id,description,name,create_time,update_time").Limit(size).Offset((page - 1) * size).Scan(&exchanges).Error
 	return
 }
 
 func IsExchangeExist(exchangeId int64) bool {
 	var count int
 	db := GetInstance().GetMysqlDB()
-	db.Model(orm.ExchangeORM{}).Where(&orm.ExchangeORM{ExchangeId: exchangeId}).Count(&count)
+	db.Model(&orm.ExchangeORM{Id: exchangeId}).Count(&count)
 	if count > 0 {
-		return false
+		return true
 	}
-	return true
+	return false
 }
 
 func GetExchangeDetail(exchangeID int64) (*orm.ExchangeORM, error) {
 	db := GetInstance().GetMysqlDB()
 	exchange := &orm.ExchangeORM{}
-	err := db.Model(orm.ExchangeORM{}).Where(&orm.ExchangeORM{ExchangeId: exchangeID}).First(exchange).Error
+	err := db.Model(orm.ExchangeORM{Id: exchangeID}).First(exchange).Error
 	return exchange, err
 }

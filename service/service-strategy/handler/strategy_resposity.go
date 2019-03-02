@@ -18,7 +18,7 @@ func (s *strategyRepository) listStrategy(ctx context.Context, strategyInfoReq *
 	}
 	for _, strategy := range strategys {
 		tmp := &bitesla_srv_strategy.StrategyInfo{
-			StrategyId:  strategy.StrategyId,
+			StrategyId:  strategy.Id,
 			Description: strategy.Description,
 			Name:        strategy.Name,
 			Script:      strategy.Script,
@@ -33,7 +33,7 @@ func (s *strategyRepository) listStrategy(ctx context.Context, strategyInfoReq *
 
 func (s *strategyRepository) getStrategyDetail(ctx context.Context, strategyInfoReq *bitesla_srv_strategy.StrategyInfo, strategyInfoResp *bitesla_srv_strategy.StrategyInfo) error {
 	strategy, err := db.GetStrategyDetail(strategyInfoReq.CurrentLoginUserID, strategyInfoReq.StrategyId)
-	strategyInfoResp.StrategyId = strategy.StrategyId
+	strategyInfoResp.StrategyId = strategy.Id
 	strategyInfoResp.Name = strategy.Name
 	strategyInfoResp.Description = strategy.Description
 	strategyInfoResp.Script = strategy.Script

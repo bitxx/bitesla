@@ -54,7 +54,7 @@ func init() {
 
 // @title bitesla（比特斯拉）
 // @version 2.0
-// @description 代币量化交易框架，使用前请先在本地hosts文件中加入: xx.xx.xx.xx(当前机器的ip地址) www.bitesla.com
+// @description 代币量化交易框架，
 // @termsOfService http://www.wjblog.top/
 
 // @contact.name idea_wj@163.com
@@ -63,7 +63,7 @@ func init() {
 
 // @license.name Apache beta 1.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-// @host www.bitesla.com:8090
+// @host localhost:8090
 // @BasePath /
 
 // @securityDefinitions.apikey token

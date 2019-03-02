@@ -42,7 +42,7 @@ func (t *traderRepository) putTrader(reqTraderInfo *bitesla_srv_trader.TraderInf
 			return errors.New("执行策略所需的id生成失败")
 		}
 	} else {
-		exist := db.IsTraderExist(traderID, reqTraderInfo.ExchangeId, reqTraderInfo.StrategyId, reqTraderInfo.CurrentLoginUserID)
+		exist := db.IsTraderExist(traderID, reqTraderInfo.CurrentLoginUserID)
 		if !exist {
 			return errors.New("traderId不存在")
 		}
@@ -53,20 +53,25 @@ func (t *traderRepository) putTrader(reqTraderInfo *bitesla_srv_trader.TraderInf
 }
 
 func (t *traderRepository) getTraderDetail(reqTraderInfo *bitesla_srv_trader.TraderInfo, respTraderInfo *bitesla_srv_trader.TraderInfo) error {
-	trader, err := db.GetTraderDetail(reqTraderInfo.CurrentLoginUserID, reqTraderInfo.ExchangeId, reqTraderInfo.StrategyId, reqTraderInfo.TraderId)
-	reqTraderInfo.StrategyId = trader.StrategyId
-	reqTraderInfo.Name = trader.Name
-	reqTraderInfo.Description = trader.Description
-	reqTraderInfo.ExchangeId = trader.ExchangeId
-	reqTraderInfo.StrategyId = trader.StrategyId
-	reqTraderInfo.Status = int32(trader.Status)
-	reqTraderInfo.CreateTime = trader.CreateTime.Unix()
-	reqTraderInfo.UpdateTime = trader.UpdateTime.Unix()
+	trader, err := db.GetTraderDetail(reqTraderInfo.CurrentLoginUserID, reqTraderInfo.TraderId)
+	respTraderInfo.StrategyId = trader.StrategyId
+	respTraderInfo.Name = trader.Name
+	respTraderInfo.Description = trader.Description
+	respTraderInfo.ExchangeId = trader.ExchangeId
+	respTraderInfo.StrategyId = trader.StrategyId
+	respTraderInfo.Status = int32(trader.Status)
+	respTraderInfo.CreateTime = trader.CreateTime.Unix()
+	respTraderInfo.UpdateTime = trader.UpdateTime.Unix()
+	return err
+}
+
+func (t *traderRepository) updateTraderStatus(reqTraderInfo *bitesla_srv_trader.TraderInfo, respTraderInfo *bitesla_srv_trader.TraderInfo) error {
+	err := db.UpdateTraderStatus(reqTraderInfo.CurrentLoginUserID, reqTraderInfo.TraderId, int(reqTraderInfo.Status))
 	return err
 }
 
 func (t *traderRepository) switchTrader(reqTraderInfo *bitesla_srv_trader.TraderInfo, respTraderInfo *bitesla_srv_trader.TraderInfo) error {
-	trader, err := db.GetTraderDetail(reqTraderInfo.CurrentLoginUserID, reqTraderInfo.ExchangeId, reqTraderInfo.StrategyId, reqTraderInfo.TraderId)
+	trader, err := db.GetTraderDetail(reqTraderInfo.CurrentLoginUserID, reqTraderInfo.TraderId)
 	if err != nil {
 		return err
 	}
@@ -75,7 +80,7 @@ func (t *traderRepository) switchTrader(reqTraderInfo *bitesla_srv_trader.Trader
 	reqTraderInfo.Name = trader.Name
 	reqTraderInfo.CurrentLoginUserID = trader.UserId
 	reqTraderInfo.Status = int32(trader.Status)
-	reqTraderInfo.TraderId = trader.TraderId
+	reqTraderInfo.TraderId = trader.Id
 	reqTraderInfo.StrategyId = trader.StrategyId
 	reqTraderInfo.ExchangeId = trader.ExchangeId
 
@@ -86,12 +91,9 @@ func (t *traderRepository) switchTrader(reqTraderInfo *bitesla_srv_trader.Trader
 		h := http.NewHttpSend(conf.CurrentConfig.Nsq.HttpUrl + "/pub?topic=" + conf.CurrentConfig.Nsq.TopicDefaultName)
 		h.SendType = http.SendtypeJson
 		h.SetBody(reqTraderInfo)
-		_, err := h.Post(false)
+		_, err = h.Post(false)
 		return err
-	case int(bitesla_srv_trader.Status_ERROR):
-	case int(bitesla_srv_trader.Status_PENDING):
 	case int(bitesla_srv_trader.Status_START):
-	case int(bitesla_srv_trader.Status_SUCCESS):
 	}
 	return nil
 

@@ -3,9 +3,8 @@ package orm
 import "time"
 
 type ExchangeORM struct {
-	Id          int64     `orm:"id" json:"id"`                   // id
+	Id          int64     `orm:"id" json:"id"`                   // 交易所id
 	UserId      int64     `orm:"user_id" json:"user_id"`         // 用户id
-	ExchangeId  int64     `orm:"exchange_id" json:"exchange_id"` // 交易所id
 	Description string    `orm:"description" json:"description"` // 交易所描述
 	Name        string    `orm:"name" json:"name"`               // 交易所名称
 	CreateUser  int64     `orm:"create_user" json:"create_user"` // 创建人

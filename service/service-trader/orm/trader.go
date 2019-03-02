@@ -3,8 +3,7 @@ package orm
 import "time"
 
 type TraderORM struct {
-	Id          int64     `orm:"id" json:"id"`                   // id
-	TraderId    int64     `orm:"trader_id" json:"trader_id"`     // 策略执行的id
+	Id          int64     `orm:"id" json:"id"`                   // 策略执行的id
 	UserId      int64     `orm:"user_id" json:"user_id"`         // 用户id
 	StrategyId  int64     `orm:"strategy_id" json:"strategy_id"` // 策略id
 	ExchangeId  int64     `orm:"exchange_id" json:"exchange_id"` // 交易所id

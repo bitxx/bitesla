@@ -9,7 +9,7 @@ import (
 
 //将表文件映射为通用结构体入口
 func main() {
-	rootPath := "/Users/idea_wj/Documents/project/go/src/github.com/jason-wj/bitesla/service"
+	rootPath := "/Users/su/Documents/project/go/src/github.com/jason-wj/bitesla/service"
 	if rootPath == "" {
 		if len(os.Args) < 2 {
 			panic(errors.New("请传入根路径！"))
@@ -28,12 +28,6 @@ func main() {
 // tableName：去掉前缀的表名，切记不要带上前缀
 // path:生成结构体后要保存的路径，注意，不同结构体要起成不同的文件名，比如：/xx/xx/xx/struct1.go，否则会被覆盖
 func generateStruct(tableName, path string) {
-	/*errs := converter.NewTable2Struct().
-		SavePath("/Users/su/Documents/project/go/src/yaichain.com/aichain/AIChain-blockchain-prime/aichain-core/aichain-ipfs-cluster-api/orm/model.go").
-		Dsn("root:aichain123@tcp(localhost:3306)/db_aichain_blockchain?charset=utf8").
-		Run()
-	fmt.Println(errs)*/
-
 	//初始化
 	t2t := converter.NewTable2Struct()
 	t2t.Config(&converter.T2tConfig{

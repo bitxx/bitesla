@@ -11,10 +11,11 @@ import (
 )
 
 const (
-	traderPutUrl    = "/trader/put"
-	traderListUrl   = "/trader/list"
-	traderDetailUrl = "/trader/detail"
-	traderSwitchUrl = "/trader/switch"
+	traderPutUrl          = "/trader/put"
+	traderListUrl         = "/trader/list"
+	traderDetailUrl       = "/trader/detail"
+	traderSwitchUrl       = "/trader/switch"
+	traderStatusUpdateUrl = "/trader/updatestatus"
 )
 
 func traderRouter(router *gin.Engine) {
@@ -22,6 +23,7 @@ func traderRouter(router *gin.Engine) {
 	router.POST(traderListUrl, traderList)
 	router.POST(traderDetailUrl, traderDetail)
 	router.POST(traderSwitchUrl, traderSwitch)
+	router.POST(traderStatusUpdateUrl, traderStatusUpdate)
 }
 
 var (
@@ -90,6 +92,30 @@ func traderDetail(c *gin.Context) {
 	defer c.JSON(http.StatusOK, res)
 	reqData, _ := c.GetRawData()
 	data, code, err := traderClient.GetTraderDetail(reqData)
+	res.Code = code
+	res.Msg = errs.GetMsg(code)
+	if err != nil {
+		res.Msg = err.Error()
+		logger.Error("错误信息：", err.Error())
+		return
+	}
+	res.Data = data
+}
+
+// @Summary 更新策略执行状态
+// @Description 更新策略执行状态
+// @Tags 策略执行相关
+// @Accept   json
+// @Produce   json
+// @Security token
+// @Param group body model.TraderStatus true "每个参数均不得为空"
+// @Success 200 {string} string "返回成功与否"
+// @Router /trader/updatestatus [post]
+func traderStatusUpdate(c *gin.Context) {
+	res := result.NewResult()
+	defer c.JSON(http.StatusOK, res)
+	reqData, _ := c.GetRawData()
+	data, code, err := traderClient.UpdateStatusTrader(reqData)
 	res.Code = code
 	res.Msg = errs.GetMsg(code)
 	if err != nil {

@@ -51,7 +51,7 @@ func (r *userRepository) loginEmail(req *bitesla_srv_user.UserReq, resp *bitesla
 		}
 		return errors.New(errs.GetMsg(errs.LoginErr))
 	}
-	resp.UserId = user.UserId
+	resp.UserId = user.Id
 	resp.Username = user.Username
 	resp.Birthday = user.Birthday
 	resp.Email = user.Email
@@ -67,7 +67,7 @@ func (r *userRepository) GetUserById(req *bitesla_srv_user.UserReq, resp *bitesl
 	if err != nil {
 		return errors.New(errs.GetMsg(errs.GetUserErr))
 	}
-	resp.UserId = user.UserId
+	resp.UserId = user.Id
 	resp.Username = user.Username
 	resp.Birthday = user.Birthday
 	resp.Email = user.Email

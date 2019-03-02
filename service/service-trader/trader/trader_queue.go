@@ -118,11 +118,13 @@ func (c *CustomerTraderQueue) Run(trader *bitesla_srv_trader.TraderInfo) {
 		apiKey := trader.ApiKey
 		apiSecret := trader.ApiSecret
 		token := trader.Token
+		traderId := strconv.FormatInt(trader.TraderId, 10)
+		strategyId := strconv.FormatInt(trader.StrategyId, 10)
 
 		//主文件，依赖用的
 		mainPath := rootPath + conf.CurrentConfig.ServerConf.GolangMainFileName
 
-		cmd = exec.Command("go", "run", mainPath, strategyPath, uid, exchangeId, token, apiKey, apiSecret)
+		cmd = exec.Command("go", "run", mainPath, strategyPath, uid, exchangeId, traderId, strategyId, token, apiKey, apiSecret)
 		cmd.Stdout = &out
 		cmd.Stderr = &outErr
 		err = cmd.Run()

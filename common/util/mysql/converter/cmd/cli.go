@@ -3,8 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/jason-wj/bitesla/common/util/mysql/converter"
 	"log"
-	"yaichain.com/aichain/AIChain-blockchain-prime/aichain-common/util/mysql/converter"
 )
 
 func main() {

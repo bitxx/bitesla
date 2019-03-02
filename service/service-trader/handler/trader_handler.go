@@ -36,3 +36,6 @@ func (t *TraderHandler) DeleteTrader(ctx context.Context, reqTraderInfo *bitesla
 func (t *TraderHandler) SwitchTrader(ctx context.Context, reqTraderInfo *bitesla_srv_trader.TraderInfo, respTraderInfo *bitesla_srv_trader.TraderInfo) error {
 	return t.repo.switchTrader(reqTraderInfo, respTraderInfo)
 }
+func (t *TraderHandler) UpdateTraderStatus(ctx context.Context, reqTraderInfo *bitesla_srv_trader.TraderInfo, respTraderInfo *bitesla_srv_trader.TraderInfo) error {
+	return t.repo.updateTraderStatus(reqTraderInfo, respTraderInfo)
+}

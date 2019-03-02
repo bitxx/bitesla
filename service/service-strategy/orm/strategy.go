@@ -3,9 +3,8 @@ package orm
 import "time"
 
 type StrategyORM struct {
-	Id          int64     `orm:"id" json:"id"`                   // id
+	Id          int64     `orm:"id" json:"id"`                   // 策略id
 	UserId      int64     `orm:"user_id" json:"user_id"`         // 用户id
-	StrategyId  int64     `orm:"strategy_id" json:"strategy_id"` // 策略id
 	Description string    `orm:"description" json:"description"` // 策略描述
 	Language    int       `orm:"language" json:"language"`       // 0:golang 1:python
 	Name        string    `orm:"name" json:"name"`               // 策略名，方便记忆

@@ -13,7 +13,7 @@ func AddUserByEmail(email, password string, id int64) error {
 		return errs.DBInitError
 	}
 	user := &orm.UserORM{
-		UserId:   id,
+		Id:       id,
 		Email:    email,
 		Password: password,
 	}
@@ -31,6 +31,6 @@ func LoginUserByEmail(email, pwd string) (*orm.UserORM, error) {
 func GetUserById(userId int64) (*orm.UserORM, error) {
 	user := &orm.UserORM{}
 	db := GetInstance().GetMysqlDB()
-	err := db.Where(&orm.UserORM{UserId: userId}).First(user).Error
+	err := db.Where(&orm.UserORM{Id: userId}).First(user).Error
 	return user, err
 }

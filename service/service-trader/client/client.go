@@ -81,14 +81,6 @@ func (client *TraderClient) GetTraderDetail(data []byte) (interface{}, int, erro
 		return nil, errs.TraderIdErr, err
 	}
 
-	if traderInfo.ExchangeId <= 0 {
-		return nil, errs.TraderExchangeIdErr, err
-	}
-
-	if traderInfo.StrategyId <= 0 {
-		return nil, errs.TraderStrategyIdErr, err
-	}
-
 	resp, err := client.client.GetTraderDetail(context.Background(), traderInfo)
 	if err != nil {
 		return nil, errs.Errors, err
@@ -117,6 +109,23 @@ func (client *TraderClient) SwitchTrader(data []byte, token string) (interface{}
 	traderInfo.Token = token
 
 	resp, err := client.client.SwitchTrader(context.Background(), traderInfo)
+	if err != nil {
+		return nil, errs.Errors, err
+	}
+	return resp, errs.Success, nil
+}
+
+func (client *TraderClient) UpdateStatusTrader(data []byte) (interface{}, int, error) {
+	traderInfo := &pb.TraderInfo{}
+	err := json.Unmarshal(data, traderInfo)
+	if err != nil {
+		return nil, errs.RequestDataFmtErr, err
+	}
+	if traderInfo.TraderId <= 0 {
+		return nil, errs.TraderIdErr, err
+	}
+
+	resp, err := client.client.UpdateTraderStatus(context.Background(), traderInfo)
 	if err != nil {
 		return nil, errs.Errors, err
 	}

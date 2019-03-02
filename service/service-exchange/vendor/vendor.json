@@ -135,13 +135,6 @@
 			"revisionTime": "2018-11-28T19:23:52Z"
 		},
 		{
-			"checksumSHA1": "p/8vSviYF91gFflhrt5vkyksroo=",
-			"origin": "yaichain.com/aichain/AIChain-blockchain-prime/vendor/github.com/golang/snappy",
-			"path": "github.com/golang/snappy",
-			"revision": "3c2551d55ff2b3ec1a0e28a477757af015a99291",
-			"revisionTime": "2019-01-29T08:25:22Z"
-		},
-		{
 			"checksumSHA1": "yNyE9MrpDJQAxOxSipSIBgBhuNQ=",
 			"path": "github.com/google/uuid",
 			"revision": "9b3b1e0f5f99ae461456d768e7d301a7acdaa2d8",
@@ -203,50 +196,50 @@
 		{
 			"checksumSHA1": "Tw0cBq6j+64miYwr5rvK7hyXET8=",
 			"path": "github.com/jason-wj/bitesla/common/constants",
-			"revision": "1aebfb1d3b80adbdf188b1c934799da3b9a3a30e",
-			"revisionTime": "2019-02-17T18:10:04Z"
+			"revision": "783f5ed77cc5bc48f59ace1636cc38eb15488da8",
+			"revisionTime": "2019-02-21T16:42:24Z"
 		},
 		{
 			"checksumSHA1": "UWJFDFlJPXVx9Wa5+r1uVrW2kJY=",
 			"path": "github.com/jason-wj/bitesla/common/errs",
-			"revision": "1aebfb1d3b80adbdf188b1c934799da3b9a3a30e",
-			"revisionTime": "2019-02-17T18:10:04Z"
+			"revision": "783f5ed77cc5bc48f59ace1636cc38eb15488da8",
+			"revisionTime": "2019-02-21T16:42:24Z"
 		},
 		{
 			"checksumSHA1": "9ILsFCYResBUsUgF8OzgW0l9F/o=",
 			"path": "github.com/jason-wj/bitesla/common/iniconfig",
-			"revision": "1aebfb1d3b80adbdf188b1c934799da3b9a3a30e",
-			"revisionTime": "2019-02-17T18:10:04Z"
+			"revision": "783f5ed77cc5bc48f59ace1636cc38eb15488da8",
+			"revisionTime": "2019-02-21T16:42:24Z"
 		},
 		{
 			"checksumSHA1": "3HV27h4z5YjpMAAOgbTFY494tJI=",
 			"path": "github.com/jason-wj/bitesla/common/logger",
-			"revision": "1aebfb1d3b80adbdf188b1c934799da3b9a3a30e",
-			"revisionTime": "2019-02-17T18:10:04Z"
+			"revision": "783f5ed77cc5bc48f59ace1636cc38eb15488da8",
+			"revisionTime": "2019-02-21T16:42:24Z"
 		},
 		{
 			"checksumSHA1": "BFuPARXdswsa7kUcXaQB80G0+00=",
 			"path": "github.com/jason-wj/bitesla/common/logger/daterot",
-			"revision": "1aebfb1d3b80adbdf188b1c934799da3b9a3a30e",
-			"revisionTime": "2019-02-17T18:10:04Z"
+			"revision": "783f5ed77cc5bc48f59ace1636cc38eb15488da8",
+			"revisionTime": "2019-02-21T16:42:24Z"
 		},
 		{
 			"checksumSHA1": "/T5u1gZGNJ5i6/P0+3DIYuEdHCw=",
 			"path": "github.com/jason-wj/bitesla/common/util/cache",
-			"revision": "1aebfb1d3b80adbdf188b1c934799da3b9a3a30e",
-			"revisionTime": "2019-02-17T18:10:04Z"
+			"revision": "783f5ed77cc5bc48f59ace1636cc38eb15488da8",
+			"revisionTime": "2019-02-21T16:42:24Z"
 		},
 		{
 			"checksumSHA1": "GOy1tHneNY0CKZQv8tsJSZHDIaM=",
 			"path": "github.com/jason-wj/bitesla/common/util/idgenerate",
-			"revision": "1aebfb1d3b80adbdf188b1c934799da3b9a3a30e",
-			"revisionTime": "2019-02-17T18:10:04Z"
+			"revision": "783f5ed77cc5bc48f59ace1636cc38eb15488da8",
+			"revisionTime": "2019-02-21T16:42:24Z"
 		},
 		{
 			"checksumSHA1": "VZ1sDKnARl/ayjbzVkGqvm/727w=",
 			"path": "github.com/jason-wj/bitesla/common/util/mysql/converter",
-			"revision": "1aebfb1d3b80adbdf188b1c934799da3b9a3a30e",
-			"revisionTime": "2019-02-17T18:10:04Z"
+			"revision": "783f5ed77cc5bc48f59ace1636cc38eb15488da8",
+			"revisionTime": "2019-02-21T16:42:24Z"
 		},
 		{
 			"checksumSHA1": "Cq9h7eDNXXyR/qJPvO8/Rk4pmFg=",
@@ -531,13 +524,6 @@
 			"path": "github.com/modern-go/reflect2",
 			"revision": "94122c33edd36123c84d5368cfb2b69df93a0ec8",
 			"revisionTime": "2018-07-18T01:23:57Z"
-		},
-		{
-			"checksumSHA1": "MZdppx6laedD1LcVomiZ/Sfa6rE=",
-			"origin": "yaichain.com/aichain/AIChain-blockchain-prime/vendor/github.com/nsqio/go-nsq",
-			"path": "github.com/nsqio/go-nsq",
-			"revision": "3c2551d55ff2b3ec1a0e28a477757af015a99291",
-			"revisionTime": "2019-01-29T08:25:22Z"
 		},
 		{
 			"checksumSHA1": "UruiaCPpVcDKfBTQhAM6UomufIw=",
@@ -954,12 +940,6 @@
 			"path": "gopkg.in/yaml.v2",
 			"revision": "51d6538a90f86fe93ac480b35f37b2be17fef232",
 			"revisionTime": "2018-11-15T11:05:04Z"
-		},
-		{
-			"checksumSHA1": "jUWF+AgkYVKeHgSl/GyT6Vaj1FY=",
-			"path": "yaichain.com/aichain/AIChain-blockchain-prime/aichain-core/front/aichain-main/nsq/producer",
-			"revision": "3c2551d55ff2b3ec1a0e28a477757af015a99291",
-			"revisionTime": "2019-01-29T08:25:22Z"
 		}
 	],
 	"rootPath": "github.com/jason-wj/bitesla/service/service-exchange"

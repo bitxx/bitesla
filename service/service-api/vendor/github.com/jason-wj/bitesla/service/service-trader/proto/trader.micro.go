@@ -48,6 +48,7 @@ type TraderService interface {
 	GetTraderDetail(ctx context.Context, in *TraderInfo, opts ...client.CallOption) (*TraderInfo, error)
 	DeleteTrader(ctx context.Context, in *TraderInfo, opts ...client.CallOption) (*TraderInfo, error)
 	SwitchTrader(ctx context.Context, in *TraderInfo, opts ...client.CallOption) (*TraderInfo, error)
+	UpdateTraderStatus(ctx context.Context, in *TraderInfo, opts ...client.CallOption) (*TraderInfo, error)
 }
 
 type traderService struct {
@@ -118,6 +119,16 @@ func (c *traderService) SwitchTrader(ctx context.Context, in *TraderInfo, opts .
 	return out, nil
 }
 
+func (c *traderService) UpdateTraderStatus(ctx context.Context, in *TraderInfo, opts ...client.CallOption) (*TraderInfo, error) {
+	req := c.c.NewRequest(c.name, "Trader.UpdateTraderStatus", in)
+	out := new(TraderInfo)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Trader service
 
 type TraderHandler interface {
@@ -126,6 +137,7 @@ type TraderHandler interface {
 	GetTraderDetail(context.Context, *TraderInfo, *TraderInfo) error
 	DeleteTrader(context.Context, *TraderInfo, *TraderInfo) error
 	SwitchTrader(context.Context, *TraderInfo, *TraderInfo) error
+	UpdateTraderStatus(context.Context, *TraderInfo, *TraderInfo) error
 }
 
 func RegisterTraderHandler(s server.Server, hdlr TraderHandler, opts ...server.HandlerOption) error {
@@ -135,6 +147,7 @@ func RegisterTraderHandler(s server.Server, hdlr TraderHandler, opts ...server.H
 		GetTraderDetail(ctx context.Context, in *TraderInfo, out *TraderInfo) error
 		DeleteTrader(ctx context.Context, in *TraderInfo, out *TraderInfo) error
 		SwitchTrader(ctx context.Context, in *TraderInfo, out *TraderInfo) error
+		UpdateTraderStatus(ctx context.Context, in *TraderInfo, out *TraderInfo) error
 	}
 	type Trader struct {
 		trader
@@ -165,4 +178,8 @@ func (h *traderHandler) DeleteTrader(ctx context.Context, in *TraderInfo, out *T
 
 func (h *traderHandler) SwitchTrader(ctx context.Context, in *TraderInfo, out *TraderInfo) error {
 	return h.TraderHandler.SwitchTrader(ctx, in, out)
+}
+
+func (h *traderHandler) UpdateTraderStatus(ctx context.Context, in *TraderInfo, out *TraderInfo) error {
+	return h.TraderHandler.UpdateTraderStatus(ctx, in, out)
 }

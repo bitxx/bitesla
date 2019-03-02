@@ -14,7 +14,7 @@ func AddOrUpdateStrategy(language int32, userId, strategyId int64, name, descrip
 
 	strategy := &orm.StrategyORM{
 		UserId:      userId,
-		StrategyId:  strategyId,
+		Id:          strategyId,
 		Name:        name,
 		Description: description,
 		Script:      script,
@@ -34,23 +34,23 @@ func GetStrategyList(size, page int32, userID int64) (strategys []orm.StrategyOR
 		UserId: userID,
 	}
 
-	err = db.Model(orm.StrategyORM{}).Select("strategy_id,description,name,create_time,update_time").Where(strategy).Limit(size).Offset((page - 1) * size).Scan(&strategys).Error
+	err = db.Model(orm.StrategyORM{}).Select("id,description,name,create_time,update_time").Where(strategy).Limit(size).Offset((page - 1) * size).Scan(&strategys).Error
 	return
 }
 
 func GetStrategyDetail(userID, strategyID int64) (*orm.StrategyORM, error) {
 	db := GetInstance().GetMysqlDB()
 	strategy := &orm.StrategyORM{}
-	err := db.Model(orm.StrategyORM{}).Where(&orm.StrategyORM{UserId: userID, StrategyId: strategyID}).First(strategy).Error
+	err := db.Model(&orm.StrategyORM{UserId: userID, Id: strategyID}).First(strategy).Error
 	return strategy, err
 }
 
 func IsStrategyExist(strategyId, currentUserId int64) bool {
 	var count int
 	db := GetInstance().GetMysqlDB()
-	db.Model(orm.StrategyORM{}).Where(&orm.StrategyORM{StrategyId: strategyId, UserId: currentUserId}).Count(&count)
+	db.Model(&orm.StrategyORM{Id: strategyId, UserId: currentUserId}).Count(&count)
 	if count > 0 {
-		return false
+		return true
 	}
-	return true
+	return false
 }

@@ -173,9 +173,6 @@ func (client *ExchangeClient) GetKlineRecords(data []byte) (interface{}, int, er
 	if currencyReq.Size <= 0 {
 		currencyReq.Size = 10
 	}
-	if currencyReq.Since <= 0 {
-		return nil, errs.ExchangeSinceErr, nil
-	}
 
 	klines, err := client.client.GetKlineRecords(context.Background(), currencyReq)
 	if err != nil {

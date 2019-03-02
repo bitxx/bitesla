@@ -11,7 +11,6 @@ import (
 	"github.com/micro/go-log"
 	"github.com/micro/go-micro"
 	"time"
-	"yaichain.com/aichain/AIChain-blockchain-prime/aichain-core/front/aichain-main/nsq/producer"
 )
 
 const (
@@ -61,13 +60,6 @@ func init() {
 
 	redisCache, err := cache.GetRedisCache()
 	err = redisCache.ClearAll()
-
-	//初始化nsq
-	err = producer.GetInstance().InitProducer(conf.CurrentConfig.Nsq.Tcp)
-	if err != nil || !issucc {
-		logger.Error(err)
-		panic(err)
-	}
 
 	//初始化订单号生成器
 	idgenerate.Init(true)

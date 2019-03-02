@@ -17,7 +17,7 @@ func (e *exchangeResposity) listExchange(currencyReq *bitesla_srv_exchange.Curre
 	}
 	for _, exchange := range exchanges {
 		tmp := &bitesla_srv_exchange.Currency{
-			ExchangeId:  exchange.ExchangeId,
+			ExchangeId:  exchange.Id,
 			Description: exchange.Description,
 			ExName:      exchange.Name,
 			CreateTime:  exchange.CreateTime.Unix(),
@@ -148,7 +148,7 @@ func (e *exchangeResposity) getTrades(reqCurrency *bitesla_srv_exchange.Currency
 
 func (e *exchangeResposity) getExchangeDetail(reqCurrency *bitesla_srv_exchange.Currency, respCurrency *bitesla_srv_exchange.Currency) error {
 	exchange, err := db.GetExchangeDetail(reqCurrency.ExchangeId)
-	respCurrency.ExchangeId = exchange.ExchangeId
+	respCurrency.ExchangeId = exchange.Id
 	respCurrency.ExName = exchange.Name
 	respCurrency.CreateTime = exchange.CreateTime.Unix()
 	respCurrency.UpdateTime = exchange.UpdateTime.Unix()
