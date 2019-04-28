@@ -45,7 +45,7 @@ func IsExchangeExist(exchangeId int64) bool {
 
 func GetExchangeDetail(exchangeID int64) (*orm.ExchangeORM, error) {
 	db := GetInstance().GetMysqlDB()
-	exchange := &orm.ExchangeORM{}
-	err := db.Model(orm.ExchangeORM{Id: exchangeID}).First(exchange).Error
+	exchange := &orm.ExchangeORM{Id: exchangeID}
+	err := db.Model(orm.ExchangeORM{}).First(exchange).Error
 	return exchange, err
 }
