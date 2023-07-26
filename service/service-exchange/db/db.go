@@ -1,7 +1,7 @@
 package db
 
 import (
-	"github.com/jason-wj/bitesla/service/service-exchange/conf"
+	"github.com/bitxx/bitesla/service/service-exchange/conf"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"sync"
@@ -23,7 +23,7 @@ func GetInstance() *ConnectPool {
 	return instance
 }
 
-//InitPool 初始化数据库连接
+// InitPool 初始化数据库连接
 // 通过配置文件初始化
 func (m *ConnectPool) InitPool() (issucc bool, err error) {
 	username := conf.CurrentConfig.MySQL.Username
@@ -40,7 +40,7 @@ func (m *ConnectPool) InitPool() (issucc bool, err error) {
 	return true, nil
 }
 
-//InitPoolByParam 直接通过参数初始化
+// InitPoolByParam 直接通过参数初始化
 func (m *ConnectPool) InitPoolByParam(username, password, url, dbName string) (issucc bool, err error) {
 	db, err = gorm.Open("mysql", username+":"+password+
 		"@tcp("+url+")/"+dbName+"?charset=utf8&parseTime=True&loc=Local")

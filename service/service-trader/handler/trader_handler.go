@@ -2,7 +2,6 @@ package handler
 
 import (
 	"context"
-	"github.com/jason-wj/bitesla/service/service-trader/proto"
 )
 
 type TraderHandler struct {

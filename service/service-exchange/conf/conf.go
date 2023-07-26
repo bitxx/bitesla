@@ -2,7 +2,7 @@ package conf
 
 import (
 	"fmt"
-	"github.com/jason-wj/bitesla/common/iniconfig"
+	"github.com/bitxx/bitesla/common/iniconfig"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"io/ioutil"
@@ -15,20 +15,20 @@ const (
 	TestMode = "test"
 )
 
-//最终从此处获取配置信息
+// 最终从此处获取配置信息
 var CurrentConfig *CommonConfig
 
-//Config 基础通用配置
+// Config 基础通用配置
 type Config struct {
 	Base BaseConfig `ini:"base"`
 }
 
-//BaseConfig 涉及到开项目模式配置
+// BaseConfig 涉及到开项目模式配置
 type BaseConfig struct {
 	Mode string `ini:"mode"`
 }
 
-//CommonConfig 项目配置
+// CommonConfig 项目配置
 type CommonConfig struct {
 	Mode       string
 	ServerConf ServerConfig `ini:"server"`
@@ -69,7 +69,7 @@ type MySQL struct {
 	DBName   string `ini:"db_name"`
 }
 
-//ServerConfig 服务器配置
+// ServerConfig 服务器配置
 type ServerConfig struct {
 	Ip          string `ini:"ip"`
 	Port        string `ini:"port"`
@@ -79,7 +79,7 @@ type ServerConfig struct {
 	JwtDuration string `ini:"jwt_duration"`
 }
 
-//LoggerConfig 日志配置
+// LoggerConfig 日志配置
 type LoggerConfig struct {
 	LogLevel      logrus.Level  `ini:"log_level"`
 	EnableDynamic bool          `ini:"enable_dynamic"`

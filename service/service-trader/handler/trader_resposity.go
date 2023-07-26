@@ -2,11 +2,10 @@ package handler
 
 import (
 	"errors"
-	"github.com/jason-wj/bitesla/common/net/http"
-	"github.com/jason-wj/bitesla/common/util/idgenerate"
-	"github.com/jason-wj/bitesla/service/service-trader/conf"
-	"github.com/jason-wj/bitesla/service/service-trader/db"
-	"github.com/jason-wj/bitesla/service/service-trader/proto"
+	"github.com/bitxx/bitesla/common/net/http"
+	"github.com/bitxx/bitesla/common/util/idgenerate"
+	"github.com/bitxx/bitesla/service/service-trader/conf"
+	"github.com/bitxx/bitesla/service/service-trader/db"
 )
 
 type traderRepository struct {
@@ -99,7 +98,7 @@ func (t *traderRepository) switchTrader(reqTraderInfo *bitesla_srv_trader.Trader
 
 }
 
-//TODO 暂时不考虑实现
+// TODO 暂时不考虑实现
 func (t *traderRepository) deleteTrader(*bitesla_srv_trader.TraderInfo, *bitesla_srv_trader.TraderInfo) error {
 	panic("implement me")
 }

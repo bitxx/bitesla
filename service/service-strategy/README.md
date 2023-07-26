@@ -5,7 +5,7 @@ This is the strategy service
 Generated with
 
 ```
-micro new github.com/jason-wj/bitesla/service/service-strategy --namespace=bitesla --alias=strategy --type=srv
+micro new github.com/bitxx/bitesla/service/service-strategy --namespace=bitesla --alias=strategy --type=srv
 ```
 
 ## Getting Started

@@ -5,7 +5,7 @@ This is the Api service
 Generated with
 
 ```
-micro new github.com/jason-wj/bitesla/service/service-api --namespace=bitesla --alias=api --type=api
+micro new github.com/bitxx/bitesla/service/service-api --namespace=bitesla --alias=api --type=api
 ```
 
 ## Getting Started

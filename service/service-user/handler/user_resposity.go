@@ -3,13 +3,12 @@ package handler
 import (
 	"errors"
 	"fmt"
-	"github.com/jason-wj/bitesla/common/errs"
-	"github.com/jason-wj/bitesla/common/logger"
-	"github.com/jason-wj/bitesla/common/util/idgenerate"
-	"github.com/jason-wj/bitesla/common/util/jwt"
-	"github.com/jason-wj/bitesla/service/service-user/conf"
-	"github.com/jason-wj/bitesla/service/service-user/db"
-	"github.com/jason-wj/bitesla/service/service-user/proto"
+	"github.com/bitxx/bitesla/common/errs"
+	"github.com/bitxx/bitesla/common/logger"
+	"github.com/bitxx/bitesla/common/util/idgenerate"
+	"github.com/bitxx/bitesla/common/util/jwt"
+	"github.com/bitxx/bitesla/service/service-user/conf"
+	"github.com/bitxx/bitesla/service/service-user/db"
 	"strconv"
 	"time"
 )
@@ -86,7 +85,7 @@ func (r *userRepository) getCode() {
 	fmt.Println("----------getCode")
 }
 
-//生成token
+// 生成token
 func generateToken(req *bitesla_srv_user.UserReq, resp *bitesla_srv_user.UserResp) error {
 	issuer := conf.CurrentConfig.ServerConf.JwtIssuer
 	secret := conf.CurrentConfig.ServerConf.JwtSecret

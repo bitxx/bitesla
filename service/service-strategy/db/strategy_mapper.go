@@ -1,9 +1,9 @@
 package db
 
 import (
-	"github.com/jason-wj/bitesla/common/constants"
-	"github.com/jason-wj/bitesla/common/errs"
-	"github.com/jason-wj/bitesla/service/service-strategy/orm"
+	"github.com/bitxx/bitesla/common/constants"
+	"github.com/bitxx/bitesla/common/errs"
+	"github.com/bitxx/bitesla/service/service-strategy/orm"
 )
 
 func AddOrUpdateStrategy(language int32, userId, strategyId int64, name, description, script string) error {

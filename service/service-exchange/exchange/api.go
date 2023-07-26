@@ -1,7 +1,5 @@
 package exchange
 
-import "github.com/jason-wj/bitesla/service/service-exchange/proto"
-
 type Api interface {
 	LimitBuy(*bitesla_srv_exchange.Currency, *bitesla_srv_exchange.Order) error
 	LimitSell(*bitesla_srv_exchange.Currency, *bitesla_srv_exchange.Order) error

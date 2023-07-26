@@ -2,9 +2,8 @@ package handler
 
 import (
 	"errors"
-	"github.com/jason-wj/bitesla/common/util/idgenerate"
-	"github.com/jason-wj/bitesla/service/service-exchange/db"
-	"github.com/jason-wj/bitesla/service/service-exchange/proto"
+	"github.com/bitxx/bitesla/common/util/idgenerate"
+	"github.com/bitxx/bitesla/service/service-exchange/db"
 )
 
 type exchangeResposity struct {
@@ -47,7 +46,7 @@ func (e *exchangeResposity) putExchange(currencyReq *bitesla_srv_exchange.Curren
 	return err
 }
 
-//TODO 暂时不考虑实现
+// TODO 暂时不考虑实现
 func (e *exchangeResposity) deleteExchange(*bitesla_srv_exchange.Currency, *bitesla_srv_exchange.Currency) error {
 	panic("implement me")
 }

@@ -1,9 +1,9 @@
 package db
 
 import (
-	"github.com/jason-wj/bitesla/common/constants"
-	"github.com/jason-wj/bitesla/common/errs"
-	"github.com/jason-wj/bitesla/service/service-trader/orm"
+	"github.com/bitxx/bitesla/common/constants"
+	"github.com/bitxx/bitesla/common/errs"
+	"github.com/bitxx/bitesla/service/service-trader/orm"
 )
 
 func AddOrUpdateTrader(traderId, userId, strategyId, exchangeId int64, name, description string) error {
@@ -44,7 +44,7 @@ func GetTraderDetail(userId, traderId int64) (*orm.TraderORM, error) {
 	return trader, err
 }
 
-//更新状态
+// 更新状态
 func UpdateTraderStatus(userId, traderId int64, status int) error {
 	db := GetInstance().GetMysqlDB()
 	if db == nil {

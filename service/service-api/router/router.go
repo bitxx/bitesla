@@ -1,9 +1,9 @@
 package router
 
 import (
+	"github.com/bitxx/bitesla/service/service-api/conf"
+	"github.com/bitxx/bitesla/service/service-api/midware/jwt"
 	"github.com/gin-gonic/gin"
-	"github.com/jason-wj/bitesla/service/service-api/conf"
-	"github.com/jason-wj/bitesla/service/service-api/midware/jwt"
 )
 
 func GetAllRounters() *gin.Engine {

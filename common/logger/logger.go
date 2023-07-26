@@ -1,7 +1,7 @@
 package logger
 
 import (
-	"github.com/jason-wj/bitesla/common/logger/daterot"
+	"github.com/bitxx/bitesla/common/logger/daterot"
 	"github.com/sirupsen/logrus"
 	"os"
 	"time"

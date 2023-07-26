@@ -3,8 +3,8 @@ package client
 import (
 	"context"
 	"encoding/json"
-	"github.com/jason-wj/bitesla/common/errs"
-	pb "github.com/jason-wj/bitesla/service/service-trader/proto"
+	"github.com/bitxx/bitesla/common/errs"
+	pb "github.com/bitxx/bitesla/service/service-trader/proto"
 	"github.com/micro/go-micro/client"
 )
 
@@ -19,7 +19,7 @@ func NewTraderClient() *TraderClient {
 	}
 }
 
-//新增一个策略
+// 新增一个策略
 func (client *TraderClient) PutTrader(data []byte) (interface{}, int, error) {
 	traderInfo := &pb.TraderInfo{}
 	err := json.Unmarshal(data, traderInfo)
@@ -49,7 +49,7 @@ func (client *TraderClient) PutTrader(data []byte) (interface{}, int, error) {
 	return resp, errs.Success, nil
 }
 
-//获取当前用户策略列表
+// 获取当前用户策略列表
 func (client *TraderClient) ListTrader(data []byte) (interface{}, int, error) {
 	traderInfo := &pb.TraderInfo{}
 	err := json.Unmarshal(data, traderInfo)

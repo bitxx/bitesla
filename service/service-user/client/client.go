@@ -3,9 +3,9 @@ package client
 import (
 	"context"
 	"encoding/json"
-	"github.com/jason-wj/bitesla/common/errs"
-	"github.com/jason-wj/bitesla/common/util/stringutl"
-	pb "github.com/jason-wj/bitesla/service/service-user/proto"
+	"github.com/bitxx/bitesla/common/errs"
+	"github.com/bitxx/bitesla/common/util/stringutl"
+	pb "github.com/bitxx/bitesla/service/service-user/proto"
 	"github.com/micro/go-micro/client"
 )
 
@@ -20,7 +20,7 @@ func NewUserClient() *UserClient {
 	}
 }
 
-//邮箱注册
+// 邮箱注册
 func (client *UserClient) RegisterEmail(data []byte) (interface{}, int, error) {
 	userReq := &pb.UserReq{}
 	err := json.Unmarshal(data, userReq)
@@ -45,7 +45,7 @@ func (client *UserClient) RegisterEmail(data []byte) (interface{}, int, error) {
 	return resp, errs.Success, nil
 }
 
-//手机号注册
+// 手机号注册
 func (client *UserClient) RegisterPhone(data []byte) (interface{}, int, error) {
 	userReq := &pb.UserReq{}
 	err := json.Unmarshal(data, userReq)
@@ -59,7 +59,7 @@ func (client *UserClient) RegisterPhone(data []byte) (interface{}, int, error) {
 	return resp, 0, err
 }
 
-//邮箱登录
+// 邮箱登录
 func (client *UserClient) LoginEmail(data []byte) (interface{}, int, error) {
 	userReq := &pb.UserReq{}
 	err := json.Unmarshal(data, userReq)
@@ -84,7 +84,7 @@ func (client *UserClient) LoginEmail(data []byte) (interface{}, int, error) {
 	return resp, errs.Success, nil
 }
 
-//手机号登录
+// 手机号登录
 func (client *UserClient) LoginPhone(data []byte) (interface{}, int, error) {
 	userReq := &pb.UserReq{}
 	err := json.Unmarshal(data, userReq)

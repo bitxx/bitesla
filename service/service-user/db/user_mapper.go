@@ -1,12 +1,12 @@
 package db
 
 import (
-	"github.com/jason-wj/bitesla/common/constants"
-	"github.com/jason-wj/bitesla/common/errs"
-	"github.com/jason-wj/bitesla/service/service-user/orm"
+	"github.com/bitxx/bitesla/common/constants"
+	"github.com/bitxx/bitesla/common/errs"
+	"github.com/bitxx/bitesla/service/service-user/orm"
 )
 
-//添加一个邮箱用户
+// 添加一个邮箱用户
 func AddUserByEmail(email, password string, id int64) error {
 	db := GetInstance().GetMysqlDB()
 	if db == nil {

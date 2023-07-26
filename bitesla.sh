@@ -38,16 +38,16 @@ function local_state(){
 #function local_service(){
 #    echo "not need!"
     # service-strategy
-    #micro new github.com/jason-wj/${PROJECT_NAME}/service/service-strategy --namespace=${PROJECT_NAME} --alias algorithm --type=srv
+    #micro new github.com/bitxx/${PROJECT_NAME}/service/service-strategy --namespace=${PROJECT_NAME} --alias algorithm --type=srv
 
     # service-exchange
-    #micro new github.com/jason-wj/${PROJECT_NAME}/service/service-exchange --namespace=${PROJECT_NAME} --alias exchange --type=srv
+    #micro new github.com/bitxx/${PROJECT_NAME}/service/service-exchange --namespace=${PROJECT_NAME} --alias exchange --type=srv
 
     # service-trader
-    #micro new github.com/jason-wj/${PROJECT_NAME}/service/service-trader --namespace=${PROJECT_NAME} --alias trader --type=srv
+    #micro new github.com/bitxx/${PROJECT_NAME}/service/service-trader --namespace=${PROJECT_NAME} --alias trader --type=srv
 
     # service-user
-    #micro new github.com/jason-wj/${PROJECT_NAME}/service/service-user --namespace=${PROJECT_NAME} --alias=user --type=srv
+    #micro new github.com/bitxx/${PROJECT_NAME}/service/service-user --namespace=${PROJECT_NAME} --alias=user --type=srv
 #}
 
 # 生成接口文档
@@ -61,7 +61,7 @@ function local_doc(){
 
 # proto生成
 function local_proto(){
-    TMP_PATH=${GOPATH}/src/github.com/jason-wj/${PROJECT_NAME}/service
+    TMP_PATH=${GOPATH}/src/github.com/bitxx/${PROJECT_NAME}/service
     TMP_S1=${TMP_PATH}/service-strategy/
     TMP_S2=${TMP_PATH}/service-trader/
     TMP_S3=${TMP_PATH}/service-exchange/

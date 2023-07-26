@@ -3,13 +3,13 @@ package main
 import (
 	"errors"
 	"fmt"
-	"github.com/jason-wj/bitesla/common/util/mysql/converter"
+	"github.com/bitxx/bitesla/common/util/mysql/converter"
 	"os"
 )
 
-//将表文件映射为通用结构体入口
+// 将表文件映射为通用结构体入口
 func main() {
-	rootPath := "/Users/su/Documents/project/go/src/github.com/jason-wj/bitesla/service/"
+	rootPath := "/Users/su/Documents/project/go/src/github.com/bitxx/bitesla/service/"
 	if rootPath == "" {
 		if len(os.Args) < 2 {
 			panic(errors.New("请传入根路径！"))
@@ -24,7 +24,7 @@ func main() {
 
 }
 
-//generateStruct 生成结构体
+// generateStruct 生成结构体
 // tableName：去掉前缀的表名，切记不要带上前缀
 // path:生成结构体后要保存的路径，注意，不同结构体要起成不同的文件名，比如：/xx/xx/xx/struct1.go，否则会被覆盖
 func generateStruct(tableName, path string) {

@@ -1,9 +1,9 @@
 package db
 
 import (
-	"github.com/jason-wj/bitesla/common/constants"
-	"github.com/jason-wj/bitesla/common/errs"
-	"github.com/jason-wj/bitesla/service/service-exchange/orm"
+	"github.com/bitxx/bitesla/common/constants"
+	"github.com/bitxx/bitesla/common/errs"
+	"github.com/bitxx/bitesla/service/service-exchange/orm"
 )
 
 func AddOrUpdateExchange(currentUserId, exchangeId int64, name, descriptio string) error {

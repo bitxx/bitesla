@@ -3,8 +3,8 @@ package client
 import (
 	"context"
 	"encoding/json"
-	"github.com/jason-wj/bitesla/common/errs"
-	pb "github.com/jason-wj/bitesla/service/service-strategy/proto"
+	"github.com/bitxx/bitesla/common/errs"
+	pb "github.com/bitxx/bitesla/service/service-strategy/proto"
 	"github.com/micro/go-micro/client"
 )
 
@@ -19,7 +19,7 @@ func NewStrategyClient() *StrategyClient {
 	}
 }
 
-//新增一个策略
+// 新增一个策略
 func (client *StrategyClient) PutStrategy(data []byte) (interface{}, int, error) {
 	strategyInfo := &pb.StrategyInfo{}
 	err := json.Unmarshal(data, strategyInfo)
@@ -50,7 +50,7 @@ func (client *StrategyClient) PutStrategy(data []byte) (interface{}, int, error)
 	return resp, errs.Success, nil
 }
 
-//获取当前用户策略列表
+// 获取当前用户策略列表
 func (client *StrategyClient) ListStrategy(data []byte) (interface{}, int, error) {
 	strategyInfo := &pb.StrategyInfo{}
 	err := json.Unmarshal(data, strategyInfo)

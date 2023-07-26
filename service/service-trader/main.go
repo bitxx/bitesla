@@ -1,16 +1,13 @@
 package main
 
 import (
-	"github.com/jason-wj/bitesla/common/logger"
-	"github.com/jason-wj/bitesla/common/util/cache"
-	"github.com/jason-wj/bitesla/common/util/idgenerate"
-	"github.com/jason-wj/bitesla/service/service-trader/conf"
-	"github.com/jason-wj/bitesla/service/service-trader/db"
-	"github.com/jason-wj/bitesla/service/service-trader/handler"
-	"github.com/jason-wj/bitesla/service/service-trader/proto"
-	"github.com/jason-wj/bitesla/service/service-trader/trader"
-	"github.com/micro/go-log"
-	"github.com/micro/go-micro"
+	"github.com/bitxx/bitesla/common/logger"
+	"github.com/bitxx/bitesla/common/util/cache"
+	"github.com/bitxx/bitesla/common/util/idgenerate"
+	"github.com/bitxx/bitesla/service/service-trader/conf"
+	"github.com/bitxx/bitesla/service/service-trader/db"
+	"github.com/bitxx/bitesla/service/service-trader/handler"
+	"github.com/bitxx/bitesla/service/service-trader/trader"
 	"time"
 )
 

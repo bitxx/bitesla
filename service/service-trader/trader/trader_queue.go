@@ -3,13 +3,11 @@ package trader
 import (
 	"bytes"
 	"encoding/json"
-	"github.com/jason-wj/bitesla/common/errs"
-	"github.com/jason-wj/bitesla/common/logger"
-	"github.com/jason-wj/bitesla/common/util"
-	"github.com/jason-wj/bitesla/service/service-strategy/client"
-	"github.com/jason-wj/bitesla/service/service-trader/conf"
-	"github.com/jason-wj/bitesla/service/service-trader/proto"
-	"github.com/nsqio/go-nsq"
+	"github.com/bitxx/bitesla/common/errs"
+	"github.com/bitxx/bitesla/common/logger"
+	"github.com/bitxx/bitesla/common/util"
+	"github.com/bitxx/bitesla/service/service-strategy/client"
+	"github.com/bitxx/bitesla/service/service-trader/conf"
 	"os"
 	"os/exec"
 	"strconv"
@@ -27,7 +25,7 @@ var (
 type CustomerTraderQueue struct {
 }
 
-//处理消息
+// 处理消息
 func (c *CustomerTraderQueue) HandleMessage(msg *nsq.Message) error {
 	msg.Finish()
 
@@ -42,7 +40,7 @@ func (c *CustomerTraderQueue) HandleMessage(msg *nsq.Message) error {
 	return nil
 }
 
-//运行策略
+// 运行策略
 func (c *CustomerTraderQueue) Run(trader *bitesla_srv_trader.TraderInfo) {
 	//目录:runPath/用户id/交易所id/策略id/策略运行id/
 	rootPath := conf.CurrentConfig.ServerConf.RunPath + strconv.FormatInt(trader.CurrentLoginUserID, 10) + "/" + strconv.FormatInt(trader.ExchangeId, 10) + "/" + strconv.FormatInt(trader.StrategyId, 10) + "/" + strconv.FormatInt(trader.TraderId, 10) + "/"

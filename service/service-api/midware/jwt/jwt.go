@@ -2,13 +2,12 @@ package jwt
 
 import (
 	"bytes"
+	"github.com/bitxx/bitesla/common/errs"
+	"github.com/bitxx/bitesla/common/logger"
+	"github.com/bitxx/bitesla/common/util/jwt"
+	"github.com/bitxx/bitesla/service/service-api/conf"
+	"github.com/bitxx/bitesla/service/service-api/constants"
 	"github.com/gin-gonic/gin"
-	"github.com/jason-wj/bitesla/common/errs"
-	"github.com/jason-wj/bitesla/common/logger"
-	"github.com/jason-wj/bitesla/common/util/jwt"
-	"github.com/jason-wj/bitesla/common/vo"
-	"github.com/jason-wj/bitesla/service/service-api/conf"
-	"github.com/jason-wj/bitesla/service/service-api/constants"
 	"io/ioutil"
 	"net/http"
 	"strconv"

@@ -3,9 +3,9 @@ package client
 import (
 	"context"
 	"encoding/json"
-	"github.com/jason-wj/bitesla/common/errs"
-	"github.com/jason-wj/bitesla/service/service-exchange/exchange"
-	pb "github.com/jason-wj/bitesla/service/service-exchange/proto"
+	"github.com/bitxx/bitesla/common/errs"
+	"github.com/bitxx/bitesla/service/service-exchange/exchange"
+	pb "github.com/bitxx/bitesla/service/service-exchange/proto"
 	"github.com/micro/go-micro/client"
 )
 
@@ -212,7 +212,7 @@ func (client *ExchangeClient) GetExchangeDetail(data []byte) (interface{}, int, 
 	return exchange, errs.Success, nil
 }
 
-//新增一个策略
+// 新增一个策略
 func (client *ExchangeClient) PutExchange(data []byte) (interface{}, int, error) {
 	currency := &pb.Currency{}
 	err := json.Unmarshal(data, currency)
@@ -234,7 +234,7 @@ func (client *ExchangeClient) PutExchange(data []byte) (interface{}, int, error)
 	return resp, errs.Success, nil
 }
 
-//获取当前用户策略列表
+// 获取当前用户策略列表
 func (client *ExchangeClient) ListExchange(data []byte) (interface{}, int, error) {
 	currency := &pb.Currency{}
 	err := json.Unmarshal(data, currency)
@@ -256,7 +256,7 @@ func (client *ExchangeClient) ListExchange(data []byte) (interface{}, int, error
 	return resp.Currencys, errs.Success, nil
 }
 
-//needAuth:是否需要key和secret
+// needAuth:是否需要key和secret
 func commonJudge(data []byte, needAuth bool) (*pb.Currency, int, error) {
 	currencyReq := &pb.Currency{}
 	err := json.Unmarshal(data, currencyReq)

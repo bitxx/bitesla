@@ -5,7 +5,7 @@ This is the User service
 Generated with
 
 ```
-micro new github.com/jason-wj/bitesla/service/service-user --namespace=bitesla --alias=user --type=srv
+micro new github.com/bitxx/bitesla/service/service-user --namespace=bitesla --alias=user --type=srv
 ```
 
 ## Getting Started

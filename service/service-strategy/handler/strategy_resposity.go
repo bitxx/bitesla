@@ -3,9 +3,8 @@ package handler
 import (
 	"context"
 	"errors"
-	"github.com/jason-wj/bitesla/common/util/idgenerate"
-	"github.com/jason-wj/bitesla/service/service-strategy/db"
-	"github.com/jason-wj/bitesla/service/service-strategy/proto"
+	"github.com/bitxx/bitesla/common/util/idgenerate"
+	"github.com/bitxx/bitesla/service/service-strategy/db"
 )
 
 type strategyRepository struct {
@@ -61,7 +60,7 @@ func (s *strategyRepository) putStrategy(ctx context.Context, strategyInfoReq *b
 	return err
 }
 
-//TODO 暂时不考虑实现
+// TODO 暂时不考虑实现
 func (s *strategyRepository) deleteStrategy(ctx context.Context, strategyInfoReq *bitesla_srv_strategy.StrategyInfo, strategyInfoResp *bitesla_srv_strategy.StrategyInfo) error {
 	panic("implement me")
 }

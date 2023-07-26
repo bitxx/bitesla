@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/jason-wj/bitesla/common/util/mysql/converter"
+	"github.com/bitxx/bitesla/common/util/mysql/converter"
 	"log"
 )
 

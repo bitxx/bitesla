@@ -2,7 +2,6 @@ package handler
 
 import (
 	"context"
-	"github.com/jason-wj/bitesla/service/service-user/proto"
 )
 
 type UserHandler struct {

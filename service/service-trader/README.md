@@ -5,7 +5,7 @@ This is the Trader service
 Generated with
 
 ```
-micro new github.com/jason-wj/bitesla/service/service-trader --namespace=bitesla --alias=trader --type=srv
+micro new github.com/bitxx/bitesla/service/service-trader --namespace=bitesla --alias=trader --type=srv
 ```
 
 ## Getting Started

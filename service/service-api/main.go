@@ -1,13 +1,11 @@
 package main
 
 import (
-	"github.com/jason-wj/bitesla/common/logger"
-	"github.com/jason-wj/bitesla/common/util/cache"
-	"github.com/jason-wj/bitesla/service/service-api/conf"
-	"github.com/jason-wj/bitesla/service/service-api/db"
-	_ "github.com/jason-wj/bitesla/service/service-api/docs"
-	"github.com/jason-wj/bitesla/service/service-api/router"
-	"github.com/micro/go-web"
+	"github.com/bitxx/bitesla/common/logger"
+	"github.com/bitxx/bitesla/common/util/cache"
+	"github.com/bitxx/bitesla/service/service-api/conf"
+	_ "github.com/bitxx/bitesla/service/service-api/docs"
+	"github.com/bitxx/bitesla/service/service-api/router"
 )
 
 const srcName = "bitesla.service.api"

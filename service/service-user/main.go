@@ -1,15 +1,12 @@
 package main
 
 import (
-	"github.com/jason-wj/bitesla/common/logger"
-	"github.com/jason-wj/bitesla/common/util/cache"
-	"github.com/jason-wj/bitesla/common/util/idgenerate"
-	"github.com/jason-wj/bitesla/service/service-user/conf"
-	"github.com/jason-wj/bitesla/service/service-user/db"
-	"github.com/jason-wj/bitesla/service/service-user/handler"
-	"github.com/jason-wj/bitesla/service/service-user/proto"
-	"github.com/micro/go-log"
-	"github.com/micro/go-micro"
+	"github.com/bitxx/bitesla/common/logger"
+	"github.com/bitxx/bitesla/common/util/cache"
+	"github.com/bitxx/bitesla/common/util/idgenerate"
+	"github.com/bitxx/bitesla/service/service-user/conf"
+	"github.com/bitxx/bitesla/service/service-user/db"
+	"github.com/bitxx/bitesla/service/service-user/handler"
 	"time"
 )
 

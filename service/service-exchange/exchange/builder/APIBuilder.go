@@ -2,8 +2,8 @@ package builder
 
 import (
 	"context"
-	"github.com/jason-wj/bitesla/service/service-exchange/exchange"
-	"github.com/jason-wj/bitesla/service/service-exchange/exchange/huobi"
+	"github.com/bitxx/bitesla/service/service-exchange/exchange"
+	"github.com/bitxx/bitesla/service/service-exchange/exchange/huobi"
 	"net"
 	"net/http"
 	"net/url"
@@ -77,8 +77,8 @@ func (builder *APIBuilder) HttpTimeout(timeout time.Duration) (_builder *APIBuil
 	return builder
 }
 
-//needAccountInfo:若为true，则会向对应交易所发起请求获取账户信息，false则不请求。因为对于某些隐私操作是需要用户信息的，
-//但还有一些开发性但信息，是不需要获取用户信息
+// needAccountInfo:若为true，则会向对应交易所发起请求获取账户信息，false则不请求。因为对于某些隐私操作是需要用户信息的，
+// 但还有一些开发性但信息，是不需要获取用户信息
 func (builder *APIBuilder) Build(exchangeId int64, needAccountInfo bool) (_api exchange.Api, err error) {
 	switch exchangeId {
 	/*case OKCOIN_CN:

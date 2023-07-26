@@ -6,9 +6,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/jason-wj/bitesla/common/logger"
-	"github.com/jason-wj/bitesla/service/service-exchange/exchange"
-	"github.com/jason-wj/bitesla/service/service-exchange/proto"
+	"github.com/bitxx/bitesla/common/logger"
+	"github.com/bitxx/bitesla/service/service-exchange/exchange"
 	"io/ioutil"
 	"log"
 	"math/big"
@@ -87,9 +86,9 @@ type HuoBiProSymbol struct {
 	Symbol          string
 }
 
-//NewHuoBi
-//needAccountInfo:若为true，则会向火币发起请求获取账户信息，false则不请求。因为对于某些隐私操作是需要用户信息的，
-//但还有一些开发性但信息，是不需要获取用户信息
+// NewHuoBi
+// needAccountInfo:若为true，则会向火币发起请求获取账户信息，false则不请求。因为对于某些隐私操作是需要用户信息的，
+// 但还有一些开发性但信息，是不需要获取用户信息
 func NewHuoBi(client *http.Client, apikey, secretkey string, needAccountInfo bool) (*HuoBiPro, error) {
 	hbpro := &HuoBiPro{}
 	hbpro.baseUrl = baseHttpsUrl
@@ -377,7 +376,7 @@ func (hbpro *HuoBiPro) GetAccount(reqCurrency *bitesla_srv_exchange.Currency, ac
 	return nil
 }
 
-//发送一个新订单到火币以进行撮合
+// 发送一个新订单到火币以进行撮合
 func (hbpro *HuoBiPro) placeOrder(amount, price, pair, orderType string, accType int32) (string, error) {
 	params := url.Values{}
 	accountID := ""
@@ -507,7 +506,7 @@ func (hbpro *HuoBiPro) getOrders(queryparams queryOrdersParams, orders *bitesla_
 	return nil
 }
 
-//返回深度数据
+// 返回深度数据
 func (hbpro *HuoBiPro) GetDepth(reqCurrency *bitesla_srv_exchange.Currency, depth *bitesla_srv_exchange.Depth) error {
 	url := hbpro.baseUrl + getDepth
 	respmap, err := exchange.HttpGet(hbpro.httpClient, fmt.Sprintf(url, exchange.CurrencyPair[reqCurrency.CurrencyPair]))
@@ -702,7 +701,7 @@ func (hbpro *HuoBiPro) parseWsKLineData(tick map[string]interface{}) *bitesla_sr
 		Timestamp: int64(exchange.ToUint64(tick["id"]))}
 }
 
-//返回当前交易所支持的代币
+// 返回当前交易所支持的代币
 func (hbpro *HuoBiPro) GetCurrenciesList() ([]string, error) {
 	url := hbpro.baseUrl + getSupportCurrencies
 

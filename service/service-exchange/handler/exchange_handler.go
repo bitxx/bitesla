@@ -2,9 +2,8 @@ package handler
 
 import (
 	"context"
-	"github.com/jason-wj/bitesla/service/service-exchange/conf"
-	"github.com/jason-wj/bitesla/service/service-exchange/exchange/builder"
-	"github.com/jason-wj/bitesla/service/service-exchange/proto"
+	"github.com/bitxx/bitesla/service/service-exchange/conf"
+	"github.com/bitxx/bitesla/service/service-exchange/exchange/builder"
 )
 
 var exchangeBuilder *builder.APIBuilder
